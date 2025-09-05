@@ -41,35 +41,42 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      // Make API call to login
-      // For now, just simulate a successful login
-      const mockUser: User = {
-        id: 1,
-        email,
-        username: email.split('@')[0],
-        first_name: '',
-        last_name: '',
-      };
-      setUser(mockUser);
-      localStorage.setItem('access_token', 'mock_token');
+      const response = await fetch("http://localhost:8000/api/auth/login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const data = await response.json();
+
+      // data trả về từ backend thường có access_token + user info
+      localStorage.setItem("access_token", data.access_token);
+      setUser(data.user);
     } catch (error) {
       throw error;
     }
   };
 
+
   const register = async (userData: any) => {
     try {
-      // Make API call to register
-      // For now, just simulate a successful registration
-      const mockUser: User = {
-        id: 1,
-        email: userData.email,
-        username: userData.username,
-        first_name: userData.first_name,
-        last_name: userData.last_name,
-      };
-      setUser(mockUser);
-      localStorage.setItem('access_token', 'mock_token');
+      const response = await fetch("http://localhost:8000/api/auth/register/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Register failed");
+      }
+
+      const data = await response.json();
+      localStorage.setItem("access_token", data.access_token);
+      setUser(data.user);
     } catch (error) {
       throw error;
     }

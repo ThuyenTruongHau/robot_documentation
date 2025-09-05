@@ -40,6 +40,7 @@ const Register: React.FC = () => {
         username: formData.username,
         email: formData.email,
         password: formData.password,
+        password_confirm: formData.passwordConfirm,
         first_name: formData.firstName,
         last_name: formData.lastName,
       });
@@ -157,6 +158,25 @@ const Register: React.FC = () => {
                 placeholder="Password"
               />
             </div>
+
+            <ul className="text-sm text-gray-600">
+              <li className={formData.password.length >= 8 ? "text-green-600" : "text-black-600"}>
+                • At least 8 characters
+              </li>
+              <li className={/[A-Z]/.test(formData.password) ? "text-green-600" : "text-black-600"}>
+                • At least one uppercase letter
+              </li>
+              <li className={/[a-z]/.test(formData.password) ? "text-green-600" : "text-black-600"}>
+                • At least one lowercase letter
+              </li>
+              <li className={/[0-9]/.test(formData.password) ? "text-green-600" : "text-black-600"}>
+                • At least one number
+              </li>
+              <li className={/[!@#$%^&*(),.?\":{}|<>]/.test(formData.password) ? "text-green-600" : "text-black-600"}>
+                • At least one special character
+              </li>
+            </ul>
+
             
             <div>
               <label htmlFor="passwordConfirm" className="block text-sm font-medium text-gray-700">

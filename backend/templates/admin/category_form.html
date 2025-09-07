@@ -1,0 +1,142 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}{{ title }} - Thado Robot Admin{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block page_actions %}
+<div class="btn-group" role="group">
+    <a href="{% url 'manage_category:category_list' %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Quay lại
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-tag"></i> {{ title }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- Name Field -->
+                            <div class="mb-3">
+                                <label for="{{ form.name.id_for_label }}" class="form-label">
+                                    Tên Category <span class="text-danger">*</span>
+                                </label>
+                                {{ form.name }}
+                                {% if form.name.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.name.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Description Field -->
+                            <div class="mb-3">
+                                <label for="{{ form.description.id_for_label }}" class="form-label">
+                                    Mô tả
+                                </label>
+                                {{ form.description }}
+                                {% if form.description.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.description.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <!-- Image Field -->
+                            <div class="mb-3">
+                                <label for="{{ form.image.id_for_label }}" class="form-label">
+                                    Hình ảnh
+                                </label>
+                                {{ form.image }}
+                                {% if form.image.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.image.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                
+                                <!-- Current Image Preview -->
+                                {% if category and category.image %}
+                                    <div class="mt-2">
+                                        <small class="text-muted">Hình hiện tại:</small>
+                                        <img src="{{ category.image.url }}" alt="{{ category.name }}" 
+                                             class="img-thumbnail d-block mt-1" style="max-width: 200px;">
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Errors -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'manage_category:category_list' %}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Hủy
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> 
+                            {% if action == 'create' %}Tạo Category{% else %}Cập nhật{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Image preview
+    document.getElementById('{{ form.image.id_for_label }}').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Remove existing preview
+                const existingPreview = document.querySelector('.image-preview');
+                if (existingPreview) {
+                    existingPreview.remove();
+                }
+                
+                // Create new preview
+                const preview = document.createElement('div');
+                preview.className = 'image-preview mt-2';
+                preview.innerHTML = `
+                    <small class="text-muted">Hình ảnh mới:</small>
+                    <img src="${e.target.result}" alt="Preview" class="img-thumbnail d-block mt-1" style="max-width: 200px;">
+                `;
+                
+                // Insert after the file input
+                e.target.parentNode.appendChild(preview);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+{% endblock %}

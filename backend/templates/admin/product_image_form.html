@@ -1,0 +1,152 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Thêm Hình Ảnh - Thado Robot Admin{% endblock %}
+{% block page_title %}Thêm Hình Ảnh cho {{ product.name }}{% endblock %}
+
+{% block page_actions %}
+<div class="btn-group" role="group">
+    <a href="{% url 'manage_product:product_detail' product.pk %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Quay lại
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-plus"></i> Thêm Hình Ảnh
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Product:</strong> {{ product.name }} (ID: {{ product.id }})
+                </div>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.image.id_for_label }}" class="form-label">
+                            Chọn hình ảnh <span class="text-danger">*</span>
+                        </label>
+                        {{ form.image }}
+                        <div class="form-text">
+                            Hỗ trợ các định dạng: JPG, PNG, GIF. Kích thước tối đa: 10MB
+                        </div>
+                        {% if form.image.errors %}
+                            <div class="text-danger small">
+                                {% for error in form.image.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Form Errors -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'manage_product:product_detail' product.pk %}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Hủy
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-upload"></i> Tải lên hình ảnh
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Current Images Preview -->
+{% if product.images.count > 0 %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-images"></i> Hình ảnh hiện tại ({{ product.images.count }})
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for image in product.images.all %}
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <img src="{{ image.image.url }}" alt="{{ product.name }}" 
+                                 class="card-img-top" style="height: 150px; object-fit: cover;">
+                            <div class="card-body p-2">
+                                <small class="text-muted">
+                                    {{ image.uploaded_at|date:"d/m/Y H:i" }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Image preview
+    document.getElementById('{{ form.image.id_for_label }}').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            // Check file size (10MB limit)
+            if (file.size > 10 * 1024 * 1024) {
+                alert('File quá lớn! Kích thước tối đa là 10MB.');
+                e.target.value = '';
+                return;
+            }
+
+            // Check file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Định dạng file không được hỗ trợ! Chỉ chấp nhận JPG, PNG, GIF.');
+                e.target.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Remove existing preview
+                const existingPreview = document.querySelector('.image-preview');
+                if (existingPreview) {
+                    existingPreview.remove();
+                }
+                
+                // Create new preview
+                const preview = document.createElement('div');
+                preview.className = 'image-preview mt-3';
+                preview.innerHTML = `
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i> Hình ảnh đã được chọn
+                    </div>
+                    <img src="${e.target.result}" alt="Preview" class="img-thumbnail d-block" style="max-width: 300px;">
+                `;
+                
+                // Insert after the form
+                document.querySelector('form').appendChild(preview);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+{% endblock %}

@@ -31,6 +31,14 @@ urlpatterns = [
     path('api/', include('apps.category.urls')),
     path('api/', include('apps.product.urls')),
     
+    # Authentication
+    path('auth/', include('apps.core.auth_urls')),
+    
+    # Admin Panel
+    path('manage/', include('apps.category.admin_urls')),
+    path('manage/', include('apps.product.admin_urls')),
+    path('manage/', include('apps.core.admin_urls')),
+    
     # API Documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

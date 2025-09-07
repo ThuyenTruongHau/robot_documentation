@@ -45,7 +45,7 @@ def login_view(request):
         refresh = RefreshToken.for_user(user)
         return Response({
             'refresh': str(refresh),
-            'access': str(refresh.access_token),
+            'access_token': str(refresh.access_token),
             'user': UserSerializer(user).data
         })
     else:

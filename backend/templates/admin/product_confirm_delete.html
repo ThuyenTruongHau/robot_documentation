@@ -1,0 +1,82 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Xóa Product - Thado Robot Admin{% endblock %}
+{% block page_title %}Xác nhận xóa Product{% endblock %}
+
+{% block page_actions %}
+<div class="btn-group" role="group">
+    <a href="{% url 'manage_product:product_detail' product.pk %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Quay lại
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-exclamation-triangle"></i> Xác nhận xóa Product
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="fas fa-warning"></i>
+                    <strong>Cảnh báo:</strong> Hành động này không thể hoàn tác!
+                </div>
+
+                <div class="text-center mb-4">
+                    {% if product.images.first %}
+                        <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" 
+                             class="img-thumbnail mb-3" style="max-width: 150px;">
+                    {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center mx-auto mb-3" 
+                             style="width: 150px; height: 150px;">
+                            <i class="fas fa-image fa-3x text-muted"></i>
+                        </div>
+                    {% endif %}
+                    <h4>{{ product.name }}</h4>
+                    <p class="text-muted">ID: {{ product.id }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <h6>Thông tin sẽ bị xóa:</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-box text-primary"></i> Tên: {{ product.name }}</li>
+                        <li><i class="fas fa-tag text-primary"></i> Category: {{ product.category.name }}</li>
+                        {% if product.description %}
+                            <li><i class="fas fa-align-left text-primary"></i> Mô tả: {{ product.description }}</li>
+                        {% endif %}
+                        {% if product.parameters %}
+                            <li><i class="fas fa-cogs text-primary"></i> Thông số kỹ thuật</li>
+                        {% endif %}
+                        <li><i class="fas fa-images text-primary"></i> Số hình ảnh: {{ product.images.count }}</li>
+                        <li><i class="fas fa-calendar text-primary"></i> Ngày tạo: {{ product.created_at|date:"d/m/Y H:i:s" }}</li>
+                    </ul>
+                </div>
+
+                {% if product.images.count > 0 %}
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <strong>Lưu ý:</strong> Product này có {{ product.images.count }} hình ảnh. 
+                        Tất cả hình ảnh sẽ bị xóa cùng với product này!
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'manage_product:product_detail' product.pk %}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Hủy
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Xác nhận xóa
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

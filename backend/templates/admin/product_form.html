@@ -1,0 +1,168 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}{{ title }} - Thado Robot Admin{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block page_actions %}
+<div class="btn-group" role="group">
+    <a href="{% url 'manage_product:product_list' %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Quay lại
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-box"></i> {{ title }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- Name Field -->
+                            <div class="mb-3">
+                                <label for="{{ form.name.id_for_label }}" class="form-label">
+                                    Tên Product <span class="text-danger">*</span>
+                                </label>
+                                {{ form.name }}
+                                {% if form.name.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.name.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Category Field -->
+                            <div class="mb-3">
+                                <label for="{{ form.category.id_for_label }}" class="form-label">
+                                    Category <span class="text-danger">*</span>
+                                </label>
+                                {{ form.category }}
+                                {% if form.category.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.category.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Description Field -->
+                            <div class="mb-3">
+                                <label for="{{ form.description.id_for_label }}" class="form-label">
+                                    Mô tả
+                                </label>
+                                {{ form.description }}
+                                {% if form.description.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.description.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Parameters Field -->
+                            <div class="mb-3">
+                                <label for="{{ form.parameters.id_for_label }}" class="form-label">
+                                    Thông số kỹ thuật (JSON)
+                                </label>
+                                {{ form.parameters }}
+                                <div class="form-text">
+                                    Ví dụ: {"weight": "1kg", "dimensions": "10x10x10cm", "color": "red"}
+                                </div>
+                                {% if form.parameters.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.parameters.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <!-- Help Text -->
+                            <div class="alert alert-info">
+                                <h6><i class="fas fa-info-circle"></i> Hướng dẫn</h6>
+                                <ul class="mb-0 small">
+                                    <li>Tên product là bắt buộc</li>
+                                    <li>Chọn category phù hợp</li>
+                                    <li>Thông số kỹ thuật phải là JSON hợp lệ</li>
+                                    <li>Có thể thêm hình ảnh sau khi tạo</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Errors -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'manage_product:product_list' %}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Hủy
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> 
+                            {% if action == 'create' %}Tạo Product{% else %}Cập nhật{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // JSON validation for parameters field
+    document.getElementById('{{ form.parameters.id_for_label }}').addEventListener('blur', function(e) {
+        const value = e.target.value.trim();
+        if (value) {
+            try {
+                JSON.parse(value);
+                e.target.classList.remove('is-invalid');
+                e.target.classList.add('is-valid');
+            } catch (error) {
+                e.target.classList.remove('is-valid');
+                e.target.classList.add('is-invalid');
+            }
+        } else {
+            e.target.classList.remove('is-invalid', 'is-valid');
+        }
+    });
+
+    // Form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const parametersField = document.getElementById('{{ form.parameters.id_for_label }}');
+        const value = parametersField.value.trim();
+        
+        if (value) {
+            try {
+                JSON.parse(value);
+            } catch (error) {
+                e.preventDefault();
+                alert('Thông số kỹ thuật không phải là JSON hợp lệ!');
+                parametersField.focus();
+            }
+        }
+    });
+</script>
+{% endblock %}

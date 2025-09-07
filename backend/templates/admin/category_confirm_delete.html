@@ -1,0 +1,80 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Xóa Category - Thado Robot Admin{% endblock %}
+{% block page_title %}Xác nhận xóa Category{% endblock %}
+
+{% block page_actions %}
+<div class="btn-group" role="group">
+    <a href="{% url 'manage_category:category_detail' category.pk %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Quay lại
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-exclamation-triangle"></i> Xác nhận xóa Category
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="fas fa-warning"></i>
+                    <strong>Cảnh báo:</strong> Hành động này không thể hoàn tác!
+                </div>
+
+                <div class="text-center mb-4">
+                    {% if category.image %}
+                        <img src="{{ category.image.url }}" alt="{{ category.name }}" 
+                             class="img-thumbnail mb-3" style="max-width: 150px;">
+                    {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center mx-auto mb-3" 
+                             style="width: 150px; height: 150px;">
+                            <i class="fas fa-image fa-3x text-muted"></i>
+                        </div>
+                    {% endif %}
+                    <h4>{{ category.name }}</h4>
+                    <p class="text-muted">ID: {{ category.id }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <h6>Thông tin sẽ bị xóa:</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-tag text-primary"></i> Tên: {{ category.name }}</li>
+                        {% if category.description %}
+                            <li><i class="fas fa-align-left text-primary"></i> Mô tả: {{ category.description }}</li>
+                        {% endif %}
+                        {% if category.image %}
+                            <li><i class="fas fa-image text-primary"></i> Hình ảnh: {{ category.image.name }}</li>
+                        {% endif %}
+                        <li><i class="fas fa-calendar text-primary"></i> Ngày tạo: {{ category.created_at|date:"d/m/Y H:i:s" }}</li>
+                    </ul>
+                </div>
+
+                {% if category.product.count > 0 %}
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <strong>Lưu ý:</strong> Category này có {{ category.product.count }} product(s). 
+                        Tất cả products sẽ bị xóa cùng với category này!
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'manage_category:category_detail' category.pk %}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Hủy
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Xác nhận xóa
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -29,6 +29,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     # Hiển thị thông tin category chi tiết
     category = CategoryInPorductSerializer(read_only=True)
+    category_name = serializers.CharField(source='category.name', read_only=True)
     images = ProductImageSerializer(many=True, read_only=True)
 
     # Cho phép gán category bằng id khi tạo/sửa product
@@ -47,6 +48,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "parameters",
             "category",
             "category_id",
+            "category_name",
             "images",
             "created_at",
             "updated_at",

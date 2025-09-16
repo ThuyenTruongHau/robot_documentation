@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import Category
 from .forms import CategoryForm
+from apps.core.mixins import AdminListMixin
 
 
 @login_required(login_url='/auth/login/')
@@ -164,6 +165,7 @@ def get_time_ago(timestamp):
 @login_required(login_url='/auth/login/')
 def category_list(request):
     """Danh sách categories với tìm kiếm và phân trang"""
+    # Sử dụng mixin logic
     search_query = request.GET.get('search', '')
     categories = Category.objects.all().order_by('-created_at')
     
@@ -193,7 +195,7 @@ def category_create(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Category đã được tạo thành công!')
-            return redirect('admin:category_list')
+            return redirect('manage_category:category_list')
     else:
         form = CategoryForm()
     
@@ -214,7 +216,7 @@ def category_edit(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'Category đã được cập nhật thành công!')
-            return redirect('admin:category_list')
+            return redirect('manage_category:category_list')
     else:
         form = CategoryForm(instance=category)
     
@@ -229,28 +231,51 @@ def category_edit(request, pk):
 @login_required(login_url='/auth/login/')
 def category_delete(request, pk):
     """Xóa category"""
+    if request.method != 'POST':
+        return redirect('manage_category:category_list')
+    
     category = get_object_or_404(Category, pk=pk)
-    
-    if request.method == 'POST':
-        category_name = category.name
-        category.delete()
-        messages.success(request, f'Category "{category_name}" đã được xóa thành công!')
-        return redirect('admin:category_list')
-    
-    return render(request, 'admin/category_confirm_delete.html', {
-        'category': category
-    })
+    category_name = category.name
+    category.delete()
+    messages.success(request, f'Category "{category_name}" đã được xóa thành công!')
+    return redirect('manage_category:category_list')
 
 
 @login_required(login_url='/auth/login/')
 def category_detail(request, pk):
     """Chi tiết category"""
     category = get_object_or_404(Category, pk=pk)
-    products = category.product.all()  # Lấy tất cả products thuộc category này
+    products_count = category.product.count()  # Chỉ đếm số lượng products
     
     context = {
         'category': category,
-        'products': products,
-        'products_count': products.count(),
+        'products_count': products_count,
     }
     return render(request, 'admin/category_detail.html', context)
+
+
+@login_required(login_url='/auth/login/')
+def category_product_create(request, category_id):
+    """Tạo product mới với category được chọn trước"""
+    from apps.product.forms import ProductForm
+    from apps.product.models import Product
+    
+    category = get_object_or_404(Category, pk=category_id)
+    
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.category = category
+            product.save()
+            messages.success(request, f'Product "{product.name}" đã được tạo thành công trong category "{category.name}"!')
+            return redirect('manage_product:product_detail', pk=product.pk)
+    else:
+        form = ProductForm(initial={'category': category})
+    
+    return render(request, 'admin/product_form.html', {
+        'form': form,
+        'title': f'Tạo Product Mới trong Category "{category.name}"',
+        'action': 'create',
+        'category': category,
+    })

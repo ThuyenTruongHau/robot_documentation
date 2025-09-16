@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "core.middlewares.RequestLoggingMiddleware",
+    "core.middlewares.CustomLoginRedirectMiddleware",  # Middleware chuyển hướng đến trang đăng nhập tùy chỉnh
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -126,6 +127,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom user model
 AUTH_USER_MODEL = 'users.User'  # Comment tạm thời để fix migration
+
+# Login URLs - Sử dụng trang đăng nhập tùy chỉnh
+LOGIN_URL = '/auth/login/'
+LOGIN_REDIRECT_URL = '/manage/category/dashboard/'
+LOGOUT_REDIRECT_URL = '/auth/login/'
 
 # REST Framework settings
 REST_FRAMEWORK = {

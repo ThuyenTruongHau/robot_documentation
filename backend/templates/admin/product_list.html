@@ -1,21 +1,14 @@
 {% extends 'admin/base.html' %}
+{% load static %}
 
 {% block title %}Products - Thado Robot Admin{% endblock %}
 {% block page_title %}Quản lý Products{% endblock %}
-
-{% block page_actions %}
-<div class="btn-group" role="group">
-    <a href="{% url 'manage_product:product_create' %}" class="btn btn-primary">
-        <i class="fas fa-plus"></i> Tạo Product Mới
-    </a>
-</div>
-{% endblock %}
 
 {% block content %}
 <!-- Search and Filter -->
 <div class="row mb-4">
     <div class="col-md-4">
-        <form method="get" class="d-flex">
+        <form method="get" class="d-flex search-container">
             <input type="text" name="search" class="form-control me-2" 
                    placeholder="Tìm kiếm product..." value="{{ search_query }}">
             <button type="submit" class="btn btn-outline-primary">
@@ -38,8 +31,13 @@
             </select>
         </form>
     </div>
-    <div class="col-md-4 text-end">
+    <div class="col-md-2 text-end">
         <span class="text-muted">Tổng: {{ total_count }} products</span>
+    </div>
+    <div class="col-md-2 text-end">
+        <a href="{% url 'manage_product:product_create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Tạo Mới
+        </a>
     </div>
 </div>
 
@@ -112,66 +110,23 @@
             </div>
 
             <!-- Pagination -->
-            {% if page_obj.has_other_pages %}
-                <nav aria-label="Product pagination">
-                    <ul class="pagination justify-content-center">
-                        {% if page_obj.has_previous %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if category_filter %}&category={{ category_filter }}{% endif %}">
-                                    <i class="fas fa-angle-double-left"></i>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_filter %}&category={{ category_filter }}{% endif %}">
-                                    <i class="fas fa-angle-left"></i>
-                                </a>
-                            </li>
-                        {% endif %}
-
-                        {% for num in page_obj.paginator.page_range %}
-                            {% if page_obj.number == num %}
-                                <li class="page-item active">
-                                    <span class="page-link">{{ num }}</span>
-                                </li>
-                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_filter %}&category={{ category_filter }}{% endif %}">{{ num }}</a>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-
-                        {% if page_obj.has_next %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_filter %}&category={{ category_filter }}{% endif %}">
-                                    <i class="fas fa-angle-right"></i>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_filter %}&category={{ category_filter }}{% endif %}">
-                                    <i class="fas fa-angle-double-right"></i>
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            {% endif %}
+            {% include 'admin/partials/pagination.html' %}
         {% else %}
-            <div class="text-center py-5">
-                <i class="fas fa-box fa-3x text-muted mb-3"></i>
-                <h5 class="text-muted">Không tìm thấy product nào</h5>
-                {% if search_query or category_filter %}
-                    <p class="text-muted">Thử tìm kiếm với từ khóa khác hoặc chọn category khác</p>
-                    <a href="{% url 'manage_product:product_list' %}" class="btn btn-outline-primary">
-                        Xem tất cả products
-                    </a>
-                {% else %}
-                    <p class="text-muted">Hãy tạo product đầu tiên</p>
-                    <a href="{% url 'manage_product:product_create' %}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Tạo Product Mới
-                    </a>
-                {% endif %}
-            </div>
+            {% include 'admin/partials/empty_state.html' with 
+                icon_class="fas fa-box" 
+                empty_title="Không tìm thấy product nào" 
+                empty_search_message="Thử tìm kiếm với từ khóa khác hoặc chọn category khác" 
+                empty_create_message="Hãy tạo product đầu tiên" 
+                list_url="manage_product:product_list" 
+                create_url="manage_product:product_create" 
+                view_all_text="Xem tất cả products" 
+                create_button_text="Tạo Product Mới" %}
         {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/realtime-search.js' %}"></script>
+<script src="{% static 'js/product-search.js' %}"></script>
 {% endblock %}

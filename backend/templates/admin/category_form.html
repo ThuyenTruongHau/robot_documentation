@@ -76,7 +76,7 @@
                                 {% if category and category.image %}
                                     <div class="mt-2">
                                         <small class="text-muted">Hình hiện tại:</small>
-                                        <img src="{{ category.image.url }}" alt="{{ category.name }}" 
+                                        <img id="current-image" src="{{ category.image.url }}" alt="{{ category.name }}" 
                                              class="img-thumbnail d-block mt-1" style="max-width: 200px;">
                                     </div>
                                 {% endif %}
@@ -112,28 +112,15 @@
 
 {% block extra_js %}
 <script>
-    // Image preview
     document.getElementById('{{ form.image.id_for_label }}').addEventListener('change', function(e) {
         const file = e.target.files[0];
-        if (file) {
+        const currentImage = document.getElementById('current-image');
+        
+        if (file && currentImage) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                // Remove existing preview
-                const existingPreview = document.querySelector('.image-preview');
-                if (existingPreview) {
-                    existingPreview.remove();
-                }
-                
-                // Create new preview
-                const preview = document.createElement('div');
-                preview.className = 'image-preview mt-2';
-                preview.innerHTML = `
-                    <small class="text-muted">Hình ảnh mới:</small>
-                    <img src="${e.target.result}" alt="Preview" class="img-thumbnail d-block mt-1" style="max-width: 200px;">
-                `;
-                
-                // Insert after the file input
-                e.target.parentNode.appendChild(preview);
+                // Thay thế ảnh cũ bằng ảnh mới
+                currentImage.src = e.target.result;
             };
             reader.readAsDataURL(file);
         }

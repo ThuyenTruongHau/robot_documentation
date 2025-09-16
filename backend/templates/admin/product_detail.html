@@ -8,12 +8,6 @@
     <a href="{% url 'manage_product:product_list' %}" class="btn btn-outline-secondary">
         <i class="fas fa-arrow-left"></i> Quay lại
     </a>
-    <a href="{% url 'manage_product:product_edit' product.pk %}" class="btn btn-warning">
-        <i class="fas fa-edit"></i> Chỉnh sửa
-    </a>
-    <a href="{% url 'manage_product:product_delete' product.pk %}" class="btn btn-danger">
-        <i class="fas fa-trash"></i> Xóa
-    </a>
 </div>
 {% endblock %}
 
@@ -109,9 +103,6 @@
                 <div class="d-grid gap-2">
                     <a href="{% url 'manage_product:product_edit' product.pk %}" class="btn btn-warning">
                         <i class="fas fa-edit"></i> Chỉnh sửa Product
-                    </a>
-                    <a href="{% url 'manage_product:product_image_add' product.pk %}" class="btn btn-success">
-                        <i class="fas fa-plus"></i> Thêm Hình Ảnh
                     </a>
                     <a href="{% url 'manage_product:product_delete' product.pk %}" class="btn btn-danger">
                         <i class="fas fa-trash"></i> Xóa Product

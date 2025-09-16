@@ -49,7 +49,7 @@ def product_create(request):
         if form.is_valid():
             product = form.save()
             messages.success(request, 'Product đã được tạo thành công!')
-            return redirect('admin:product_detail', pk=product.pk)
+            return redirect('manage_product:product_detail', pk=product.pk)
     else:
         form = ProductForm()
     
@@ -70,7 +70,7 @@ def product_edit(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'Product đã được cập nhật thành công!')
-            return redirect('admin:product_detail', pk=product.pk)
+            return redirect('manage_product:product_detail', pk=product.pk)
     else:
         form = ProductForm(instance=product)
     
@@ -91,7 +91,7 @@ def product_delete(request, pk):
         product_name = product.name
         product.delete()
         messages.success(request, f'Product "{product_name}" đã được xóa thành công!')
-        return redirect('admin:product_list')
+        return redirect('manage_product:product_list')
     
     return render(request, 'admin/product_confirm_delete.html', {
         'product': product
@@ -124,7 +124,7 @@ def product_image_add(request, product_pk):
             image.product = product
             image.save()
             messages.success(request, 'Hình ảnh đã được thêm thành công!')
-            return redirect('admin:product_detail', pk=product.pk)
+            return redirect('manage_product:product_detail', pk=product.pk)
     else:
         form = ProductImageForm()
     
@@ -144,7 +144,7 @@ def product_image_delete(request, pk):
     if request.method == 'POST':
         image.delete()
         messages.success(request, 'Hình ảnh đã được xóa thành công!')
-        return redirect('admin:product_detail', pk=product.pk)
+        return redirect('manage_product:product_detail', pk=product.pk)
     
     return render(request, 'admin/product_image_confirm_delete.html', {
         'image': image,

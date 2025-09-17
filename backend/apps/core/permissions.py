@@ -25,14 +25,14 @@ class PermissionManager:
             'can_manage_system': True,
         },
         'admin': {
-            'can_manage_users': True,
+            'can_manage_users': True,        # Chỉ admin mới quản lý users
             'can_manage_categories': True,
             'can_manage_products': True,
             'can_view_dashboard': True,
             'can_manage_system': False,
         },
         'staff': {
-            'can_manage_users': False,
+            'can_manage_users': False,       # Staff KHÔNG quản lý users
             'can_manage_categories': True,
             'can_manage_products': True,
             'can_view_dashboard': True,
@@ -86,12 +86,18 @@ class PermissionManager:
         if not profile:
             return
         
-        # Đồng bộ is_staff
-        if profile.role in ['admin', 'staff']:
+        # Đồng bộ is_staff theo role
+        if profile.role == 'admin':
             if not user.is_staff:
                 user.is_staff = True
                 user.save(update_fields=['is_staff'])
+        elif profile.role == 'staff':
+            # Staff không cần is_staff=True để xem menu Users
+            if user.is_staff:
+                user.is_staff = False
+                user.save(update_fields=['is_staff'])
         else:
+            # Các role khác không có is_staff
             if user.is_staff:
                 user.is_staff = False
                 user.save(update_fields=['is_staff'])

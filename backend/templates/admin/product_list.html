@@ -97,10 +97,12 @@
                                        class="btn btn-outline-warning" title="Chỉnh sửa">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="{% url 'manage_product:product_delete' product.pk %}" 
-                                       class="btn btn-outline-danger" title="Xóa">
+                                    <button type="button" class="btn btn-outline-danger product-delete-btn" 
+                                            title="Xóa" 
+                                            data-product-id="{{ product.pk }}" 
+                                            data-product-name="{{ product.name }}">
                                         <i class="fas fa-trash"></i>
-                                    </a>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -124,9 +126,12 @@
         {% endif %}
     </div>
 </div>
+
+{% include 'admin/partials/product_delete_modal.html' %}
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/realtime-search.js' %}"></script>
 <script src="{% static 'js/product-search.js' %}"></script>
+<script src="{% static 'js/product-delete.js' %}"></script>
 {% endblock %}

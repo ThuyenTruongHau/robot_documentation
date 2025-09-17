@@ -1,4 +1,6 @@
 from django import forms
+from django.core.exceptions import ValidationError
+import json
 from .models import Product, ProductImage
 from apps.category.models import Category
 
@@ -39,6 +41,59 @@ class ProductForm(forms.ModelForm):
         # Populate category choices
         self.fields['category'].queryset = Category.objects.all()
         self.fields['category'].empty_label = "Chọn category..."
+    
+    def clean_parameters(self):
+        """Validate parameters field"""
+        parameters = self.cleaned_data.get('parameters')
+        
+        # If parameters is empty or None, that's fine
+        if not parameters:
+            return parameters
+        
+        # If parameters is a string, try to parse it as JSON
+        if isinstance(parameters, str):
+            try:
+                parameters = json.loads(parameters)
+            except json.JSONDecodeError:
+                raise ValidationError('Định dạng JSON không hợp lệ cho thông số kỹ thuật.')
+        
+        # Validate the structure of parameters
+        if isinstance(parameters, dict):
+            errors = []
+            
+            for section_name, section_data in parameters.items():
+                # Check if section name is empty
+                if not section_name or not section_name.strip():
+                    errors.append('Tên tiêu đề không được để trống.')
+                    continue
+                
+                # Check if section data is a dictionary
+                if not isinstance(section_data, dict):
+                    errors.append(f'Dữ liệu tiêu đề "{section_name}" không hợp lệ.')
+                    continue
+                
+                # Check if section has parameters
+                if not section_data:
+                    errors.append(f'Tiêu đề "{section_name}" cần có ít nhất 1 thông số.')
+                    continue
+                
+                # Check each parameter in the section
+                for param_name, param_value in section_data.items():
+                    # Check if parameter name is empty
+                    if not param_name or not param_name.strip():
+                        errors.append(f'Tiêu đề "{section_name}" có thông số thiếu tên.')
+                        continue
+                    
+                    # Check if parameter value is empty
+                    if not param_value or not param_value.strip():
+                        errors.append(f'Thông số "{param_name}" trong tiêu đề "{section_name}" thiếu giá trị.')
+                        continue
+            
+            # If there are validation errors, raise them
+            if errors:
+                raise ValidationError(errors)
+        
+        return parameters
 
 
 class ProductImageForm(forms.ModelForm):

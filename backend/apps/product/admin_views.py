@@ -55,6 +55,7 @@ def product_create(request):
     
     return render(request, 'admin/product_form.html', {
         'form': form,
+        'product': None,  # Truyền None cho trường hợp tạo mới
         'title': 'Tạo Product Mới',
         'action': 'create'
     })
@@ -91,11 +92,18 @@ def product_delete(request, pk):
         product_name = product.name
         product.delete()
         messages.success(request, f'Product "{product_name}" đã được xóa thành công!')
-        return redirect('manage_product:product_list')
+        
+        # Redirect về trang trước đó hoặc product list
+        referer = request.META.get('HTTP_REFERER')
+        if referer and 'product_detail' in referer:
+            # Nếu đến từ product detail, redirect về product list
+            return redirect('manage_product:product_list')
+        else:
+            # Nếu đến từ product list, redirect về product list
+            return redirect('manage_product:product_list')
     
-    return render(request, 'admin/product_confirm_delete.html', {
-        'product': product
-    })
+    # Nếu không phải POST request, redirect về product list
+    return redirect('manage_product:product_list')
 
 
 @login_required(login_url='/auth/login/')
@@ -146,7 +154,5 @@ def product_image_delete(request, pk):
         messages.success(request, 'Hình ảnh đã được xóa thành công!')
         return redirect('manage_product:product_detail', pk=product.pk)
     
-    return render(request, 'admin/product_image_confirm_delete.html', {
-        'image': image,
-        'product': product
-    })
+    # Nếu không phải POST request, redirect về product detail
+    return redirect('manage_product:product_detail', pk=product.pk)

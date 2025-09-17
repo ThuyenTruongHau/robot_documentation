@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.core.validators import RegexValidator
 
 
 class User(AbstractUser):
@@ -12,6 +13,21 @@ class User(AbstractUser):
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    # Override username field với validation tùy chỉnh
+    username = models.CharField(
+        max_length=150,
+        unique=True,
+        validators=[RegexValidator(
+            regex=r'^[^<>"\';&()]+$',
+            message='Username không được chứa các ký tự: < > " \' ; & ( )',
+            code='invalid_username'
+        )],
+        error_messages={
+            'unique': 'Tên đăng nhập này đã tồn tại.',
+        },
+        verbose_name='Tên đăng nhập'
+    )
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

@@ -72,14 +72,29 @@
                                     </div>
                                 {% endif %}
                                 
-                                <!-- Current Image Preview -->
-                                {% if category and category.image %}
-                                    <div class="mt-2">
-                                        <small class="text-muted">Hình hiện tại:</small>
-                                        <img id="current-image" src="{{ category.image.url }}" alt="{{ category.name }}" 
-                                             class="img-thumbnail d-block mt-1" style="max-width: 200px;">
+                                <!-- Image Preview Container -->
+                                <div id="image-preview-container" class="mt-3">
+                                    <!-- Current Image Preview (for edit mode) -->
+                                    {% if category and category.image %}
+                                        <div id="current-image-section">
+                                            <small class="text-muted">Hình hiện tại:</small>
+                                            <img id="current-image" src="{{ category.image.url }}" alt="{{ category.name }}" 
+                                                 class="img-thumbnail d-block mt-1" style="max-width: 200px; max-height: 200px;">
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <!-- New Image Preview (for both create and edit mode) -->
+                                    <div id="new-image-section" style="display: none;">
+                                        <small class="text-muted">Hình xem trước:</small>
+                                        <img id="new-image-preview" class="img-thumbnail d-block mt-1" 
+                                             style="max-width: 200px; max-height: 200px;">
+                                        <div class="mt-2">
+                                            <button type="button" id="remove-image-btn" class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-times"></i> Xóa ảnh
+                                            </button>
+                                        </div>
                                     </div>
-                                {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -112,18 +127,111 @@
 
 {% block extra_js %}
 <script>
-    document.getElementById('{{ form.image.id_for_label }}').addEventListener('change', function(e) {
+document.addEventListener('DOMContentLoaded', function() {
+    const imageInput = document.getElementById('{{ form.image.id_for_label }}');
+    const newImageSection = document.getElementById('new-image-section');
+    const newImagePreview = document.getElementById('new-image-preview');
+    const currentImageSection = document.getElementById('current-image-section');
+    const removeImageBtn = document.getElementById('remove-image-btn');
+    
+    // Xử lý khi chọn file ảnh mới
+    imageInput.addEventListener('change', function(e) {
         const file = e.target.files[0];
-        const currentImage = document.getElementById('current-image');
         
-        if (file && currentImage) {
+        if (file) {
+            // Kiểm tra định dạng file
+            if (!file.type.startsWith('image/')) {
+                alert('Vui lòng chọn file ảnh hợp lệ!');
+                this.value = '';
+                return;
+            }
+            
+            // Kiểm tra kích thước file (tối đa 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Kích thước file không được vượt quá 5MB!');
+                this.value = '';
+                return;
+            }
+            
             const reader = new FileReader();
             reader.onload = function(e) {
-                // Thay thế ảnh cũ bằng ảnh mới
-                currentImage.src = e.target.result;
+                // Hiển thị preview ảnh mới
+                newImagePreview.src = e.target.result;
+                newImageSection.style.display = 'block';
+                
+                // Ẩn ảnh hiện tại nếu có (trong chế độ edit)
+                if (currentImageSection) {
+                    currentImageSection.style.display = 'none';
+                }
             };
             reader.readAsDataURL(file);
+        } else {
+            // Nếu không chọn file, ẩn preview
+            newImageSection.style.display = 'none';
+            if (currentImageSection) {
+                currentImageSection.style.display = 'block';
+            }
         }
     });
+    
+    // Xử lý nút xóa ảnh
+    removeImageBtn.addEventListener('click', function() {
+        // Xóa file đã chọn
+        imageInput.value = '';
+        
+        // Ẩn preview ảnh mới
+        newImageSection.style.display = 'none';
+        
+        // Hiển thị lại ảnh hiện tại nếu có (trong chế độ edit)
+        if (currentImageSection) {
+            currentImageSection.style.display = 'block';
+        }
+    });
+    
+    // Thêm hiệu ứng hover cho preview ảnh
+    const previewImages = document.querySelectorAll('#image-preview-container img');
+    previewImages.forEach(img => {
+        img.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.05)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        
+        img.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+});
 </script>
+
+<style>
+#image-preview-container img {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+#image-preview-container img:hover {
+    border-color: #36A9A9;
+    box-shadow: 0 4px 8px rgba(54, 169, 169, 0.2);
+}
+
+#new-image-section {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px dashed #dee2e6;
+}
+
+#remove-image-btn {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+}
+
+#remove-image-btn:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+</style>
 {% endblock %}

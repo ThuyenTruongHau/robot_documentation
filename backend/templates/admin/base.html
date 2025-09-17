@@ -125,12 +125,14 @@
                                 <i class="fas fa-box"></i> Products
                             </a>
                         </li>
+                        {% if request.user.is_superuser or request.user.is_staff or request.user.profile.role == 'admin' %}
                         <li class="nav-item">
-                            <a class="nav-link {% if 'user' in request.resolver_match.url_name %}active{% endif %}" 
+                            <a class="nav-link {% if 'user' in request.resolver_match.url_name and 'profile' not in request.resolver_match.url_name %}active{% endif %}" 
                                href="{% url 'manage_core:user_list' %}">
                                 <i class="fas fa-users"></i> Users
                             </a>
                         </li>
+                        {% endif %}
                         <li class="nav-item mt-3">
                             <a class="nav-link {% if 'profile' in request.resolver_match.url_name %}active{% endif %}" 
                                href="{% url 'manage_core:user_profile' %}">

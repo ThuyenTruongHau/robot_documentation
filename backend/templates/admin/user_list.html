@@ -1,4 +1,5 @@
 {% extends 'admin/base.html' %}
+{% load static %}
 
 {% block title %}Users - Thado Robot Admin{% endblock %}
 {% block page_title %}Quản lý Users{% endblock %}
@@ -113,10 +114,12 @@
                                        class="btn btn-outline-warning" title="Chỉnh sửa">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="{% url 'manage_core:user_delete' user.pk %}" 
-                                       class="btn btn-outline-danger" title="Xóa">
+                                    <button type="button" class="btn btn-outline-danger user-delete-btn" 
+                                            title="Xóa" 
+                                            data-user-id="{{ user.pk }}" 
+                                            data-user-name="{{ user.username }}">
                                         <i class="fas fa-trash"></i>
-                                    </a>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -188,4 +191,10 @@
         {% endif %}
     </div>
 </div>
+
+{% include 'admin/partials/user_delete_modal.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/user-delete.js' %}"></script>
 {% endblock %}

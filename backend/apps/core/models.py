@@ -22,23 +22,48 @@ class SystemSettings(models.Model):
 
 
 class UserProfile(models.Model):
-    """Mở rộng thông tin user"""
+    """Thông tin cơ bản của user"""
     ROLE_CHOICES = [
         ('admin', 'Quản trị viên'),
-        ('manager', 'Quản lý'),
         ('staff', 'Nhân viên'),
-        ('viewer', 'Người xem'),
+    ]
+    
+    DEPARTMENT_CHOICES = [
+        ('it', 'Công nghệ thông tin'),
+        ('hr', 'Nhân sự'),
+        ('finance', 'Tài chính'),
+        ('marketing', 'Marketing'),
+        ('sales', 'Kinh doanh'),
+        ('support', 'Hỗ trợ khách hàng'),
+        ('other', 'Khác'),
     ]
     
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='staff', verbose_name="Vai trò")
-    department = models.CharField(max_length=100, blank=True, null=True, verbose_name="Phòng ban")
-    phone = models.CharField(max_length=15, blank=True, null=True, verbose_name="Số điện thoại")
-    address = models.TextField(blank=True, null=True, verbose_name="Địa chỉ")
-    notes = models.TextField(blank=True, null=True, verbose_name="Ghi chú")
-    is_active = models.BooleanField(default=True, verbose_name="Hoạt động")
+    department = models.CharField(max_length=20, choices=DEPARTMENT_CHOICES, default='other', verbose_name="Phòng ban")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def save(self, *args, **kwargs):
+        """Tự động đồng bộ Django permissions khi lưu profile"""
+        super().save(*args, **kwargs)
+        self.sync_django_permissions()
+    
+    def sync_django_permissions(self):
+        """Đồng bộ Django permissions theo role"""
+        from .permissions import PermissionManager
+        PermissionManager.sync_django_permissions(self.user)
+    
+    @classmethod
+    def create_for_user(cls, user, role='staff', department='other'):
+        """Tạo profile và đồng bộ permissions"""
+        profile = cls.objects.create(
+            user=user,
+            role=role,
+            department=department
+        )
+        profile.sync_django_permissions()
+        return profile
 
     class Meta:
         verbose_name = "Hồ sơ người dùng"

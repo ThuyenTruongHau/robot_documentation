@@ -6,11 +6,13 @@ from django.db.models import Q
 from django.contrib.auth import get_user_model
 from .models import SystemSettings, UserProfile
 from .forms import UserForm, UserProfileForm, SystemSettingsForm
+from .decorators import admin_required, staff_required
 
 User = get_user_model()
 
 
 @login_required(login_url='/auth/login/')
+@staff_required
 def user_list(request):
     """Danh sách users với tìm kiếm và phân trang"""
     search_query = request.GET.get('search', '')
@@ -44,22 +46,23 @@ def user_list(request):
 
 
 @login_required(login_url='/auth/login/')
+@admin_required
 def user_create(request):
     """Tạo user mới"""
     if request.method == 'POST':
-        form = UserForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
+        form = UserForm(request.POST, action='create')
+        profile_form = UserProfileForm(request.POST, request.FILES)
         
         if form.is_valid() and profile_form.is_valid():
             user = form.save()
             profile = profile_form.save(commit=False)
             profile.user = user
-            profile.save()
+            profile.save()  # sync_django_permissions() sẽ tự động chạy
             
             messages.success(request, f'User "{user.username}" đã được tạo thành công!')
             return redirect('manage_core:user_list')
     else:
-        form = UserForm()
+        form = UserForm(action='create')
         profile_form = UserProfileForm()
     
     return render(request, 'admin/user_form.html', {
@@ -71,23 +74,24 @@ def user_create(request):
 
 
 @login_required(login_url='/auth/login/')
+@staff_required
 def user_edit(request, pk):
     """Chỉnh sửa user"""
     user = get_object_or_404(User, pk=pk)
     profile, created = UserProfile.objects.get_or_create(user=user)
     
     if request.method == 'POST':
-        form = UserForm(request.POST, instance=user)
-        profile_form = UserProfileForm(request.POST, instance=profile)
+        form = UserForm(request.POST, instance=user, action='edit')
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
         
         if form.is_valid() and profile_form.is_valid():
             form.save()
-            profile_form.save()
+            profile_form.save()  # sync_django_permissions() sẽ tự động chạy
             
             messages.success(request, f'User "{user.username}" đã được cập nhật thành công!')
             return redirect('manage_core:user_detail', pk=user.pk)
     else:
-        form = UserForm(instance=user)
+        form = UserForm(instance=user, action='edit')
         profile_form = UserProfileForm(instance=profile)
     
     return render(request, 'admin/user_form.html', {
@@ -100,6 +104,7 @@ def user_edit(request, pk):
 
 
 @login_required(login_url='/auth/login/')
+@staff_required
 def user_detail(request, pk):
     """Chi tiết user"""
     user = get_object_or_404(User.objects.select_related('profile'), pk=pk)
@@ -113,19 +118,18 @@ def user_detail(request, pk):
 
 
 @login_required(login_url='/auth/login/')
+@admin_required
 def user_delete(request, pk):
     """Xóa user"""
-    user = get_object_or_404(User, pk=pk)
-    
     if request.method == 'POST':
+        user = get_object_or_404(User, pk=pk)
         username = user.username
         user.delete()
         messages.success(request, f'User "{username}" đã được xóa thành công!')
         return redirect('manage_core:user_list')
     
-    return render(request, 'admin/user_confirm_delete.html', {
-        'user': user
-    })
+    # Nếu không phải POST request, redirect về danh sách
+    return redirect('manage_core:user_list')
 
 
 @login_required(login_url='/auth/login/')
@@ -136,7 +140,7 @@ def user_profile(request):
     
     if request.method == 'POST':
         form = UserForm(request.POST, instance=user)
-        profile_form = UserProfileForm(request.POST, instance=profile)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
         
         if form.is_valid() and profile_form.is_valid():
             form.save()

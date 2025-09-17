@@ -1,4 +1,5 @@
 {% extends 'admin/base.html' %}
+{% load static %}
 
 {% block title %}{{ user.username }} - Thado Robot Admin{% endblock %}
 {% block page_title %}{{ user.username }}{% endblock %}
@@ -7,12 +8,6 @@
 <div class="btn-group" role="group">
     <a href="{% url 'manage_core:user_list' %}" class="btn btn-outline-secondary">
         <i class="fas fa-arrow-left"></i> Quay lại
-    </a>
-    <a href="{% url 'manage_core:user_edit' user.pk %}" class="btn btn-warning">
-        <i class="fas fa-edit"></i> Chỉnh sửa
-    </a>
-    <a href="{% url 'manage_core:user_delete' user.pk %}" class="btn btn-danger">
-        <i class="fas fa-trash"></i> Xóa
     </a>
 </div>
 {% endblock %}
@@ -75,12 +70,16 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><strong>Quyền admin:</strong></td>
+                                <td><strong>Vai trò:</strong></td>
                                 <td>
-                                    {% if user.is_staff %}
-                                        <span class="badge bg-warning">Có quyền</span>
+                                    {% if user.profile %}
+                                        {% if user.profile.role == 'admin' %}
+                                            <span class="badge bg-danger">Quản trị viên</span>
+                                        {% else %}
+                                            <span class="badge bg-info">Nhân viên</span>
+                                        {% endif %}
                                     {% else %}
-                                        <span class="badge bg-secondary">Không có quyền</span>
+                                        <span class="badge bg-secondary">Chưa phân quyền</span>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -103,79 +102,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Profile Info -->
-        {% if profile %}
-        <div class="card shadow">
-            <div class="card-header">
-                <h5 class="mb-0">
-                    <i class="fas fa-id-card"></i> Thông tin bổ sung
-                </h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <table class="table table-borderless">
-                            <tr>
-                                <td><strong>Vai trò:</strong></td>
-                                <td>
-                                    <span class="badge bg-info fs-6">{{ profile.get_role_display }}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>Phòng ban:</strong></td>
-                                <td>
-                                    {% if profile.department %}
-                                        {{ profile.department }}
-                                    {% else %}
-                                        <span class="text-muted">Chưa có</span>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>Số điện thoại:</strong></td>
-                                <td>
-                                    {% if profile.phone %}
-                                        {{ profile.phone }}
-                                    {% else %}
-                                        <span class="text-muted">Chưa có</span>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-md-6">
-                        <table class="table table-borderless">
-                            <tr>
-                                <td><strong>Địa chỉ:</strong></td>
-                                <td>
-                                    {% if profile.address %}
-                                        {{ profile.address }}
-                                    {% else %}
-                                        <span class="text-muted">Chưa có</span>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>Ghi chú:</strong></td>
-                                <td>
-                                    {% if profile.notes %}
-                                        {{ profile.notes }}
-                                    {% else %}
-                                        <span class="text-muted">Chưa có</span>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>Cập nhật:</strong></td>
-                                <td>{{ profile.updated_at|date:"d/m/Y H:i:s" }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
     </div>
 
     <!-- Quick Actions -->
@@ -191,9 +117,11 @@
                     <a href="{% url 'manage_core:user_edit' user.pk %}" class="btn btn-warning">
                         <i class="fas fa-edit"></i> Chỉnh sửa User
                     </a>
-                    <a href="{% url 'manage_core:user_delete' user.pk %}" class="btn btn-danger">
+                    <button type="button" class="btn btn-danger user-delete-btn" 
+                            data-user-id="{{ user.pk }}" 
+                            data-user-name="{{ user.username }}">
                         <i class="fas fa-trash"></i> Xóa User
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -206,29 +134,30 @@
                 </h5>
             </div>
             <div class="card-body">
-                {% if profile %}
-                    <div class="text-center">
-                        <h4 class="text-primary">{{ profile.get_role_display }}</h4>
-                        <p class="text-muted mb-0">
-                            {% if profile.role == 'admin' %}
-                                Có toàn quyền quản trị hệ thống
-                            {% elif profile.role == 'manager' %}
-                                Có quyền quản lý categories và products
-                            {% elif profile.role == 'staff' %}
-                                Có quyền xem và chỉnh sửa dữ liệu
-                            {% else %}
-                                Chỉ có quyền xem dữ liệu
-                            {% endif %}
-                        </p>
-                    </div>
-                {% else %}
-                    <div class="text-center">
-                        <h4 class="text-muted">Chưa phân quyền</h4>
+                <div class="text-center">
+                    {% if profile %}
+                        {% if profile.role == 'admin' %}
+                            <h4 class="text-danger">Quản trị viên</h4>
+                            <p class="text-muted mb-2">Có toàn quyền quản trị hệ thống</p>
+                            <small class="text-info">Có thể tạo, sửa, xóa user và quản lý tất cả dữ liệu</small>
+                        {% else %}
+                            <h4 class="text-info">Nhân viên</h4>
+                            <p class="text-muted mb-2">Quyền hạn cơ bản</p>
+                            <small class="text-info">Có thể xem và chỉnh sửa dữ liệu</small>
+                        {% endif %}
+                    {% else %}
+                        <h4 class="text-secondary">Chưa phân quyền</h4>
                         <p class="text-muted mb-0">User này chưa được phân quyền</p>
-                    </div>
-                {% endif %}
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+{% include 'admin/partials/user_delete_modal.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/user-delete.js' %}"></script>
 {% endblock %}

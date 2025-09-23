@@ -7,16 +7,16 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
+          50: '#f0fffe',
+          100: '#ccfffe',
+          200: '#99fffd',
+          300: '#5dfcfa',
+          400: '#22eef2',
+          500: '#36A9A9',
+          600: '#2d8f8f',
+          700: '#247575',
+          800: '#1e5e5e',
+          900: '#194d4d',
         },
         secondary: {
           50: '#f8fafc',
@@ -32,7 +32,18 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+      },
+      fontWeight: {
+        'thin': '100',
+        'extralight': '200', 
+        'light': '300',
+        'normal': '400',
+        'medium': '500',
+        'semibold': '600',
+        'bold': '700',
+        'extrabold': '800',
+        'black': '900',
       },
     },
   },

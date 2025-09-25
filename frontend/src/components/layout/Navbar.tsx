@@ -23,6 +23,13 @@ const Navbar: React.FC = () => {
     return location.pathname === path;
   };
 
+  // Check if current page is a detail page (product, solution, etc.)
+  const isDetailPage = () => {
+    return location.pathname.includes('/product/') || 
+           location.pathname.includes('/solution/') ||
+           location.pathname.includes('/detail/');
+  };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -42,47 +49,83 @@ const Navbar: React.FC = () => {
     setRfidProductsOpen(false);
   }, []);
 
-  const loadCategories = useCallback(async () => {
-    if (categoriesLoaded || isLoadingCategories) return;
+  const loadCategories = useCallback(async (forceLoad = false) => {
+    console.log('🔍 loadCategories called - forceLoad:', forceLoad, 'categoriesLoaded:', categoriesLoaded, 'isLoadingCategories:', isLoadingCategories);
     
-    // Check cache first
+    if (!forceLoad && (categoriesLoaded || isLoadingCategories)) {
+      console.log('🔍 Categories already loaded or loading, skipping...');
+      return;
+    }
+    
+    console.log('🔍 Starting to load categories...');
+    
+    // Check cache first (but cache should be empty since we clear it on init)
     const cachedCategories = categoryCache.getCachedCategories();
-    if (cachedCategories) {
-      console.log('Using cached categories:', cachedCategories.length);
+    if (cachedCategories && !forceLoad) {
+      console.log('🔍 Using cached categories:', cachedCategories.length);
       setCategories(cachedCategories);
       setCategoriesLoaded(true);
       return;
     }
     
+    console.log('🔍 No valid cache found, fetching from API...');
     setIsLoadingCategories(true);
+    
     try {
+      console.log('🌐 Making API call to fetch categories...');
       const data = await apiService.getAllCategories();
+      console.log('📦 API response received:', data?.length, 'categories');
+      
       setCategories(data);
       setCategoriesLoaded(true);
       categoryCache.setCachedCategories(data);
-      console.log('Categories loaded successfully:', data.length, 'categories');
+      console.log('✅ Categories loaded and cached successfully:', data.length, 'categories');
     } catch (error) {
-      console.error('Error loading categories:', error);
+      console.error('❌ Error loading categories:', error);
       // Fallback data if API fails
       const fallbackData = [
-        { id: 'rfid-readers', name: 'RFID Readers' },
-        { id: 'rfid-tags', name: 'RFID Tags' },
-        { id: 'rfid-antennas', name: 'RFID Antennas' },
-        { id: 'rfid-accessories', name: 'RFID Accessories' }
+        { id: 1, name: 'RFID Readers', image: '/rfid-readers.webp' },
+        { id: 2, name: 'RFID Tags', image: '/tag.png' },
+        { id: 3, name: 'RFID Antennas', image: '/rfid-antennas.png' },
+        { id: 4, name: 'RFID Accessories', image: '/smart_card.png' },
+        { id: 5, name: 'RFID Software', image: '/cc.png' },
+        { id: 6, name: 'RFID Services', image: '/camera.jpg' }
       ];
       setCategories(fallbackData);
       setCategoriesLoaded(true);
       categoryCache.setCachedCategories(fallbackData);
-      console.log('Categories loaded via fallback:', fallbackData.length, 'categories');
+      console.log('⚠️ Categories loaded via fallback:', fallbackData.length, 'categories');
     } finally {
       setIsLoadingCategories(false);
+      console.log('🏁 loadCategories finished');
     }
   }, [categoriesLoaded, isLoadingCategories]);
 
-  // Load categories immediately when component mounts
+  // Reset categories state for fresh load
+  const resetCategoriesState = useCallback(() => {
+    console.log('🔄 Resetting categories state');
+    setCategoriesLoaded(false);
+    setIsLoadingCategories(false);
+    setCategories([]);
+  }, []);
+
+  // Handle RFID Products hover - load categories on demand
+  const handleRfidProductsHover = useCallback(() => {
+    console.log('🔍 RFID Products hovered - loading categories');
+    closeAllDropdowns(); 
+    setRfidProductsOpen(true);
+    
+    // If categories not loaded yet, load them
+    if (!categoriesLoaded && !isLoadingCategories) {
+      loadCategories();
+    }
+  }, [closeAllDropdowns, loadCategories, categoriesLoaded, isLoadingCategories]);
+
+  // Reset categories state on component mount to ensure fresh load
   useEffect(() => {
-    loadCategories();
-  }, [loadCategories]);
+    console.log('🔄 Navbar mounted - resetting categories state');
+    resetCategoriesState();
+  }, [resetCategoriesState]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -170,15 +213,15 @@ const Navbar: React.FC = () => {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isNavbarVisible ? 'translate-y-0' : '-translate-y-full'
       } ${
-          isScrolled || isNavbarHovered 
+          isScrolled || isNavbarHovered || isDetailPage()
             ? 'bg-white/95 backdrop-blur-md shadow-lg' 
           : 'bg-transparent'
       }`}
       onMouseEnter={() => setIsNavbarHovered(true)}
       onMouseLeave={() => setIsNavbarHovered(false)}
     >
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
+        <div className="container-responsive">
+          <div className="flex items-center justify-between h-16 lg:h-20 xl:h-24 3xl:h-28">
           {/* Logo */}
             <div className="flex-shrink-0">
               <Link 
@@ -189,38 +232,35 @@ const Navbar: React.FC = () => {
                 <img 
                   src="/logo_noback.png" 
                   alt="THADOSOFT" 
-                  className="h-12 w-auto"
+                  className="h-10 lg:h-12 xl:h-14 3xl:h-16 4xl:h-20 w-auto"
                 />
             </Link>
           </div>
           
           {/* Desktop Navigation - Centered */}
           <div className="hidden lg:flex flex-1 justify-center">
-            <div className="flex items-center space-x-12">
+            <div className="flex items-center space-x-8 lg:space-x-12 xl:space-x-16 3xl:space-x-20 4xl:space-x-24">
                 {/* RFID Products Dropdown */}
                 <div 
                   className="relative group"
-                  onMouseEnter={() => {
-                    closeAllDropdowns(); 
-                    setRfidProductsOpen(true);
-                  }}
+                  onMouseEnter={handleRfidProductsHover}
                   onMouseLeave={() => setRfidProductsOpen(false)}
                 >
                 <Link
                     to="/rfid-products"
-                    className={`${isActive('/rfid-products') ? ((isScrolled || isNavbarHovered) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-base tracking-wide transition-colors duration-300 relative flex items-center`}
+                    className={`${isActive('/rfid-products') ? ((isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative flex items-center`}
                 >
                     RFID Products
                     <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/rfid-products') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                 </Link>
                 
                   {/* RFID Products Dropdown Menu */}
-                <div className={`fixed top-20 left-0 w-full bg-white border-t border-gray-200 shadow-xl z-50 transition-all duration-300 ease-out ${
+                <div className={`fixed top-16 lg:top-20 xl:top-24 3xl:top-28 left-0 w-full bg-white border-t border-gray-200 shadow-xl z-50 transition-all duration-300 ease-out ${
                     rfidProductsOpen 
                     ? 'opacity-100 translate-y-0 visible' 
                     : 'opacity-0 -translate-y-4 invisible'
                 }`}>
-                  <div className="max-w-7xl mx-auto px-8 py-8">
+                  <div className="container-responsive py-8 lg:py-12 xl:py-16 3xl:py-20">
                     {isLoadingCategories ? (
                       <div className="flex items-center justify-center py-8">
                         <div className="flex items-center space-x-3">
@@ -229,12 +269,12 @@ const Navbar: React.FC = () => {
                         </div>
                       </div>
                     ) : (
-                      <div className="grid grid-cols-6 gap-4">
+                      <div className="flex flex-wrap justify-center gap-6 lg:gap-8 xl:gap-10 3xl:gap-12 4xl:gap-16">
                         {/* Display all categories dynamically */}
                         {categories.slice().reverse().map((category, index) => (
                           <div 
                             key={category.id} 
-                            className="text-center"
+                            className="text-center group cursor-pointer"
                             style={{ 
                               animationDelay: `${index * 30}ms`,
                               animation: rfidProductsOpen ? 'fadeInUp 300ms ease-out forwards' : 'none'
@@ -242,14 +282,38 @@ const Navbar: React.FC = () => {
                           >
                             <Link
                               to={`/rfid-products?category=${category.id}`}
-                              className="text-sm font-medium text-gray-900 hover:text-gray-700 mb-2 border-b border-primary-600 pb-1 block transition-colors duration-200"
-                              onClick={closeAllDropdowns}
+                              className="block"
+                              onClick={() => {
+                                closeAllDropdowns();
+                                setTimeout(() => window.scrollTo({ top: 0, behavior: 'auto' }), 100);
+                              }}
                             >
-                              {category.name}
+                              {/* Category Image */}
+                              <div className="w-16 h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 3xl:w-28 3xl:h-28 4xl:w-32 4xl:h-32 mx-auto mb-3 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden group-hover:shadow-lg transition-all duration-300">
+                                {category.image ? (
+                                  <img 
+                                    src={category.image.startsWith('http') ? category.image : `/media/${category.image}`}
+                                    alt={category.name}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.style.display = 'none';
+                                      target.nextElementSibling?.classList.remove('hidden');
+                                    }}
+                                  />
+                                ) : null}
+                                <div className={`w-full h-full flex items-center justify-center text-gray-400 ${category.image ? 'hidden' : ''}`}>
+                                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              {/* Category Name with underline */}
+                              <span className="text-xs lg:text-sm xl:text-base 3xl:text-lg 4xl:text-xl font-medium text-gray-900 group-hover:text-[#36A9A9] transition-colors duration-200 border-b-2 border-[#36A9A9] pb-1">
+                                {category.name}
+                              </span>
                             </Link>
-                            <div className="space-y-1 text-xs text-gray-500 min-h-[40px]">
-                              {/* Empty space for future subcategories */}
-                            </div>
                           </div>
                         ))}
                       </div>
@@ -261,7 +325,7 @@ const Navbar: React.FC = () => {
                 {/* RFID Solutions */}
                 <Link
                   to="/rfid-solutions"
-                  className={`${isActive('/rfid-solutions') ? 'text-primary-600' : (isScrolled || isNavbarHovered) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-base tracking-wide transition-colors duration-300 relative group`}
+                  className={`${isActive('/rfid-solutions') ? 'text-primary-600' : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
                 >
                   RFID Solutions
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/rfid-solutions') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
@@ -270,7 +334,7 @@ const Navbar: React.FC = () => {
                 {/* About Us */}
                 <Link
                   to="/about-us"
-                  className={`${isActive('/about-us') ? 'text-primary-600' : (isScrolled || isNavbarHovered) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-base tracking-wide transition-colors duration-300 relative group`}
+                  className={`${isActive('/about-us') ? 'text-primary-600' : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
                 >
                   About Us
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/about-us') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
@@ -279,7 +343,7 @@ const Navbar: React.FC = () => {
                 {/* Contact Us */}
                           <Link
                   to="/contact-us"
-                  className={`${isActive('/contact-us') ? 'text-primary-600' : (isScrolled || isNavbarHovered) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-base tracking-wide transition-colors duration-300 relative group`}
+                  className={`${isActive('/contact-us') ? 'text-primary-600' : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
                 >
                   Contact Us
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/contact-us') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
@@ -292,7 +356,7 @@ const Navbar: React.FC = () => {
               {/* Search Button */}
             <button
               onClick={() => setIsSearchOpen(true)}
-                className={`${(isScrolled || isNavbarHovered) ? 'text-gray-600 hover:text-primary-600' : 'text-white hover:text-primary-300'} transition-colors duration-300`}
+                className={`${(isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-600 hover:text-primary-600' : 'text-white hover:text-primary-300'} transition-colors duration-300`}
             >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -302,15 +366,15 @@ const Navbar: React.FC = () => {
               {/* Language Selector */}
               <div className="flex items-center space-x-1 text-sm">
                 <button className={`px-2 py-1 rounded transition-colors duration-200 ${
-                  (isScrolled || isNavbarHovered) 
+                  (isScrolled || isNavbarHovered || isDetailPage()) 
                     ? 'bg-gray-100 text-gray-800 hover:bg-gray-200' 
                     : 'bg-white/10 text-white hover:bg-white/20'
                 }`}>
                   VI
                 </button>
-                <span className={`${(isScrolled || isNavbarHovered) ? 'text-gray-400' : 'text-white/60'}`}>/</span>
+                <span className={`${(isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-400' : 'text-white/60'}`}>/</span>
                 <button className={`px-2 py-1 rounded transition-colors duration-200 ${
-                  (isScrolled || isNavbarHovered) 
+                  (isScrolled || isNavbarHovered || isDetailPage()) 
                     ? 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' 
                     : 'text-white/60 hover:text-white hover:bg-white/10'
                 }`}>
@@ -323,7 +387,7 @@ const Navbar: React.FC = () => {
             <div className="lg:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`${(isScrolled || isNavbarHovered) ? 'text-gray-600' : 'text-white'} transition-colors duration-300`}
+                className={`${(isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-600' : 'text-white'} transition-colors duration-300`}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   {isMenuOpen ? (

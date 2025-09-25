@@ -19,11 +19,11 @@ def test_category_search():
     print("🔍 Testing Category Search API...")
     
     # Test với query rỗng
-    response = requests.get('http://localhost:8000/api/categories/search/?q=')
+    response = requests.get('http://localhost:9000/api/categories/search/?q=')
     print(f"Empty query: {response.status_code}")
     
     # Test với query có ký tự
-    response = requests.get('http://localhost:8000/api/categories/search/?q=test')
+    response = requests.get('http://localhost:9000/api/categories/search/?q=test')
     print(f"Test query: {response.status_code}")
     
     if response.status_code == 200:
@@ -38,15 +38,15 @@ def test_product_search():
     print("\n🔍 Testing Product Search API...")
     
     # Test với query rỗng
-    response = requests.get('http://localhost:8000/api/products/search/?q=')
+    response = requests.get('http://localhost:9000/api/products/search/?q=')
     print(f"Empty query: {response.status_code}")
     
     # Test với query có ký tự
-    response = requests.get('http://localhost:8000/api/products/search/?q=test')
+    response = requests.get('http://localhost:9000/api/products/search/?q=test')
     print(f"Test query: {response.status_code}")
     
     # Test với category filter
-    response = requests.get('http://localhost:8000/api/products/search/?q=test&category=1')
+    response = requests.get('http://localhost:9000/api/products/search/?q=test&category=1')
     print(f"Test query with category: {response.status_code}")
     
     if response.status_code == 200:
@@ -59,7 +59,7 @@ def test_product_search():
 def test_server_running():
     """Kiểm tra server có đang chạy không"""
     try:
-        response = requests.get('http://localhost:8000/', timeout=5)
+        response = requests.get('http://localhost:9000/', timeout=5)
         return True
     except requests.exceptions.RequestException:
         return False
@@ -79,8 +79,8 @@ if __name__ == '__main__':
         test_product_search()
         print("\n✅ Tất cả tests đã hoàn thành!")
         print("\n📝 Hướng dẫn sử dụng:")
-        print("1. Vào http://localhost:8000/manage/categories/ để test category search")
-        print("2. Vào http://localhost:8000/manage/products/ để test product search")
+        print("1. Vào http://localhost:9000/manage/categories/ để test category search")
+        print("2. Vào http://localhost:9000/manage/products/ để test product search")
         print("3. Gõ từ khóa vào ô tìm kiếm để xem kết quả real-time")
         
     except Exception as e:

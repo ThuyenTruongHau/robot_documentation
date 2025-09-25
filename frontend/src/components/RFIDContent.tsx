@@ -70,14 +70,14 @@ const RFIDContent: React.FC = () => {
 
 
   return (
-    <div className="relative bg-white py-12">
-      <div className="max-w-6xl mx-auto px-6 w-full">
+    <div className="relative bg-white py-10 lg:py-12 xl:py-16 3xl:py-20">
+      <div className="container-responsive">
         {/* Main Title */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-light text-gray-900 mb-4 leading-tight">
+        <div className="text-center mb-12 lg:mb-16 xl:mb-20 3xl:mb-24">
+          <h2 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl 4xl:text-6xl font-light text-gray-900 mb-3 lg:mb-4 xl:mb-6 leading-tight">
             How Can UHF RFID Reader Help Your Business?
           </h2>
-          <div className="w-16 h-0.5 bg-[#36A9A9] mx-auto rounded-full"></div>
+          <div className="w-12 lg:w-16 xl:w-20 3xl:w-24 h-0.5 bg-[#36A9A9] mx-auto rounded-full"></div>
         </div>
 
         {/* Features Grid - Sát nhau hơn */}
@@ -91,7 +91,7 @@ const RFIDContent: React.FC = () => {
             >
               {/* Card với border radius khác nhau */}
               <div className={`
-                relative bg-white p-8 h-full transition-all duration-300 ease-out
+                relative bg-white p-6 lg:p-8 xl:p-10 3xl:p-12 h-full transition-all duration-300 ease-out
                 ${index === 0 ? 'rounded-l-2xl' : ''}
                 ${index === 1 ? '' : ''}
                 ${index === 2 ? 'rounded-r-2xl' : ''}
@@ -117,11 +117,11 @@ const RFIDContent: React.FC = () => {
                 <div className="relative z-10">
                   {/* Icon với animation nhẹ nhàng */}
                   <div className={`
-                    mb-6 transition-all duration-300 ease-out
+                    mb-4 lg:mb-6 xl:mb-8 transition-all duration-300 ease-out
                     ${hoveredCard === feature.id ? 'transform scale-105' : ''}
                   `}>
                     <div className={`
-                      w-20 h-20 rounded-2xl flex items-center justify-center mx-auto transition-all duration-300
+                      w-16 h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 3xl:w-28 3xl:h-28 rounded-2xl flex items-center justify-center mx-auto transition-all duration-300
                       ${hoveredCard === feature.id 
                         ? 'bg-[#36A9A9] shadow-md' 
                         : 'bg-[#36A9A9]/10'
@@ -138,7 +138,7 @@ const RFIDContent: React.FC = () => {
 
                   {/* Title */}
                   <h3 className={`
-                    text-xl font-semibold mb-4 text-center transition-all duration-300
+                    text-lg lg:text-xl xl:text-2xl 3xl:text-3xl font-semibold mb-3 lg:mb-4 xl:mb-5 text-center transition-all duration-300
                     ${hoveredCard === feature.id 
                       ? 'text-[#36A9A9]' 
                       : 'text-gray-800'
@@ -148,7 +148,7 @@ const RFIDContent: React.FC = () => {
                   </h3>
 
                   {/* Description */}
-                  <p className="text-gray-600 leading-relaxed text-center text-sm">
+                  <p className="text-gray-600 leading-relaxed text-center text-xs lg:text-sm xl:text-base 3xl:text-lg">
                     {feature.description}
                   </p>
 

@@ -1,6 +1,7 @@
 # apps/product/models.py
 from django.db import models
 from apps.category.models import Category
+from apps.brand.models import Brand
 import os, uuid
 
 
@@ -15,7 +16,13 @@ class Product(models.Model):
     category = models.ForeignKey(
         Category, 
         on_delete=models.CASCADE,   
-        related_name="product"     
+        related_name="category_products"   
+    )
+    brand = models.ForeignKey(
+        Brand, 
+        on_delete=models.CASCADE,   
+        related_name="brand_products",
+        default=1    
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

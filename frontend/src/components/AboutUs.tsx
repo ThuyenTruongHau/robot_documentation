@@ -47,14 +47,14 @@ const AboutUs: React.FC = () => {
 
   return (
     <div className="relative bg-white py-12">
-      <div className="max-w-5xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+      <div className="max-w-full lg:max-w-[95%] xl:max-w-[90%] 3xl:max-w-[85%] mx-auto px-4 lg:px-6 xl:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 3xl:gap-20 items-center">
           {/* Left Side - Logo Image */}
           <div className="relative text-center lg:text-left">
             <img
               src="/Office_aboutus.png"
               alt="Company Logo"
-              className="w-full h-auto max-w-lg mx-auto rounded-lg"
+              className="w-full h-auto max-w-xl lg:max-w-2xl xl:max-w-3xl 3xl:max-w-4xl 4xl:max-w-5xl mx-auto rounded-lg shadow-lg"
             />
           </div>
 
@@ -62,10 +62,10 @@ const AboutUs: React.FC = () => {
           <div className="space-y-6 text-center lg:text-left">
             {/* Main Title */}
             <div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-[#36A9A9] mb-3">
+              <h2 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl 4xl:text-6xl font-bold text-[#36A9A9] mb-3 lg:mb-4 xl:mb-6">
                 ABOUT US
               </h2>
-              <p className="text-lg text-gray-800 font-medium">
+              <p className="text-base lg:text-lg xl:text-xl 3xl:text-2xl text-gray-800 font-medium">
                 Quality - Prestige - Professionalism.
               </p>
             </div>
@@ -81,10 +81,10 @@ const AboutUs: React.FC = () => {
                   
                   {/* Content */}
                   <div className="flex-1">
-                    <h3 className="text-base font-semibold text-gray-900 mb-1">
+                    <h3 className="text-base lg:text-lg xl:text-xl 3xl:text-2xl font-semibold text-gray-900 mb-1">
                       {section.title}
                     </h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm lg:text-base xl:text-lg 3xl:text-xl text-gray-600">
                       {section.description}
                     </p>
                   </div>

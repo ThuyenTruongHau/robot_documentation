@@ -31,7 +31,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         categories = Category.objects.filter(
             Q(name__icontains=query) | 
             Q(description__icontains=query)
-        ).order_by('-created_at')[:10]  # Giới hạn 10 kết quả
+        ).order_by('-created_at')[:5]  # Giới hạn 5 kết quả
         
         serializer = self.get_serializer(categories, many=True)
         return Response({

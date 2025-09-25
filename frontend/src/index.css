@@ -43,7 +43,175 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
+  /* Absolute responsive container system */
+  .container-responsive {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Small screens */
+  @media (min-width: 640px) {
+    .container-responsive {
+      max-width: 640px;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  /* Medium screens */
+  @media (min-width: 768px) {
+    .container-responsive {
+      max-width: 768px;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* Large screens */
+  @media (min-width: 1024px) {
+    .container-responsive {
+      max-width: 1024px;
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+
+  /* Extra large screens */
+  @media (min-width: 1280px) {
+    .container-responsive {
+      max-width: 1280px;
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+  }
+
+  /* 2XL screens */
+  @media (min-width: 1536px) {
+    .container-responsive {
+      max-width: 1536px;
+      padding-left: 4rem;
+      padding-right: 4rem;
+    }
+  }
+
+  /* 3XL screens (1920px+) */
+  @media (min-width: 1920px) {
+    .container-responsive {
+      max-width: 1800px;
+      padding-left: 6rem;
+      padding-right: 6rem;
+    }
+  }
+
+  /* 4XL screens (2560px+) */
+  @media (min-width: 2560px) {
+    .container-responsive {
+      max-width: 2400px;
+      padding-left: 8rem;
+      padding-right: 8rem;
+    }
+  }
+
+  /* 5XL screens (3440px+) */
+  @media (min-width: 3440px) {
+    .container-responsive {
+      max-width: 3200px;
+      padding-left: 12rem;
+      padding-right: 12rem;
+    }
+  }
+
+  /* Full width container for hero sections */
+  .container-full {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Responsive text scaling */
+  .text-responsive-xs {
+    font-size: 0.75rem;
+  }
+
+  .text-responsive-sm {
+    font-size: 0.875rem;
+  }
+
+  .text-responsive-base {
+    font-size: 1rem;
+  }
+
+  .text-responsive-lg {
+    font-size: 1.125rem;
+  }
+
+  .text-responsive-xl {
+    font-size: 1.25rem;
+  }
+
+  .text-responsive-2xl {
+    font-size: 1.5rem;
+  }
+
+  .text-responsive-3xl {
+    font-size: 1.875rem;
+  }
+
+  .text-responsive-4xl {
+    font-size: 2.25rem;
+  }
+
+  .text-responsive-5xl {
+    font-size: 3rem;
+  }
+
+  .text-responsive-6xl {
+    font-size: 3.75rem;
+  }
+
+  /* Large screen text scaling */
+  @media (min-width: 1920px) {
+    .text-responsive-xs { font-size: 0.875rem; }
+    .text-responsive-sm { font-size: 1rem; }
+    .text-responsive-base { font-size: 1.125rem; }
+    .text-responsive-lg { font-size: 1.25rem; }
+    .text-responsive-xl { font-size: 1.5rem; }
+    .text-responsive-2xl { font-size: 1.875rem; }
+    .text-responsive-3xl { font-size: 2.25rem; }
+    .text-responsive-4xl { font-size: 3rem; }
+    .text-responsive-5xl { font-size: 4rem; }
+    .text-responsive-6xl { font-size: 5rem; }
+  }
+
+  @media (min-width: 2560px) {
+    .text-responsive-xs { font-size: 1rem; }
+    .text-responsive-sm { font-size: 1.125rem; }
+    .text-responsive-base { font-size: 1.25rem; }
+    .text-responsive-lg { font-size: 1.5rem; }
+    .text-responsive-xl { font-size: 1.875rem; }
+    .text-responsive-2xl { font-size: 2.25rem; }
+    .text-responsive-3xl { font-size: 3rem; }
+    .text-responsive-4xl { font-size: 4rem; }
+    .text-responsive-5xl { font-size: 5rem; }
+    .text-responsive-6xl { font-size: 6rem; }
+  }
+
+  @media (min-width: 3440px) {
+    .text-responsive-xs { font-size: 1.125rem; }
+    .text-responsive-sm { font-size: 1.25rem; }
+    .text-responsive-base { font-size: 1.5rem; }
+    .text-responsive-lg { font-size: 1.875rem; }
+    .text-responsive-xl { font-size: 2.25rem; }
+    .text-responsive-2xl { font-size: 3rem; }
+    .text-responsive-3xl { font-size: 4rem; }
+    .text-responsive-4xl { font-size: 5rem; }
+    .text-responsive-5xl { font-size: 6rem; }
+    .text-responsive-6xl { font-size: 7rem; }
+  }
 }
 
 /* Keyframes for dropdown animations */

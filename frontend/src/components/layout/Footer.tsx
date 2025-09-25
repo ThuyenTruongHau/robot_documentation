@@ -5,27 +5,27 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-900 text-white relative">
       {/* Top Section - Navigation Links */}
-      <div className="max-w-4xl mx-auto px-6 py-6">
-        <div className="grid grid-cols-2 gap-8">
+      <div className="container-responsive py-4 lg:py-6 xl:py-8">
+        <div className="grid grid-cols-2 gap-6 lg:gap-8 xl:gap-10">
           {/* Left Column */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-bold text-orange-500 uppercase tracking-wide">
+          <div className="space-y-2 lg:space-y-3">
+            <h3 className="text-xs lg:text-sm xl:text-base font-bold text-orange-500 uppercase tracking-wide">
               Products
             </h3>
-            <ul className="space-y-2">
-              <li><Link to="/rfid-products" className="text-sm text-white hover:text-gray-300">RFID Products</Link></li>
-              <li><Link to="/rfid-solutions" className="text-sm text-white hover:text-gray-300">RFID Solutions</Link></li>
+            <ul className="space-y-1 lg:space-y-2">
+              <li><Link to="/rfid-products" className="text-xs lg:text-sm xl:text-base text-white hover:text-gray-300">RFID Products</Link></li>
+              <li><Link to="/rfid-solutions" className="text-xs lg:text-sm xl:text-base text-white hover:text-gray-300">RFID Solutions</Link></li>
             </ul>
           </div>
 
           {/* Right Column */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-bold text-orange-500 uppercase tracking-wide">
+          <div className="space-y-2 lg:space-y-3">
+            <h3 className="text-xs lg:text-sm xl:text-base font-bold text-orange-500 uppercase tracking-wide">
               Company
             </h3>
-            <ul className="space-y-2">
-              <li><Link to="/about-us" className="text-sm text-white hover:text-gray-300">About Us</Link></li>
-              <li><Link to="/contact-us" className="text-sm text-white hover:text-gray-300">Contact Us</Link></li>
+            <ul className="space-y-1 lg:space-y-2">
+              <li><Link to="/about-us" className="text-xs lg:text-sm xl:text-base text-white hover:text-gray-300">About Us</Link></li>
+              <li><Link to="/contact-us" className="text-xs lg:text-sm xl:text-base text-white hover:text-gray-300">Contact Us</Link></li>
             </ul>
           </div>
         </div>
@@ -35,16 +35,16 @@ const Footer: React.FC = () => {
       <div className="border-t border-gray-700"></div>
 
       {/* Middle Section - Branding and Subscription */}
-      <div className="max-w-4xl mx-auto px-6 py-6">
-        <div className="grid grid-cols-2 gap-8">
+      <div className="container-responsive py-4 lg:py-6 xl:py-8">
+        <div className="grid grid-cols-2 gap-6 lg:gap-8 xl:gap-10">
           {/* Left Side - Logo and Subscribe */}
-          <div className="space-y-4">
+          <div className="space-y-3 lg:space-y-4 xl:space-y-5">
             {/* Logo */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 lg:space-x-3">
               <img
                 src="/logo_noback.png"
                 alt="Thado Robot"
-                className="h-12 w-auto"
+                className="h-8 lg:h-10 xl:h-12 3xl:h-14 w-auto"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';

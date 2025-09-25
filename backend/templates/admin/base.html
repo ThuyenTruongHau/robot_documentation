@@ -120,6 +120,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {% if 'brand' in request.resolver_match.url_name %}active{% endif %}" 
+                               href="{% url 'manage_brand:brand_list' %}">
+                                <i class="fas fa-copyright"></i> Brands
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {% if 'product' in request.resolver_match.url_name %}active{% endif %}" 
                                href="{% url 'manage_product:product_list' %}">
                                 <i class="fas fa-box"></i> Products

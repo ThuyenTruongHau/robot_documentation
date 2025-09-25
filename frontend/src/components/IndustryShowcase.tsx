@@ -126,7 +126,7 @@ const IndustryShowcase: React.FC = () => {
   }
 
   return (
-    <div className="relative bg-gray-50 overflow-hidden">
+    <div className="relative bg-gray-50 py-12 lg:py-16 xl:py-20 3xl:py-24 overflow-hidden">
       <div className="w-full">
 
         {/* Industry Columns */}
@@ -226,8 +226,8 @@ const IndustryShowcase: React.FC = () => {
         </div>
 
         {/* Bottom CTA */}
-        <div className="text-center mt-8">
-          <button className="bg-[#36A9A9] hover:bg-[#36A9A9]/90 text-white px-8 py-3 rounded-full font-medium transition-all duration-300 hover:scale-105 shadow-lg">
+        <div className="text-center mt-8 mb-8 lg:mb-12 xl:mb-16 px-4 lg:px-6 xl:px-8">
+          <button className="bg-[#36A9A9] hover:bg-[#36A9A9]/90 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 rounded-full font-medium transition-all duration-300 hover:scale-105 shadow-lg text-sm lg:text-base xl:text-lg 3xl:text-xl">
             Explore Solutions
           </button>
         </div>

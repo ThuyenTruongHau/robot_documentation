@@ -13,7 +13,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     API cho Product (CRUD).
     Swagger sẽ tự động sinh docs từ serializer + viewset.
     """
-    queryset = Product.objects.all().order_by("-created_at")
+    queryset = Product.objects.select_related('category', 'brand').prefetch_related('images').all().order_by("-created_at")
     serializer_class = ProductSerializer
     #permission_classes = [IsAuthenticated]
     
@@ -23,7 +23,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         query = request.GET.get('q', '')
         category_id = request.GET.get('category', '')
         
-        products = Product.objects.select_related('category').all()
+        products = Product.objects.select_related('category', 'brand').prefetch_related('images').all()
         
         if query:
             products = products.filter(
@@ -34,7 +34,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         if category_id:
             products = products.filter(category_id=category_id)
         
-        products = products.order_by('-created_at')[:10]  # Giới hạn 10 kết quả
+        products = products.order_by('-created_at')[:5]  # Giới hạn 5 kết quả
         
         serializer = self.get_serializer(products, many=True)
         return Response({

@@ -2,11 +2,14 @@
 class CategoryCache {
   private cache: any[] | null = null;
   private cacheTimestamp: number | null = null;
-  private readonly CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours instead of 5 minutes
+  private readonly CACHE_DURATION = 5 * 60 * 1000; // 5 minutes for more frequent updates
   private readonly STORAGE_KEY = 'thado_categories_cache';
   private readonly STORAGE_TIMESTAMP_KEY = 'thado_categories_timestamp';
 
   constructor() {
+    // Always clear cache on initialization to ensure fresh data on page load
+    console.log('🔄 CategoryCache initialized - clearing existing cache');
+    this.clearStorage();
     this.loadFromStorage();
   }
 
@@ -48,10 +51,19 @@ class CategoryCache {
   }
 
   getCachedCategories(): any[] | null {
-    if (!this.cache || !this.cacheTimestamp) return null;
+    if (!this.cache || !this.cacheTimestamp) {
+      console.log('🔍 No cache available');
+      return null;
+    }
     
     const now = Date.now();
-    if (now - this.cacheTimestamp > this.CACHE_DURATION) {
+    const cacheAge = now - this.cacheTimestamp;
+    const isExpired = cacheAge > this.CACHE_DURATION;
+    
+    console.log(`🔍 Cache check: age=${Math.round(cacheAge/1000)}s, expired=${isExpired}, items=${this.cache?.length}`);
+    
+    if (isExpired) {
+      console.log('🔍 Cache expired, clearing...');
       this.clearCache();
       return null;
     }
@@ -63,7 +75,7 @@ class CategoryCache {
     this.cache = categories;
     this.cacheTimestamp = Date.now();
     this.saveToStorage();
-    console.log('Categories cached:', categories.length, 'items');
+    console.log('✅ Categories cached:', categories.length, 'items');
   }
 
   clearCache(): void {
@@ -79,9 +91,54 @@ class CategoryCache {
 
   // Force refresh cache (useful for admin updates)
   forceRefresh(): void {
+    console.log('🔄 Force refreshing category cache...');
     this.clearCache();
+  }
+
+  // Add method to check cache status for debugging
+  getCacheStatus(): { hasCache: boolean; age: number; expired: boolean; count: number } {
+    const hasCache = !!(this.cache && this.cacheTimestamp);
+    const age = hasCache ? Date.now() - this.cacheTimestamp! : 0;
+    const expired = hasCache ? age > this.CACHE_DURATION : true;
+    const count = this.cache?.length || 0;
+    
+    return { hasCache, age, expired, count };
   }
 }
 
 // Export singleton instance
 export const categoryCache = new CategoryCache();
+
+// Add global debug methods for development
+if (typeof window !== 'undefined') {
+  (window as any).debugCache = {
+    status: () => {
+      const status = categoryCache.getCacheStatus();
+      console.log('🔍 Cache Status:', {
+        ...status,
+        ageInSeconds: Math.round(status.age / 1000),
+        ageInMinutes: Math.round(status.age / 60000)
+      });
+      return status;
+    },
+    clear: () => {
+      categoryCache.forceRefresh();
+      console.log('🔄 Cache cleared');
+    },
+    get: () => {
+      const cached = categoryCache.getCachedCategories();
+      console.log('🔍 Cached categories:', cached);
+      return cached;
+    },
+    test: () => {
+      console.log('🧪 Testing cache mechanism...');
+      console.log('1. Current cache status:');
+      (window as any).debugCache.status();
+      console.log('2. Clearing cache...');
+      (window as any).debugCache.clear();
+      console.log('3. Cache after clear:');
+      (window as any).debugCache.status();
+      console.log('✅ Test complete. Now hover over RFID Products to see API call.');
+    }
+  };
+}

@@ -37,6 +37,7 @@ urlpatterns = [
     
     # Admin Panel - Custom admin interface
     path('manage/', include('apps.category.admin_urls')),
+    path('manage/', include('apps.brand.admin_urls')),
     path('manage/', include('apps.product.admin_urls')),
     path('manage/', include('apps.core.admin_urls')),
     
@@ -46,6 +47,7 @@ urlpatterns = [
     path('api/auth/', include('apps.users.urls')),
     path('api/', include('apps.category.urls')),
     path('api/', include('apps.product.urls')),
+    path('api/', include('apps.brand.urls')),
     
     # Django Admin - Đặt cuối để không can thiệp vào custom admin
     path('admin/', admin.site.urls),

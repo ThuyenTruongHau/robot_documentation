@@ -162,63 +162,63 @@ const Home: React.FC = () => {
             )}
             
             {/* Content */}
-            <div className="relative h-full flex items-center pt-20">
-              <div className="max-w-7xl mx-auto px-6 w-full">
+            <div className="relative h-full flex items-center pt-16 lg:pt-20 xl:pt-24 3xl:pt-28">
+              <div className="container-responsive w-full">
                 {index === 0 ? (
                   /* Slide 1: all.jpg background - text centered */
                   <div className="text-center text-white">
-                    <h1 className="text-4xl lg:text-6xl font-light mb-4 leading-tight">
+                    <h1 className="text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl 3xl:text-7xl 4xl:text-8xl font-light mb-4 leading-tight">
                       {slide.title}
                     </h1>
-                    <h2 className="text-3xl lg:text-5xl font-normal mb-8 text-primary-300">
+                    <h2 className="text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl 3xl:text-6xl 4xl:text-7xl font-normal mb-8 text-primary-300">
                       {slide.subtitle}
                     </h2>
                     
                     {/* Features List - centered */}
-                    <div className="space-y-4 mb-8 max-w-2xl mx-auto">
+                    <div className="space-y-4 lg:space-y-6 xl:space-y-8 mb-8 max-w-2xl xl:max-w-3xl 3xl:max-w-4xl mx-auto">
                       {slide.features.map((feature, featureIndex) => (
                         <div key={featureIndex} className="flex items-center justify-center">
-                          <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center mr-4 flex-shrink-0">
-                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div className="w-6 h-6 lg:w-8 lg:h-8 xl:w-10 xl:h-10 3xl:w-12 3xl:h-12 rounded-full bg-primary-500 flex items-center justify-center mr-4 flex-shrink-0">
+                            <svg className="w-3 h-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 3xl:w-6 3xl:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
-                          <span className="text-lg font-light">{feature}</span>
+                          <span className="text-base lg:text-lg xl:text-xl 3xl:text-2xl 4xl:text-3xl font-light">{feature}</span>
                         </div>
                       ))}
                     </div>
                     
-                    <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg text-lg font-medium transition-all duration-300 hover:scale-105 shadow-lg">
+                    <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 4xl:px-16 4xl:py-6 rounded-lg text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl font-medium transition-all duration-300 hover:scale-105 shadow-lg">
                       {slide.buttonText}
                     </button>
                   </div>
                 ) : index === 1 ? (
                   /* Slide 2: Knewbots - layout with image on right */
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 3xl:gap-24 items-center">
                     {/* Left Content with margin */}
-                    <div className="text-white ml-16">
-                      <h1 className="text-4xl lg:text-6xl font-light mb-4 leading-tight text-white">
+                    <div className="text-white ml-8 lg:ml-16 xl:ml-20 3xl:ml-24">
+                      <h1 className="text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl 3xl:text-7xl 4xl:text-8xl font-light mb-4 leading-tight text-white">
                         {slide.title}
                       </h1>
-                      <h2 className="text-3xl lg:text-5xl font-normal mb-8 text-primary-300">
+                      <h2 className="text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl 3xl:text-6xl 4xl:text-7xl font-normal mb-8 text-primary-300">
                         {slide.subtitle}
                       </h2>
                       
                       {/* Features List */}
-                      <div className="space-y-4 mb-8">
+                      <div className="space-y-4 lg:space-y-6 xl:space-y-8 mb-8">
                         {slide.features.map((feature, featureIndex) => (
                           <div key={featureIndex} className="flex items-center">
-                            <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center mr-4 flex-shrink-0">
-                              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="w-6 h-6 lg:w-8 lg:h-8 xl:w-10 xl:h-10 3xl:w-12 3xl:h-12 rounded-full bg-primary-500 flex items-center justify-center mr-4 flex-shrink-0">
+                              <svg className="w-3 h-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 3xl:w-6 3xl:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                               </svg>
                             </div>
-                            <span className="text-lg font-light text-white">{feature}</span>
+                            <span className="text-base lg:text-lg xl:text-xl 3xl:text-2xl 4xl:text-3xl font-light text-white">{feature}</span>
                           </div>
                         ))}
                       </div>
                       
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg text-lg font-medium transition-all duration-300 hover:scale-105 shadow-lg">
+                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 4xl:px-16 4xl:py-6 rounded-lg text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl font-medium transition-all duration-300 hover:scale-105 shadow-lg">
                         {slide.buttonText}
                       </button>
                     </div>
@@ -229,7 +229,7 @@ const Home: React.FC = () => {
                         <img
                           src="/Knewbots-all.png"
                           alt="Knewbots Robots"
-                          className="w-full h-auto max-h-[28rem] object-contain scale-110"
+                          className="w-full h-auto max-h-[20rem] lg:max-h-[28rem] xl:max-h-[32rem] 3xl:max-h-[40rem] 4xl:max-h-[48rem] object-contain scale-110"
                           style={{ filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.3))' }}
                         />
                       </div>
@@ -237,60 +237,60 @@ const Home: React.FC = () => {
                   </div>
                 ) : index === 2 ? (
                   /* Slide 3: RFID - text on left with margin */
-                  <div className="max-w-2xl ml-16">
+                  <div className="max-w-2xl xl:max-w-3xl 3xl:max-w-4xl ml-8 lg:ml-16 xl:ml-20 3xl:ml-24">
                     <div className="text-white">
-                      <h1 className="text-4xl lg:text-6xl font-light mb-4 leading-tight">
+                      <h1 className="text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl 3xl:text-7xl 4xl:text-8xl font-light mb-4 leading-tight">
                         {slide.title}
                       </h1>
-                      <h2 className="text-3xl lg:text-5xl font-normal mb-8 text-primary-300">
+                      <h2 className="text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl 3xl:text-6xl 4xl:text-7xl font-normal mb-8 text-primary-300">
                         {slide.subtitle}
                       </h2>
                       
                       {/* Features List */}
-                      <div className="space-y-4 mb-8">
+                      <div className="space-y-4 lg:space-y-6 xl:space-y-8 mb-8">
                         {slide.features.map((feature, featureIndex) => (
                           <div key={featureIndex} className="flex items-center">
-                            <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center mr-4 flex-shrink-0">
-                              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="w-6 h-6 lg:w-8 lg:h-8 xl:w-10 xl:h-10 3xl:w-12 3xl:h-12 rounded-full bg-primary-500 flex items-center justify-center mr-4 flex-shrink-0">
+                              <svg className="w-3 h-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 3xl:w-6 3xl:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                               </svg>
                             </div>
-                            <span className="text-lg font-light">{feature}</span>
+                            <span className="text-base lg:text-lg xl:text-xl 3xl:text-2xl 4xl:text-3xl font-light">{feature}</span>
                           </div>
                         ))}
                       </div>
                       
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg text-lg font-medium transition-all duration-300 hover:scale-105 shadow-lg">
+                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 4xl:px-16 4xl:py-6 rounded-lg text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl font-medium transition-all duration-300 hover:scale-105 shadow-lg">
                         {slide.buttonText}
                       </button>
                     </div>
                   </div>
                 ) : (
                   /* Slide 4: Camera - text on left with margin */
-                  <div className="max-w-2xl ml-16">
+                  <div className="max-w-2xl xl:max-w-3xl 3xl:max-w-4xl ml-8 lg:ml-16 xl:ml-20 3xl:ml-24">
                     <div className="text-white">
-                      <h1 className="text-4xl lg:text-6xl font-light mb-4 leading-tight">
+                      <h1 className="text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl 3xl:text-7xl 4xl:text-8xl font-light mb-4 leading-tight">
                         {slide.title}
-        </h1>
-                      <h2 className="text-3xl lg:text-5xl font-normal mb-8 text-primary-300">
+                      </h1>
+                      <h2 className="text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl 3xl:text-6xl 4xl:text-7xl font-normal mb-8 text-primary-300">
                         {slide.subtitle}
                       </h2>
                       
                       {/* Features List */}
-                      <div className="space-y-4 mb-8">
+                      <div className="space-y-4 lg:space-y-6 xl:space-y-8 mb-8">
                         {slide.features.map((feature, featureIndex) => (
                           <div key={featureIndex} className="flex items-center">
-                            <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center mr-4 flex-shrink-0">
-                              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="w-6 h-6 lg:w-8 lg:h-8 xl:w-10 xl:h-10 3xl:w-12 3xl:h-12 rounded-full bg-primary-500 flex items-center justify-center mr-4 flex-shrink-0">
+                              <svg className="w-3 h-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 3xl:w-6 3xl:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                               </svg>
                             </div>
-                            <span className="text-lg font-light">{feature}</span>
+                            <span className="text-base lg:text-lg xl:text-xl 3xl:text-2xl 4xl:text-3xl font-light">{feature}</span>
                           </div>
                         ))}
                       </div>
                       
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg text-lg font-medium transition-all duration-300 hover:scale-105 shadow-lg">
+                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 4xl:px-16 4xl:py-6 rounded-lg text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl font-medium transition-all duration-300 hover:scale-105 shadow-lg">
                         {slide.buttonText}
                       </button>
                     </div>
@@ -304,28 +304,28 @@ const Home: React.FC = () => {
         {/* Navigation Arrows */}
         <button
           onClick={goToPrevSlide}
-          className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-600 p-3 rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110"
+          className="absolute left-4 lg:left-6 xl:left-8 3xl:left-12 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-600 p-2 lg:p-3 xl:p-4 3xl:p-5 rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 lg:w-6 lg:h-6 xl:w-7 xl:h-7 3xl:w-8 3xl:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
         <button
           onClick={goToNextSlide}
-          className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-600 p-3 rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110"
+          className="absolute right-4 lg:right-6 xl:right-8 3xl:right-12 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-600 p-2 lg:p-3 xl:p-4 3xl:p-5 rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 lg:w-6 lg:h-6 xl:w-7 xl:h-7 3xl:w-8 3xl:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
         
         {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
+        <div className="absolute bottom-6 lg:bottom-8 xl:bottom-10 3xl:bottom-12 left-1/2 transform -translate-x-1/2 flex space-x-2 lg:space-x-3 xl:space-x-4">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 ${
+              className={`w-2 h-2 lg:w-3 lg:h-3 xl:w-4 xl:h-4 3xl:w-5 3xl:h-5 rounded-full transition-all duration-300 hover:scale-125 ${
                 index === currentSlide 
                   ? 'bg-[#36A9A9] scale-125' 
                   : 'bg-gray-400 hover:bg-gray-500'
@@ -368,23 +368,23 @@ const Home: React.FC = () => {
         
       {/* CTA Section */}
       <AnimatedSection animationType="fadeInUp" delay={600}>
-        <div className="py-16 bg-[#36A9A9]">
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">
+        <div className="py-12 lg:py-16 xl:py-20 3xl:py-24 bg-[#36A9A9]">
+          <div className="container-responsive text-center">
+            <h2 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl 4xl:text-6xl font-bold text-white mb-4 lg:mb-6 xl:mb-8">
               Ready to explore advanced technology?
             </h2>
-            <p className="text-white/90 text-lg mb-8">
+            <p className="text-white/90 text-base lg:text-lg xl:text-xl 3xl:text-2xl 4xl:text-3xl mb-6 lg:mb-8 xl:mb-10">
               Contact us for the best advice and support
             </p>
             <div className="flex justify-center">
-              <div className="flex w-full max-w-md">
+              <div className="flex w-full max-w-sm lg:max-w-md xl:max-w-lg 3xl:max-w-xl">
                 <input
                   type="email"
                   placeholder="Email"
-                  className="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-l-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent"
+                  className="flex-1 px-3 py-2 lg:px-4 lg:py-3 xl:px-5 xl:py-4 3xl:px-6 3xl:py-5 bg-white border border-gray-300 rounded-l-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent text-sm lg:text-base xl:text-lg 3xl:text-xl"
                 />
-                <button className="bg-white hover:bg-white/90 text-[#36A9A9] px-6 py-3 rounded-r-lg transition-all duration-300 hover:scale-105 font-medium">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button className="bg-white hover:bg-white/90 text-[#36A9A9] px-4 py-2 lg:px-6 lg:py-3 xl:px-7 xl:py-4 3xl:px-8 3xl:py-5 rounded-r-lg transition-all duration-300 hover:scale-105 font-medium">
+                  <svg className="w-4 h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 3xl:w-7 3xl:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                   </svg>
                 </button>

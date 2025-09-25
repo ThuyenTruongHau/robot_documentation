@@ -6,7 +6,7 @@ Trang quản trị được tạo để quản lý Categories và Products một
 
 ## Truy cập
 
-- **URL**: `http://localhost:8000/manage/`
+- **URL**: `http://localhost:9000/manage/`
 - **Yêu cầu**: Phải đăng nhập với tài khoản Django admin
 
 ## Tính năng chính
@@ -152,8 +152,8 @@ backend/
 ## Hướng dẫn sử dụng
 
 ### 1. Truy cập trang quản trị
-1. Đăng nhập Django admin: `http://localhost:8000/admin/`
-2. Truy cập trang quản trị: `http://localhost:8000/manage/`
+1. Đăng nhập Django admin: `http://localhost:9000/admin/`
+2. Truy cập trang quản trị: `http://localhost:9000/manage/`
 
 ### 2. Quản lý Categories
 1. Vào **Categories** từ sidebar

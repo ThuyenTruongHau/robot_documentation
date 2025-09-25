@@ -12,6 +12,7 @@ from apps.core.mixins import AdminListMixin
 def admin_dashboard(request):
     """Trang chủ quản trị"""
     from apps.product.models import Product
+    from apps.brand.models import Brand
     from apps.core.models import UserProfile
     from django.contrib.auth import get_user_model
     
@@ -19,6 +20,7 @@ def admin_dashboard(request):
     
     categories_count = Category.objects.count()
     products_count = Product.objects.count()
+    brand_count = Brand.objects.count()
     users_count = User.objects.count()
     active_users_count = User.objects.filter(is_active=True).count()
     
@@ -35,6 +37,7 @@ def admin_dashboard(request):
         'categories_count': categories_count,
         'products_count': products_count,
         'users_count': users_count,
+        'brand_count': brand_count,
         'active_users_count': active_users_count,
         'recent_activities': activities_data['activities'],
         'activities_pagination': activities_data,
@@ -245,7 +248,7 @@ def category_delete(request, pk):
 def category_detail(request, pk):
     """Chi tiết category"""
     category = get_object_or_404(Category, pk=pk)
-    products_count = category.product.count()  # Chỉ đếm số lượng products
+    products_count = category.category_products.count()  # Chỉ đếm số lượng products
     
     context = {
         'category': category,

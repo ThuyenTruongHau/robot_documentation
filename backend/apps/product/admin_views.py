@@ -6,6 +6,7 @@ from django.db.models import Q
 from .models import Product, ProductImage
 from .forms import ProductForm, ProductImageForm
 from apps.category.models import Category
+from apps.brand.models import Brand
 
 
 @login_required(login_url='/auth/login/')
@@ -13,8 +14,9 @@ def product_list(request):
     """Danh sách products với tìm kiếm và phân trang"""
     search_query = request.GET.get('search', '')
     category_filter = request.GET.get('category', '')
+    brand_filter = request.GET.get('brand', '')
     
-    products = Product.objects.select_related('category').all().order_by('-created_at')
+    products = Product.objects.select_related('category', 'brand').all().order_by('-created_at')
     
     if search_query:
         products = products.filter(
@@ -25,17 +27,23 @@ def product_list(request):
     if category_filter:
         products = products.filter(category_id=category_filter)
     
+    if brand_filter:
+        products = products.filter(brand_id=brand_filter)
+    
     paginator = Paginator(products, 10)  # 10 items per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
     categories = Category.objects.all()
+    brands = Brand.objects.all()
     
     context = {
         'page_obj': page_obj,
         'search_query': search_query,
         'category_filter': category_filter,
+        'brand_filter': brand_filter,
         'categories': categories,
+        'brands': brands,
         'total_count': products.count(),
     }
     return render(request, 'admin/product_list.html', context)
@@ -109,7 +117,7 @@ def product_delete(request, pk):
 @login_required(login_url='/auth/login/')
 def product_detail(request, pk):
     """Chi tiết product"""
-    product = get_object_or_404(Product.objects.select_related('category'), pk=pk)
+    product = get_object_or_404(Product.objects.select_related('category', 'brand'), pk=pk)
     images = product.images.all()
     
     context = {

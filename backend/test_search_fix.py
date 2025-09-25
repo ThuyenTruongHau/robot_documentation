@@ -16,7 +16,7 @@ django.setup()
 def test_server():
     """Kiểm tra server có chạy không"""
     try:
-        response = requests.get('http://localhost:8000/', timeout=5)
+        response = requests.get('http://localhost:9000/', timeout=5)
         return True
     except requests.exceptions.RequestException:
         return False
@@ -27,7 +27,7 @@ def test_templates():
     
     # Test category list page
     try:
-        response = requests.get('http://localhost:8000/manage/categories/')
+        response = requests.get('http://localhost:9000/manage/categories/')
         if response.status_code == 200:
             print("✅ Category list page loads successfully")
         else:
@@ -37,7 +37,7 @@ def test_templates():
     
     # Test product list page
     try:
-        response = requests.get('http://localhost:8000/manage/products/')
+        response = requests.get('http://localhost:9000/manage/products/')
         if response.status_code == 200:
             print("✅ Product list page loads successfully")
         else:
@@ -51,7 +51,7 @@ def test_api_endpoints():
     
     # Test category search API
     try:
-        response = requests.get('http://localhost:8000/api/categories/search/?q=test')
+        response = requests.get('http://localhost:9000/api/categories/search/?q=test')
         if response.status_code == 200:
             print("✅ Category search API works")
         else:
@@ -61,7 +61,7 @@ def test_api_endpoints():
     
     # Test product search API
     try:
-        response = requests.get('http://localhost:8000/api/products/search/?q=test')
+        response = requests.get('http://localhost:9000/api/products/search/?q=test')
         if response.status_code == 200:
             print("✅ Product search API works")
         else:
@@ -81,7 +81,7 @@ def test_static_files():
     
     for js_file in js_files:
         try:
-            response = requests.get(f'http://localhost:8000{js_file}')
+            response = requests.get(f'http://localhost:9000{js_file}')
             if response.status_code == 200:
                 print(f"✅ {js_file} loads successfully")
             else:
@@ -106,7 +106,7 @@ if __name__ == '__main__':
         
         print("\n✅ Tất cả tests đã hoàn thành!")
         print("\n📝 Hướng dẫn sử dụng:")
-        print("1. Vào http://localhost:8000/manage/categories/")
+        print("1. Vào http://localhost:9000/manage/categories/")
         print("2. Gõ từ khóa vào ô tìm kiếm")
         print("3. Click vào kết quả để xem chi tiết")
         print("4. Làm tương tự với products tại /manage/products/")

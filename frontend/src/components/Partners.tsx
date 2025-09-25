@@ -47,13 +47,13 @@ const Partners: React.FC = () => {
 
   return (
     <div className="relative bg-white py-16 overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-full lg:max-w-[95%] xl:max-w-[90%] 3xl:max-w-[85%] mx-auto px-4 lg:px-6 xl:px-8">
         {/* Title and Description */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold text-[#36A9A9] mb-4">
+          <h2 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl 4xl:text-6xl font-bold text-[#36A9A9] mb-3 lg:mb-4 xl:mb-6">
             PARTNERS
           </h2>
-          <p className="text-lg text-gray-800 font-medium">
+          <p className="text-base lg:text-lg xl:text-xl 3xl:text-2xl text-gray-800 font-medium">
             Always serve with a high sense of responsibility and utmost dedication.
           </p>
         </div>
@@ -61,10 +61,10 @@ const Partners: React.FC = () => {
         {/* Logo Carousel */}
         <div className="relative">
           {/* Left fade overlay */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10"></div>
+          <div className="absolute left-0 top-0 bottom-0 w-16 lg:w-20 xl:w-24 3xl:w-28 4xl:w-32 bg-gradient-to-r from-white to-transparent z-10"></div>
           
           {/* Right fade overlay */}
-          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-16 lg:w-20 xl:w-24 3xl:w-28 4xl:w-32 bg-gradient-to-l from-white to-transparent z-10"></div>
 
           {/* Scrolling container */}
           <div className="overflow-hidden">
@@ -72,16 +72,15 @@ const Partners: React.FC = () => {
               ref={scrollRef}
               className="flex"
               style={{
-                width: 'calc(200% + 16rem)'
+                width: 'calc(200% + 20rem)'
               }}
             >
               {duplicatedPartners.map((partner, index) => (
                 <div
                   key={`${partner.id}-${index}`}
-                  className="flex-shrink-0 mx-8 flex items-center justify-center"
-                  style={{ width: '200px', height: '120px' }}
+                  className="flex-shrink-0 mx-6 lg:mx-8 xl:mx-10 3xl:mx-12 flex items-center justify-center w-48 h-28 lg:w-56 lg:h-32 xl:w-64 xl:h-36 3xl:w-72 3xl:h-40 4xl:w-80 4xl:h-44"
                 >
-                  <div className="w-full h-full flex items-center justify-center p-4">
+                  <div className="w-full h-full flex items-center justify-center p-3 lg:p-4 xl:p-5 3xl:p-6">
                     <img
                       src={partner.logo}
                       alt={partner.name}

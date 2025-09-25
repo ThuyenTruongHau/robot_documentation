@@ -65,16 +65,16 @@ const CategorySidebar: React.FC = () => {
 
   const scrollDown = () => {
     if (scrollContainerRef.current) {
-      // Calculate height of one category item (image + padding + border)
-      const itemHeight = 112; // 96px (image) + 32px (padding) + border
+      // Calculate height of 2 category items for better scrolling
+      const itemHeight = 140; // Increased for better scrolling with taller sidebar
       scrollContainerRef.current.scrollBy({ top: itemHeight, behavior: 'smooth' });
     }
   };
 
   const scrollUp = () => {
     if (scrollContainerRef.current) {
-      // Calculate height of one category item (image + padding + border)
-      const itemHeight = 112; // 96px (image) + 32px (padding) + border
+      // Calculate height of 2 category items for better scrolling
+      const itemHeight = 140; // Increased for better scrolling with taller sidebar
       scrollContainerRef.current.scrollBy({ top: -itemHeight, behavior: 'smooth' });
     }
   };
@@ -103,14 +103,14 @@ const CategorySidebar: React.FC = () => {
   }
 
   return (
-    <div className="w-96 bg-white shadow-lg rounded-lg relative border border-gray-200">
+    <div className="w-80 lg:w-96 xl:w-[28rem] 3xl:w-[32rem] 4xl:w-[36rem] bg-white shadow-lg rounded-lg relative border border-gray-200">
       {/* Scroll Up Button */}
       <button
         onClick={scrollUp}
-        className={`absolute top-0 left-0 right-0 z-10 bg-gray-100 border-b border-gray-200 py-2 flex items-center justify-center hover:bg-gray-200 transition-all duration-200 ${!canScrollUp ? 'opacity-50 cursor-not-allowed' : ''}`}
+        className={`absolute top-0 left-0 right-0 z-10 bg-gray-100 border-b border-gray-200 py-2 lg:py-3 xl:py-4 flex items-center justify-center hover:bg-gray-200 transition-all duration-200 ${!canScrollUp ? 'opacity-50 cursor-not-allowed' : ''}`}
         disabled={!canScrollUp}
       >
-        <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-3 h-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
         </svg>
       </button>
@@ -118,19 +118,18 @@ const CategorySidebar: React.FC = () => {
       {/* Categories Container */}
       <div 
         ref={scrollContainerRef}
-        className="overflow-y-auto scrollbar-hide pt-12 pb-12"
+        className="overflow-y-auto scrollbar-hide pt-10 lg:pt-12 xl:pt-14 pb-10 lg:pb-12 xl:pb-14 h-[700px] lg:h-[750px] xl:h-[1200px]"
         style={{ 
           scrollbarWidth: 'none', 
-          msOverflowStyle: 'none',
-          height: '672px' // 6 items * 112px = 672px
+          msOverflowStyle: 'none'
         }}
       >
-        <div className="p-4">
+        <div className="p-3 lg:p-4 xl:p-5">
           {categories.slice().reverse().map((category, index) => (
             <Link
               key={category.id}
               to={`/rfid-products?category=${category.id}`}
-              className={`flex items-center p-4 transition-colors duration-200 group ${
+              className={`flex items-center p-3 lg:p-4 xl:p-5 transition-colors duration-200 group ${
                 index < categories.length - 1 ? 'border-b border-gray-200' : ''
               } ${
                 getActiveCategoryId() === String(category.id) 
@@ -139,7 +138,7 @@ const CategorySidebar: React.FC = () => {
               }`}
             >
               {/* Category Image */}
-              <div className="w-24 h-24 mr-6 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
+              <div className="w-20 h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 3xl:w-32 3xl:h-32 mr-4 lg:mr-6 xl:mr-7 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
                 {category.image ? (
                   <img 
                     src={category.image.startsWith('http') ? category.image : `/media/${category.image}`}
@@ -153,14 +152,14 @@ const CategorySidebar: React.FC = () => {
                   />
                 ) : null}
                 <div className={`w-full h-full flex items-center justify-center text-gray-400 ${category.image ? 'hidden' : ''}`}>
-                  <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-8 h-8 lg:w-12 lg:h-12 xl:w-14 xl:h-14 3xl:w-16 3xl:h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
               </div>
               
               {/* Category Name */}
-              <h3 className={`text-sm font-medium transition-colors duration-200 ${
+              <h3 className={`text-sm lg:text-base xl:text-lg 3xl:text-xl font-medium transition-colors duration-200 ${
                 getActiveCategoryId() === String(category.id)
                   ? 'text-white'
                   : 'text-gray-800 group-hover:text-[#36A9A9]'
@@ -175,10 +174,10 @@ const CategorySidebar: React.FC = () => {
       {/* Scroll Down Button */}
       <button
         onClick={scrollDown}
-        className={`absolute bottom-0 left-0 right-0 z-10 bg-gray-100 border-t border-gray-200 py-2 flex items-center justify-center hover:bg-gray-200 transition-all duration-200 ${!canScrollDown ? 'opacity-50 cursor-not-allowed' : ''}`}
+        className={`absolute bottom-0 left-0 right-0 z-10 bg-gray-100 border-t border-gray-200 py-2 lg:py-3 xl:py-4 flex items-center justify-center hover:bg-gray-200 transition-all duration-200 ${!canScrollDown ? 'opacity-50 cursor-not-allowed' : ''}`}
         disabled={!canScrollDown}
       >
-        <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-3 h-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>

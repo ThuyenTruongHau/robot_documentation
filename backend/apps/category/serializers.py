@@ -11,7 +11,7 @@ class CategorySerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "created_at", "updated_at"]
     
     def get_product_count(self, obj):
-        return obj.product.count()
+        return obj.category_products.count()
 
     def update(self, instance, validated_data):
         if "image" in validated_data:
@@ -24,4 +24,4 @@ class CategorySerializer(serializers.ModelSerializer):
                 # Client gửi null => giữ ảnh cũ
                 validated_data.pop("image")
 
-        return super().update(instance, validated_data)
+        return super().update(instance, validated_data) 

@@ -2,7 +2,7 @@
 
 ## Base URL
 ```
-http://localhost:8000/api/v1/
+http://localhost:9000/api/v1/
 ```
 
 ## Authentication
@@ -184,7 +184,7 @@ List endpoints support pagination with the following query parameters:
 ```json
 {
   "count": 100,
-  "next": "http://localhost:8000/api/v1/endpoint/?page=2",
+  "next": "http://localhost:9000/api/v1/endpoint/?page=2",
   "previous": null,
   "results": [...]
 }

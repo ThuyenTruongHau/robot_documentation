@@ -75,26 +75,26 @@ const RFIDProducts: React.FC = () => {
   ];
 
   return (
-    <div className="py-12 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
+    <div className="py-12 lg:py-16 xl:py-20 3xl:py-24 bg-gray-50">
+      <div className="max-w-full xl:max-w-[95%] 2xl:max-w-[90%] 3xl:max-w-[85%] mx-auto px-4 lg:px-6 xl:px-8">
                 {/* Title */}
-                <div className="text-center mb-8">
-                  <h2 className="text-4xl lg:text-5xl font-light text-black mb-4">
+                <div className="text-center mb-8 lg:mb-12 xl:mb-16">
+                  <h2 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl 4xl:text-6xl font-light text-black mb-4">
                     Thado RFID Catalogue
                   </h2>
                 </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 relative z-10">
+        {/* Products Grid - 6 cục to hơn */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-0 relative z-10 max-w-none">
           {products.map((product, index) => (
             <div
               key={product.id}
-              className="group relative aspect-square"
+              className="group relative aspect-square min-h-[300px] lg:min-h-[350px] xl:min-h-[380px] 3xl:min-h-[420px]"
               onMouseEnter={() => handleMouseEnter(product.id)}
               onMouseLeave={handleMouseLeave}
             >
               <div className={`
-                relative ${product.bgColor} p-6 h-full transition-all duration-200 ease-out cursor-pointer flex flex-col overflow-hidden
+                relative ${product.bgColor} p-4 lg:p-6 xl:p-7 3xl:p-8 h-full transition-all duration-200 ease-out cursor-pointer flex flex-col overflow-hidden
                 ${hoveredProduct === product.id 
                   ? 'shadow-2xl z-20' 
                   : 'shadow-lg hover:shadow-xl'
@@ -125,28 +125,30 @@ const RFIDProducts: React.FC = () => {
                   ${hoveredProduct === product.id ? 'opacity-60' : 'opacity-100'}
                 `}>
                   {/* Header */}
-                  <div className="mb-4">
-                    <h3 className={`text-2xl font-bold mb-4 ${product.textColor}`}>
+                  <div className="mb-3 lg:mb-4 xl:mb-5">
+                    <h3 className={`text-xl lg:text-2xl xl:text-3xl 3xl:text-4xl font-bold mb-3 lg:mb-4 ${product.textColor}`}>
                       {product.title}
                     </h3>
                     
                     {/* View More Link */}
                     <div className={`flex items-center ${product.linkColor} hover:opacity-80 transition-opacity`}>
-                      <span className="text-lg font-medium mr-2">View More</span>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <span className="text-base lg:text-lg xl:text-xl 3xl:text-2xl font-medium mr-2">View More</span>
+                      <svg className="w-4 h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
                   </div>
 
                   {/* Product Image - Much Larger */}
-                  <div className="relative flex-1 flex items-end justify-center pb-2">
+                  <div className="relative flex-1 flex items-end justify-center pb-2 lg:pb-4 xl:pb-6">
                     <div className="transition-all duration-300">
                       <img 
                         src={product.image} 
                         alt={product.title} 
                         className={`w-auto max-w-full object-contain transition-all duration-300 ${
-                          product.id === 4 || product.id === 5 ? 'h-60' : 'h-80'
+                          product.id === 4 || product.id === 5 
+                            ? 'h-40 lg:h-48 xl:h-52 3xl:h-56' 
+                            : 'h-48 lg:h-56 xl:h-64 3xl:h-72'
                         }`} 
                       />
                     </div>
@@ -201,36 +203,36 @@ const RFIDProducts: React.FC = () => {
                   </div>
                   
                   {/* Content with staggered animation */}
-                  <div className="relative h-full flex flex-col p-6">
+                  <div className="relative h-full flex flex-col p-4 lg:p-5 xl:p-6">
                     {/* Header matching original position */}
                     <div className={`
-                      mb-4 transition-all duration-500 delay-200
+                      mb-4 lg:mb-6 xl:mb-8 transition-all duration-500 delay-200
                       ${hoveredProduct === product.id 
                         ? 'opacity-100 translate-y-0' 
                         : 'opacity-0 translate-y-4'
                       }
                     `}>
-                      <h3 className="text-2xl font-bold mb-4 text-[#36A9A9]">
+                      <h3 className="text-xl lg:text-2xl xl:text-3xl 3xl:text-4xl font-bold mb-3 lg:mb-4 text-[#36A9A9]">
                         {product.title}
                       </h3>
                       
                       {/* View More Link matching original position */}
                       <div className="flex items-center text-white hover:opacity-80 transition-all duration-300 group">
-                        <span className="text-lg font-medium mr-2">View More</span>
-                        <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <span className="text-base lg:text-lg xl:text-xl 3xl:text-2xl font-medium mr-2">View More</span>
+                        <svg className="w-4 h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </div>
 
                       {/* Description right below View More */}
                       <div className={`
-                        mt-4 transition-all duration-500 delay-300
+                        mt-4 lg:mt-6 xl:mt-8 transition-all duration-500 delay-300
                         ${hoveredProduct === product.id 
                           ? 'opacity-100 translate-y-0' 
                           : 'opacity-0 translate-y-2'
                         }
                       `}>
-                        <p className="text-white text-base leading-relaxed">
+                        <p className="text-white text-sm lg:text-base xl:text-lg leading-relaxed">
                           {product.description}
                         </p>
                       </div>

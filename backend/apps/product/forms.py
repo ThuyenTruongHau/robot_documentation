@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 import json
 from .models import Product, ProductImage
 from apps.category.models import Category
+from apps.brand.models import Brand
 
 
 class ProductForm(forms.ModelForm):
@@ -10,7 +11,7 @@ class ProductForm(forms.ModelForm):
     
     class Meta:
         model = Product
-        fields = ['name', 'description', 'parameters', 'category']
+        fields = ['name', 'description', 'parameters', 'category', 'brand']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -28,6 +29,9 @@ class ProductForm(forms.ModelForm):
             }),
             'category': forms.Select(attrs={
                 'class': 'form-control'
+            }),
+            'brand': forms.Select(attrs={
+                'class': 'form-control'
             })
         }
     
@@ -35,12 +39,17 @@ class ProductForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['name'].required = True
         self.fields['category'].required = True
+        self.fields['brand'].required = True
         self.fields['description'].required = False
         self.fields['parameters'].required = False
         
         # Populate category choices
         self.fields['category'].queryset = Category.objects.all()
         self.fields['category'].empty_label = "Chọn category..."
+        
+        # Populate brand choices
+        self.fields['brand'].queryset = Brand.objects.all()
+        self.fields['brand'].empty_label = "Chọn brand..."
     
     def clean_parameters(self):
         """Validate parameters field"""

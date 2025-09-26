@@ -34,7 +34,7 @@ const IndustryShowcase: React.FC = () => {
       id: 3,
       title: "Logistics",
       description: "Smart supply chain management with real-time tracking.",
-      image: "/logistic.jpg",
+      image: "/logistic.png",
       icon: (
         <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
           <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 10c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
@@ -68,17 +68,29 @@ const IndustryShowcase: React.FC = () => {
   // Preload all images
   useEffect(() => {
     const imagePromises = industries.map((industry) => {
-      return new Promise<void>((resolve, reject) => {
+      return new Promise<void>((resolve) => {
         const img = new Image();
-        img.onload = () => resolve();
-        img.onerror = () => reject(new Error(`Failed to load ${industry.image}`));
+        img.onload = () => {
+          console.log(`✅ Loaded: ${industry.image}`);
+          resolve();
+        };
+        img.onerror = () => {
+          console.warn(`⚠️ Failed to load: ${industry.image}`);
+          resolve(); // Resolve anyway to not block other images
+        };
         img.src = industry.image;
       });
     });
 
     Promise.all(imagePromises)
-      .then(() => setImagesLoaded(true))
-      .catch((error) => console.warn('Some images failed to load:', error));
+      .then(() => {
+        console.log('All images processed');
+        setImagesLoaded(true);
+      })
+      .catch((error) => {
+        console.error('Error in image loading:', error);
+        setImagesLoaded(true); // Show component anyway
+      });
   }, [industries]);
 
   // Optimized hover handlers
@@ -99,7 +111,7 @@ const IndustryShowcase: React.FC = () => {
           hoveredColumn === industry.id ? 'opacity-80' : 'opacity-0'
         }`}
         style={{
-          backgroundImage: `url(${industry.image})`,
+          backgroundImage: `url(${industry.image}), linear-gradient(135deg, #36A9A9 0%, #2a8a8a 100%)`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center'
         }}

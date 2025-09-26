@@ -9,23 +9,23 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-2 gap-6 lg:gap-8 xl:gap-10">
           {/* Left Column */}
           <div className="space-y-2 lg:space-y-3">
-            <h3 className="text-xs lg:text-sm xl:text-base font-bold text-orange-500 uppercase tracking-wide">
+            <h3 className="text-sm lg:text-base xl:text-lg 3xl:text-xl font-bold text-orange-500 uppercase tracking-wide">
               Products
             </h3>
             <ul className="space-y-1 lg:space-y-2">
-              <li><Link to="/rfid-products" className="text-xs lg:text-sm xl:text-base text-white hover:text-gray-300">RFID Products</Link></li>
-              <li><Link to="/rfid-solutions" className="text-xs lg:text-sm xl:text-base text-white hover:text-gray-300">RFID Solutions</Link></li>
+              <li><Link to="/rfid-products" className="text-sm lg:text-base xl:text-lg 3xl:text-xl text-white hover:text-gray-300">RFID Products</Link></li>
+              <li><Link to="/rfid-solutions" className="text-sm lg:text-base xl:text-lg 3xl:text-xl text-white hover:text-gray-300">RFID Solutions</Link></li>
             </ul>
           </div>
 
           {/* Right Column */}
           <div className="space-y-2 lg:space-y-3">
-            <h3 className="text-xs lg:text-sm xl:text-base font-bold text-orange-500 uppercase tracking-wide">
+            <h3 className="text-sm lg:text-base xl:text-lg 3xl:text-xl font-bold text-orange-500 uppercase tracking-wide">
               Company
             </h3>
             <ul className="space-y-1 lg:space-y-2">
-              <li><Link to="/about-us" className="text-xs lg:text-sm xl:text-base text-white hover:text-gray-300">About Us</Link></li>
-              <li><Link to="/contact-us" className="text-xs lg:text-sm xl:text-base text-white hover:text-gray-300">Contact Us</Link></li>
+              <li><Link to="/about-us" className="text-sm lg:text-base xl:text-lg 3xl:text-xl text-white hover:text-gray-300">About Us</Link></li>
+              <li><Link to="/contact-us" className="text-sm lg:text-base xl:text-lg 3xl:text-xl text-white hover:text-gray-300">Contact Us</Link></li>
             </ul>
           </div>
         </div>
@@ -54,10 +54,10 @@ const Footer: React.FC = () => {
 
             {/* Contact Section */}
             <div>
-              <h4 className="text-sm font-bold text-white uppercase tracking-wide mb-3">
+              <h4 className="text-sm lg:text-base xl:text-lg 3xl:text-xl font-bold text-white uppercase tracking-wide mb-3">
                 GET IN TOUCH
               </h4>
-              <div className="space-y-2 text-sm text-gray-300">
+              <div className="space-y-2 text-sm lg:text-base xl:text-lg 3xl:text-xl text-gray-300">
                 <p>📧 info@thadosoft.com</p>
                 <p>📞 +84 28 1234 5678</p>
                 <p>📍 Ho Chi Minh City, Vietnam</p>
@@ -68,10 +68,10 @@ const Footer: React.FC = () => {
           {/* Right Side - RFID Technology Info */}
           <div className="space-y-4">
             <div>
-              <h4 className="text-sm font-bold text-white uppercase tracking-wide mb-3">
+              <h4 className="text-sm lg:text-base xl:text-lg 3xl:text-xl font-bold text-white uppercase tracking-wide mb-3">
                 RFID TECHNOLOGY
               </h4>
-              <div className="space-y-2 text-sm text-gray-300">
+              <div className="space-y-2 text-sm lg:text-base xl:text-lg 3xl:text-xl text-gray-300">
                 <p>• Advanced RFID Readers</p>
                 <p>• Smart RFID Tags</p>
                 <p>• Industrial Automation</p>
@@ -80,20 +80,20 @@ const Footer: React.FC = () => {
             </div>
             
             <div>
-              <h4 className="text-sm font-bold text-white uppercase tracking-wide mb-3">
+              <h4 className="text-sm lg:text-base xl:text-lg 3xl:text-xl font-bold text-white uppercase tracking-wide mb-3">
                 CERTIFICATIONS
               </h4>
               <div className="flex items-center space-x-2">
                 <img
                   src="/cc.png"
                   alt="Security Certificate"
-                  className="h-12 w-auto"
+                  className="h-12 lg:h-14 xl:h-16 w-auto"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
                   }}
                 />
-                <span className="text-sm text-gray-300">ISO 9001 Certified</span>
+                <span className="text-sm lg:text-base xl:text-lg 3xl:text-xl text-gray-300">ISO 9001 Certified</span>
               </div>
             </div>
           </div>
@@ -124,13 +124,13 @@ const Footer: React.FC = () => {
               </a>
             </div>
             
-            <div className="text-sm text-gray-400">
+            <div className="text-sm lg:text-base xl:text-lg 3xl:text-xl text-gray-400">
               <span className="text-orange-500 font-semibold">RFID Solutions</span> for Industrial Automation
             </div>
           </div>
 
           {/* Right Side - Copyright */}
-          <div className="text-sm text-gray-400">
+          <div className="text-sm lg:text-base xl:text-lg 3xl:text-xl text-gray-400">
             Copyright 2025 Thadosoft Technology Solution JSC
           </div>
         </div>

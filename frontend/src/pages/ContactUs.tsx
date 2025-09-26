@@ -61,12 +61,12 @@ const ContactUs: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <AnimatedSection animationType="fadeInUp" delay={0}>
-        <div className="bg-gradient-to-br from-[#36A9A9] to-[#2a8a8a] py-20">
+        <div className="bg-gradient-to-br from-[#36A9A9] to-[#2a8a8a] py-12 sm:py-16 lg:py-20">
           <div className="max-w-7xl mx-auto px-4 text-center">
-            <h1 className="text-4xl lg:text-6xl font-light text-white mb-4">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-white mb-4">
               Contact Us
             </h1>
-            <p className="text-xl text-white/90 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto">
               Get in touch with our RFID technology experts for consultation and support
             </p>
           </div>
@@ -75,12 +75,12 @@ const ContactUs: React.FC = () => {
 
       {/* Contact Form & Info */}
       <AnimatedSection animationType="fadeInUp" delay={200}>
-        <div className="py-16">
+        <div className="py-8 sm:py-12 lg:py-16">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
               {/* Contact Form */}
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Send us a Message</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">Send us a Message</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>

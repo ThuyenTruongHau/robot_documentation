@@ -221,10 +221,33 @@ const RFIDProducts: React.FC = () => {
             </div>
             
             {/* Main Content Layout */}
-            <div className="flex gap-6 lg:gap-8 xl:gap-10 3xl:gap-12">
-              {/* Left Side - Category Sidebar */}
-              <div className="flex-shrink-0">
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 xl:gap-10 3xl:gap-12">
+              {/* Left Side - Category Sidebar - Hidden on mobile, shown on desktop */}
+              <div className="hidden lg:block flex-shrink-0">
                 <CategorySidebar />
+              </div>
+              
+              {/* Mobile Category Selector */}
+              <div className="lg:hidden mb-6">
+                <select 
+                  onChange={(e) => {
+                    const categoryId = e.target.value;
+                    if (categoryId) {
+                      window.location.href = `/rfid-products?category=${categoryId}`;
+                    } else {
+                      window.location.href = '/rfid-products';
+                    }
+                  }}
+                  value={selectedCategory?.id || ''}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent"
+                >
+                  <option value="">All Categories</option>
+                  {categories.map(category => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               
               {/* Right Side - Product Cards */}

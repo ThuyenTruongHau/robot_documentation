@@ -34,12 +34,12 @@ const AboutUs: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <AnimatedSection animationType="fadeInUp" delay={0}>
-        <div className="bg-gradient-to-br from-[#36A9A9] to-[#2a8a8a] py-20">
+        <div className="bg-gradient-to-br from-[#36A9A9] to-[#2a8a8a] py-12 sm:py-16 lg:py-20">
           <div className="max-w-7xl mx-auto px-4 text-center">
-            <h1 className="text-4xl lg:text-6xl font-light text-white mb-4">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-white mb-4">
               About Us
             </h1>
-            <p className="text-xl text-white/90 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto">
               Leading provider of RFID technology solutions for industrial automation and smart manufacturing
             </p>
           </div>
@@ -48,29 +48,29 @@ const AboutUs: React.FC = () => {
 
       {/* Company Story */}
       <AnimatedSection animationType="fadeInUp" delay={200}>
-        <div className="py-16">
+        <div className="py-8 sm:py-12 lg:py-16">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
-                <p className="text-lg text-gray-600 mb-6">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">Our Story</h2>
+                <p className="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6">
                   Founded in 2015, THADOSOFT has been at the forefront of RFID technology innovation. 
                   We specialize in developing cutting-edge RFID solutions that help businesses optimize 
                   their operations and achieve greater efficiency.
                 </p>
-                <p className="text-lg text-gray-600 mb-6">
+                <p className="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6">
                   Our team of experienced engineers and technologists work tirelessly to deliver 
                   reliable, scalable, and cost-effective RFID solutions tailored to meet the unique 
                   needs of each client.
                 </p>
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-2 gap-4 sm:gap-6">
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-[#36A9A9] mb-2">500+</div>
-                    <div className="text-gray-600">Projects Completed</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-[#36A9A9] mb-2">500+</div>
+                    <div className="text-sm sm:text-base text-gray-600">Projects Completed</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-[#36A9A9] mb-2">50+</div>
-                    <div className="text-gray-600">Happy Clients</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-[#36A9A9] mb-2">50+</div>
+                    <div className="text-sm sm:text-base text-gray-600">Happy Clients</div>
                   </div>
                 </div>
               </div>

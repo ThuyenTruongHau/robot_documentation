@@ -40,12 +40,12 @@ const RFIDSolutions: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <AnimatedSection animationType="fadeInUp" delay={0}>
-        <div className="bg-gradient-to-br from-[#36A9A9] to-[#2a8a8a] py-20">
+        <div className="bg-gradient-to-br from-[#36A9A9] to-[#2a8a8a] py-12 sm:py-16 lg:py-20">
           <div className="max-w-7xl mx-auto px-4 text-center">
-            <h1 className="text-4xl lg:text-6xl font-light text-white mb-4">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-white mb-4">
               RFID Solutions
             </h1>
-            <p className="text-xl text-white/90 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto">
               Comprehensive RFID-based solutions for modern industrial automation and smart manufacturing
             </p>
           </div>
@@ -54,20 +54,20 @@ const RFIDSolutions: React.FC = () => {
 
       {/* Solutions Section */}
       <AnimatedSection animationType="fadeInUp" delay={200}>
-        <div className="py-16">
+        <div className="py-8 sm:py-12 lg:py-16">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {solutions.map((solution, index) => (
                 <AnimatedSection key={index} animationType="fadeInUp" delay={300 + index * 100}>
                   <div className="bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
                     <div className="text-[#36A9A9] mb-6">
                       {solution.icon}
                     </div>
-                    <h3 className="text-2xl font-semibold text-gray-900 mb-4">{solution.title}</h3>
-                    <p className="text-gray-600 mb-6">{solution.description}</p>
-                    <ul className="space-y-3">
+                    <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-4">{solution.title}</h3>
+                    <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">{solution.description}</p>
+                    <ul className="space-y-2 sm:space-y-3">
                       {solution.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center text-sm text-gray-600">
+                        <li key={featureIndex} className="flex items-center text-xs sm:text-sm text-gray-600">
                           <svg className="w-4 h-4 text-[#36A9A9] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
@@ -85,11 +85,11 @@ const RFIDSolutions: React.FC = () => {
 
       {/* Benefits Section */}
       <AnimatedSection animationType="fadeInUp" delay={600}>
-        <div className="py-16 bg-white">
+        <div className="py-8 sm:py-12 lg:py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Our RFID Solutions?</h2>
-              <p className="text-xl text-gray-600">Advanced technology with proven results</p>
+            <div className="text-center mb-8 sm:mb-12">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Why Choose Our RFID Solutions?</h2>
+              <p className="text-lg sm:text-xl text-gray-600">Advanced technology with proven results</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[

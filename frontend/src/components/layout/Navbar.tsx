@@ -12,6 +12,7 @@ const Navbar: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [categories, setCategories] = useState<any[]>([]);
   const [rfidProductsOpen, setRfidProductsOpen] = useState(false);
+  const [rfidSolutionsOpen, setRfidSolutionsOpen] = useState(false);
   const [categoriesLoaded, setCategoriesLoaded] = useState(false);
   const [isLoadingCategories, setIsLoadingCategories] = useState(false);
   const [isNavbarHovered, setIsNavbarHovered] = useState(false);
@@ -47,6 +48,7 @@ const Navbar: React.FC = () => {
 
   const closeAllDropdowns = useCallback(() => {
     setRfidProductsOpen(false);
+    setRfidSolutionsOpen(false);
   }, []);
 
   const loadCategories = useCallback(async (forceLoad = false) => {
@@ -322,14 +324,184 @@ const Navbar: React.FC = () => {
                 </div>
               </div>
 
-                {/* RFID Solutions */}
-                <Link
-                  to="/rfid-solutions"
-                  className={`${isActive('/rfid-solutions') ? 'text-primary-600' : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
+                {/* RFID Solutions Dropdown */}
+                <div 
+                  className="relative group"
+                  onMouseEnter={() => {
+                    closeAllDropdowns();
+                    setRfidSolutionsOpen(true);
+                  }}
+                  onMouseLeave={() => setRfidSolutionsOpen(false)}
                 >
-                  RFID Solutions
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/rfid-solutions') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                </Link>
+                  <Link
+                    to="/rfid-solutions"
+                    className={`${isActive('/rfid-solutions') ? ((isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative flex items-center`}
+                  >
+                    RFID Solutions
+                    <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/rfid-solutions') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                  </Link>
+                  
+                  {/* RFID Solutions Dropdown Menu - Half Screen */}
+                  <div className={`fixed top-16 lg:top-20 xl:top-24 3xl:top-28 left-0 w-full bg-white border-t border-gray-200 shadow-xl z-50 transition-all duration-300 ease-out ${
+                    rfidSolutionsOpen 
+                    ? 'opacity-100 translate-y-0 visible' 
+                    : 'opacity-0 -translate-y-4 invisible'
+                  }`}
+                  style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+                    <div className="container-responsive py-6 lg:py-8 xl:py-10">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 xl:gap-12 items-stretch">
+                        {/* Left Side - Image */}
+                        <div className="hidden lg:block lg:col-span-1">
+                          <div className="relative h-full overflow-hidden flex flex-col">
+                            <div className="flex-1">
+                              <img 
+                                src="/solution_image/main_page.png" 
+                                alt="Cykeo Solution" 
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.style.display = 'none';
+                                  target.nextElementSibling?.classList.remove('hidden');
+                                }}
+                              />
+                              <div className="hidden absolute inset-0 bg-gradient-to-br from-[#36A9A9]/20 to-[#2a8a8a]/20 flex items-center justify-center">
+                                <div className="text-center">
+                                  <svg className="w-16 h-16 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                  </svg>
+                                  <p className="text-gray-500 text-sm">Thado RFID Solution</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Right Side - Solutions Grid */}
+                        <div className="text-center lg:text-left lg:col-span-1">
+                          <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold text-[#36A9A9] mb-4 lg:mb-6 border-b-2 border-[#36A9A9] pb-2 w-full">
+                            Thado RFID Solution
+                          </h2>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-1 sm:gap-1.5 lg:gap-2 xl:gap-2.5 justify-items-stretch">
+                            {/* Solution 1: RFID Energy */}
+                            <Link
+                              to="/rfid-solutions#energy"
+                              onClick={() => closeAllDropdowns()}
+                              className="group flex flex-col items-center text-center p-2 sm:p-3 lg:p-4 hover:bg-gray-50 transition-all duration-300 w-full"
+                            >
+                              <div className="w-full h-20 sm:h-22 lg:h-24 xl:h-28 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300">
+                                <svg className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 text-[#36A9A9] mb-2 sm:mb-3" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm6 10h-5v6h-2v-6H6v-2h5V4h2v6h5v2z"/>
+                                </svg>
+                                <h3 className="text-xs sm:text-sm lg:text-sm xl:text-base font-medium text-gray-700 group-hover:text-[#36A9A9] leading-tight text-center">
+                                RFID Energy
+                              </h3>
+                              </div>
+                                
+                            </Link>
+
+                            {/* Solution 2: RFID Logistics */}
+                            <Link
+                              to="/rfid-solutions#logistics"
+                              onClick={() => closeAllDropdowns()}
+                              className="group flex flex-col items-center text-center p-2 sm:p-3 lg:p-4 hover:bg-gray-50 transition-all duration-300 w-full"
+                            >
+                              <div className="w-full h-20 sm:h-22 lg:h-24 xl:h-28 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300">
+                                <svg className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 text-[#36A9A9] mb-2 sm:mb-3" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                                </svg>
+                                <h3 className="text-xs sm:text-sm lg:text-sm xl:text-base font-medium text-gray-700 group-hover:text-[#36A9A9] leading-tight text-center">
+                                RFID Logistics
+                              </h3>
+                              </div>
+                                
+                            </Link>
+
+                            {/* Solution 3: RFID Warehousing */}
+                            <Link
+                              to="/rfid-solutions#warehouse"
+                              onClick={() => closeAllDropdowns()}
+                              className="group flex flex-col items-center text-center p-2 sm:p-3 lg:p-4 hover:bg-gray-50 transition-all duration-300 w-full"
+                            >
+                              <div className="w-full h-20 sm:h-22 lg:h-24 xl:h-28 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300">
+                                <svg className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 text-[#36A9A9] mb-2 sm:mb-3" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M4 6.5L12 3l8 3.5v7.9c0 4.5-3.2 7.6-8 8.6-4.8-1-8-4.1-8-8.6V6.5z"/>
+                                  <path d="M8 12h8v5H8z" fill="white"/>
+                                  <path d="M10 14h4v2h-4z" fill="white"/>
+                                </svg>
+                                <h3 className="text-xs sm:text-sm lg:text-sm xl:text-base font-medium text-gray-700 group-hover:text-[#36A9A9] leading-tight text-center">
+                                RFID Warehousing
+                              </h3>
+                              </div>
+                                
+                            </Link>
+
+                            {/* Solution 4: RFID Tool Tracking */}
+                            <Link
+                              to="/rfid-solutions#tool-tracking"
+                              onClick={() => closeAllDropdowns()}
+                              className="group flex flex-col items-center text-center p-2 sm:p-3 lg:p-4 hover:bg-gray-50 transition-all duration-300 w-full"
+                            >
+                              <div className="w-full h-20 sm:h-22 lg:h-24 xl:h-28 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300">
+                                <svg className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 text-[#36A9A9] mb-2 sm:mb-3" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
+                                </svg>
+                                <h3 className="text-xs sm:text-sm lg:text-sm xl:text-base font-medium text-gray-700 group-hover:text-[#36A9A9] leading-tight text-center">
+                                RFID Tool Tracking
+                              </h3>
+                              </div>
+                                
+                            </Link>
+
+                            {/* Solution 5: RFID Healthcare */}
+                            <Link
+                              to="/rfid-solutions#healthcare"
+                              onClick={() => closeAllDropdowns()}
+                              className="group flex flex-col items-center text-center p-2 sm:p-3 lg:p-4 hover:bg-gray-50 transition-all duration-300 w-full"
+                            >
+                              <div className="w-full h-20 sm:h-22 lg:h-24 xl:h-28 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300">
+                                <svg className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 text-[#36A9A9] mb-2 sm:mb-3" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M19 8h-2v3h-3v2h3v3h2v-3h3v-2h-3zM4 8h8v2H4zM4 13h8v2H4zM4 18h8v2H4z"/>
+                                  <path d="M20 3H4C2.9 3 2 3.9 2 5v14c0 1.1.9 2 2 2h8.5c-.3-.6-.5-1.3-.5-2H4V5h16v7c.7 0 1.4.2 2 .5V5c0-1.1-.9-2-2-2z"/>
+                                </svg>
+                                <h3 className="text-xs sm:text-sm lg:text-sm xl:text-base font-medium text-gray-700 group-hover:text-[#36A9A9] leading-tight text-center">
+                                RFID Healthcare
+                              </h3>
+                              </div>
+                                
+                            </Link>
+
+                            {/* Solution 6: RFID Manufacturing */}
+                            <Link
+                              to="/rfid-solutions#manufacturing"
+                              onClick={() => closeAllDropdowns()}
+                              className="group flex flex-col items-center text-center p-2 sm:p-3 lg:p-4 hover:bg-gray-50 transition-all duration-300 w-full"
+                            >
+                              <div className="w-full h-20 sm:h-22 lg:h-24 xl:h-28 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300">
+                                <svg className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 text-[#36A9A9] mb-2 sm:mb-3" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                                </svg>
+                                <h3 className="text-xs sm:text-sm lg:text-sm xl:text-base font-medium text-gray-700 group-hover:text-[#36A9A9] leading-tight text-center">
+                                RFID Manufacturing
+                              </h3>
+                              </div>   
+                            </Link>
+                          </div>
+
+                          {/* Learn More Button */}
+                          <div className="mt-4 lg:mt-6 text-center">
+                            <Link
+                              to="/rfid-solutions"
+                              onClick={() => closeAllDropdowns()}
+                              className="inline-block bg-[#36A9A9] hover:bg-[#2a8a8a] text-white px-6 py-3 lg:px-8 lg:py-3 xl:px-10 xl:py-4 rounded-lg font-medium transition-all duration-300 hover:scale-105 text-sm lg:text-base"
+                            >
+                              Learn More
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 
                 {/* About Us */}
                 <Link

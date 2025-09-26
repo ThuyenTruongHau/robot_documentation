@@ -216,33 +216,63 @@ const ProductDetail: React.FC = () => {
             <AnimatedSection animationType="fadeInUp" delay={300}>
               <div className="mt-16">
                 {/* Tab Container - giống container sản phẩm */}
-                <div className="bg-white shadow-2xl border border-gray-100 p-6 relative overflow-hidden">
+                <div className="bg-white shadow-2xl border border-gray-100 relative overflow-hidden rounded-lg">
 
                   {/* Tab Navigation */}
-                  <div className="border-b border-gray-200">
-                    <nav className="flex space-x-8">
+                  <div className="bg-gray-100 overflow-hidden">
+                    <nav className="flex flex-col sm:flex-row">
                       {[
                         { id: 'details', label: 'Product details' },
                         { id: 'parameters', label: 'Product parameter' },
                         { id: 'dimensions', label: 'Dimensions' }
-                      ].map((tab) => (
+                      ].map((tab, index) => (
                         <button
                           key={tab.id}
                           onClick={() => setActiveTab(tab.id)}
-                          className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
-                            activeTab === tab.id
-                              ? 'border-blue-600 text-blue-600'
-                              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                          }`}
+                          className={`
+                            relative flex-1 py-3 sm:py-4 px-4 sm:px-6 font-medium text-sm lg:text-base xl:text-lg
+                            transition-all duration-300 
+                            ${activeTab === tab.id
+                              ? 'bg-white text-[#36A9A9] shadow-lg z-10 transform scale-[1.02]'
+                              : 'bg-gray-100 text-gray-600 hover:bg-gray-50 hover:text-gray-800'
+                            }
+                            ${index > 0 ? 'sm:border-l border-gray-200' : ''}
+                            ${index > 0 && index < 3 ? 'border-t sm:border-t-0 border-gray-200' : ''}
+                          `}
                         >
-                          {tab.label}
+                          
+                          {/* Tab content */}
+                          <div className="flex items-center justify-center gap-2">
+                            {/* Icons for each tab */}
+                            {tab.id === 'details' && (
+                              <svg className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                              </svg>
+                            )}
+                            {tab.id === 'parameters' && (
+                              <svg className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                              </svg>
+                            )}
+                            {tab.id === 'dimensions' && (
+                              <svg className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-5v4m0-4h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+                              </svg>
+                            )}
+                            <span className="hidden sm:inline">{tab.label}</span>
+                            <span className="sm:hidden">
+                              {tab.id === 'details' && 'Details'}
+                              {tab.id === 'parameters' && 'Parameters'}
+                              {tab.id === 'dimensions' && 'Dimensions'}
+                            </span>
+                          </div>
                         </button>
                       ))}
                     </nav>
                   </div>
 
                   {/* Tab Content */}
-                  <div className="py-8">
+                  <div className="p-6 lg:p-8 xl:p-10">
                   {activeTab === 'details' && (
                     <div>
                       <h3 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl 4xl:text-6xl font-bold text-gray-900 mb-4 lg:mb-6">Product Details</h3>
@@ -260,26 +290,34 @@ const ProductDetail: React.FC = () => {
                       {product.parameters && Object.keys(product.parameters).length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           {Object.entries(product.parameters).map(([category, specs]) => (
-                            <div key={category} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                              <h4 className="text-sm lg:text-base xl:text-lg 3xl:text-xl font-semibold text-gray-900 mb-3 lg:mb-4">{category}</h4>
-                              <div className="space-y-3">
-                                {typeof specs === 'object' && specs !== null ? (
-                                  Object.entries(specs).map(([key, value]) => (
-                                    <div key={key} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
-                                      <span className="font-medium text-gray-700">
-                                        {key.replace(/_/g, ' ')}
-                                      </span>
-                                      <span className="text-gray-900 font-semibold">
-                                        {typeof value === 'object' ? JSON.stringify(value) : String(value)}
-                                      </span>
+                            <div key={category} className="bg-white shadow-sm border border-gray-200 overflow-hidden">
+                              {/* Category Header with Gray Background */}
+                              <div className="bg-gray-100 px-6 py-3 border-b border-gray-200">
+                                <h4 className="text-sm lg:text-base xl:text-lg 3xl:text-xl font-semibold text-gray-800 uppercase tracking-wider">
+                                  {category}
+                                </h4>
+                              </div>
+                              {/* Specifications Content */}
+                              <div className="p-6">
+                                <div className="space-y-3">
+                                  {typeof specs === 'object' && specs !== null ? (
+                                    Object.entries(specs).map(([key, value]) => (
+                                      <div key={key} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                                        <span className="font-medium text-gray-700">
+                                          {key.replace(/_/g, ' ')}
+                                        </span>
+                                        <span className="text-gray-900 font-semibold">
+                                          {typeof value === 'object' ? JSON.stringify(value) : String(value)}
+                                        </span>
+                                      </div>
+                                    ))
+                                  ) : (
+                                    <div className="flex justify-between items-center py-2">
+                                      <span className="font-medium text-gray-700">{category}</span>
+                                      <span className="text-gray-900 font-semibold">{String(specs)}</span>
                                     </div>
-                                  ))
-                                ) : (
-                                  <div className="flex justify-between items-center py-2">
-                                    <span className="font-medium text-gray-700">{category}</span>
-                                    <span className="text-gray-900 font-semibold">{String(specs)}</span>
-                                  </div>
-                                )}
+                                  )}
+                                </div>
                               </div>
                             </div>
                           ))}

@@ -1,31 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
-
-interface ProductImage {
-  id: number;
-  image: string;
-}
-
-interface ProductCategory {
-  id: number;
-  name: string;
-}
-
-interface ProductBrand {
-  id: number;
-  name: string;
-}
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  images: ProductImage[];
-  category: ProductCategory;
-  brand: ProductBrand;
-  parameters: Record<string, any>;
-}
+import apiService from '../services/api';
+import { Product } from '../types/product';
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -40,16 +17,19 @@ const ProductDetail: React.FC = () => {
     const fetchProduct = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8011/api'}/products/${id}/`);
+        const data = await apiService.getProduct(parseInt(id || '0'));
         
-        if (!response.ok) {
-          throw new Error('Failed to fetch product');
+        // Transform image URLs to use full path
+        if (data.images) {
+          data.images = data.images.map(img => ({
+            ...img,
+            image: apiService.getImageUrl(img.image)
+          }));
         }
         
-        const data = await response.json();
         setProduct(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        setError(err instanceof Error ? err.message : 'An error occurred while loading product details');
       } finally {
         setIsLoading(false);
       }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
-import apiService from '../../services/apiService';
+import apiService from '../../services/api';
 import { categoryCache } from '../../utils/categoryCache';
 
 const Navbar: React.FC = () => {

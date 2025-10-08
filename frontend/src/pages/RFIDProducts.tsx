@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
 import CategorySidebar from '../components/CategorySidebar';
 import CategoryInfo from '../components/CategoryInfo';
-import apiService from '../services/apiService';
+import apiService from '../services/api';
 import { categoryCache } from '../utils/categoryCache';
 
 const RFIDProducts: React.FC = () => {
@@ -61,30 +61,10 @@ const RFIDProducts: React.FC = () => {
     setCurrentPage(1);
     
     try {
-      
-      // Use the correct search endpoint with category parameter
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8011/api'}/products/search/?category=${categoryId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      // Use the unified API service with search endpoint
+      const productsData = await apiService.searchProducts({
+        category: parseInt(categoryId),
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      
-      // Handle the search endpoint response format
-      let productsData = [];
-      if (data.results && Array.isArray(data.results)) {
-        productsData = data.results;
-      } else if (Array.isArray(data)) {
-        productsData = data;
-      } else {
-        productsData = [];
-      }
       
       // Transform data to match our expected format
       const transformedProducts = productsData.map((product: any) => ({
@@ -93,7 +73,7 @@ const RFIDProducts: React.FC = () => {
         description: product.description || 'No description available',
         // Get first image URL from images array, or use placeholder
         image: product.images && product.images.length > 0 && product.images[0].image_url
-          ? `${process.env.REACT_APP_API_URL || 'http://localhost:8011'}${product.images[0].image_url}`
+          ? apiService.getImageUrl(product.images[0].image_url)
           : '/placeholder-product.jpg',
         features: product.parameters ? Object.keys(product.parameters) : ['Standard Features']
       }));

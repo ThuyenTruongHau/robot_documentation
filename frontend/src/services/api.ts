@@ -1,14 +1,26 @@
 import { Product, Category, ProductListResponse, CategoryListResponse } from '../types/product';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8011';
+// API Configuration
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+const API_TIMEOUT = parseInt(process.env.REACT_APP_API_TIMEOUT || '30000', 10);
+const ENABLE_LOGS = process.env.REACT_APP_ENABLE_CONSOLE_LOGS === 'true';
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 1000; // 1 second
 
 class ApiService {
   private cache = new Map<string, { data: any; timestamp: number }>();
   private readonly CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
+  private log(message: string, data?: any): void {
+    if (ENABLE_LOGS) {
+      console.log(`[API Service] ${message}`, data || '');
+    }
+  }
+
   private getCachedData<T>(key: string): T | null {
     const cached = this.cache.get(key);
     if (cached && Date.now() - cached.timestamp < this.CACHE_DURATION) {
+      this.log(`Cache hit for key: ${key}`);
       return cached.data;
     }
     return null;
@@ -16,9 +28,31 @@ class ApiService {
 
   private setCachedData(key: string, data: any): void {
     this.cache.set(key, { data, timestamp: Date.now() });
+    this.log(`Cached data for key: ${key}`);
   }
 
-  private async makeRequest<T>(endpoint: string, options?: RequestInit): Promise<T> {
+  private async delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  private async fetchWithTimeout(url: string, options: RequestInit, timeout: number): Promise<Response> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    try {
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+      return response;
+    } catch (error) {
+      clearTimeout(timeoutId);
+      throw error;
+    }
+  }
+
+  private async makeRequest<T>(endpoint: string, options?: RequestInit, retries = MAX_RETRIES): Promise<T> {
     const url = `${API_BASE_URL}${endpoint}`;
     
     const defaultOptions: RequestInit = {
@@ -27,13 +61,61 @@ class ApiService {
       },
     };
 
-    const response = await fetch(url, { ...defaultOptions, ...options });
-    
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.status} ${response.statusText}`);
+    const mergedOptions = { ...defaultOptions, ...options };
+
+    for (let attempt = 1; attempt <= retries; attempt++) {
+      try {
+        this.log(`Request to ${endpoint} (Attempt ${attempt}/${retries})`);
+        
+        const response = await this.fetchWithTimeout(url, mergedOptions, API_TIMEOUT);
+        
+        if (!response.ok) {
+          // Don't retry on client errors (4xx), only on server errors (5xx)
+          if (response.status >= 400 && response.status < 500) {
+            throw new Error(`Client Error: ${response.status} ${response.statusText}`);
+          }
+          
+          // Retry on server errors
+          if (attempt < retries) {
+            this.log(`Server error ${response.status}, retrying...`);
+            await this.delay(RETRY_DELAY * attempt);
+            continue;
+          }
+          
+          throw new Error(`Server Error: ${response.status} ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        this.log(`Response from ${endpoint}`, data);
+        return data;
+      } catch (error) {
+        this.log(`Error on attempt ${attempt}`, error);
+        
+        // Don't retry if it's an abort/timeout or client error
+        if (error instanceof Error) {
+          if (error.name === 'AbortError') {
+            throw new Error('Request timeout');
+          }
+          if (error.message.includes('Client Error')) {
+            throw error;
+          }
+        }
+        
+        // Last attempt failed
+        if (attempt === retries) {
+          throw new Error(
+            error instanceof Error 
+              ? error.message 
+              : 'Network error. Please check your connection and try again.'
+          );
+        }
+        
+        // Wait before retrying
+        await this.delay(RETRY_DELAY * attempt);
+      }
     }
-    
-    return response.json();
+
+    throw new Error('Max retries exceeded');
   }
 
   // Products API
@@ -93,21 +175,50 @@ class ApiService {
     return response.results;
   }
 
-  // Search API
-  async searchProducts(query: string, categoryId?: number): Promise<Product[]> {
-    const response = await this.getProducts({
-      search: query,
-      category: categoryId,
-      limit: 20
-    });
-    return response.results;
+  // Search API - with category filter support
+  async searchProducts(params?: {
+    query?: string;
+    category?: number;
+    limit?: number;
+  }): Promise<Product[]> {
+    try {
+      const searchParams = new URLSearchParams();
+      
+      if (params?.query) searchParams.set('search', params.query);
+      if (params?.category) searchParams.set('category', params.category.toString());
+      if (params?.limit) searchParams.set('page_size', params.limit.toString());
+      
+      const query = searchParams.toString();
+      const response = await this.makeRequest<ProductListResponse>(
+        `/api/products/search/${query ? `?${query}` : ''}`
+      );
+      
+      return response.results || [];
+    } catch (error) {
+      this.log('Error searching products', error);
+      throw error;
+    }
   }
 
   // Utility method to get full image URL
   getImageUrl(imagePath?: string): string {
     if (!imagePath) return '';
-    if (imagePath.startsWith('http')) return imagePath;
-    return `${API_BASE_URL}${imagePath}`;
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return imagePath;
+    }
+    // Remove leading slash if present to avoid double slashes
+    const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+    return `${API_BASE_URL}${cleanPath}`;
+  }
+
+  // Health check
+  async checkHealth(): Promise<boolean> {
+    try {
+      await this.makeRequest('/api/health/', {}, 1);
+      return true;
+    } catch {
+      return false;
+    }
   }
 }
 

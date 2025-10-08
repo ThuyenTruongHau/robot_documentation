@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import apiService from '../services/apiService';
+import apiService from '../services/api';
 import { categoryCache } from '../utils/categoryCache';
 
 interface Category {

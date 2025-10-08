@@ -40,7 +40,7 @@ const ProductDetail: React.FC = () => {
     const fetchProduct = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:9000/api'}/products/${id}/`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8011/api'}/products/${id}/`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch product');

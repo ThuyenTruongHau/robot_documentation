@@ -63,7 +63,7 @@ const RFIDProducts: React.FC = () => {
     try {
       
       // Use the correct search endpoint with category parameter
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:9000/api'}/products/search/?category=${categoryId}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8011/api'}/products/search/?category=${categoryId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ const RFIDProducts: React.FC = () => {
         description: product.description || 'No description available',
         // Get first image URL from images array, or use placeholder
         image: product.images && product.images.length > 0 && product.images[0].image_url
-          ? `${process.env.REACT_APP_API_URL || 'http://localhost:9000'}${product.images[0].image_url}`
+          ? `${process.env.REACT_APP_API_URL || 'http://localhost:8011'}${product.images[0].image_url}`
           : '/placeholder-product.jpg',
         features: product.parameters ? Object.keys(product.parameters) : ['Standard Features']
       }));

@@ -1,6 +1,6 @@
 import { Product, Category, ProductListResponse, CategoryListResponse } from '../types/product';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:9000';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8011';
 
 class ApiService {
   private cache = new Map<string, { data: any; timestamp: number }>();

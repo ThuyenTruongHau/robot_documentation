@@ -32,7 +32,7 @@
                         </label>
                         {{ form.image }}
                         <div class="form-text">
-                            <i class="fas fa-info-circle"></i> Hỗ trợ các định dạng: JPG, PNG, GIF. Kích thước tối đa: 10MB
+                            <i class="fas fa-info-circle"></i> Hỗ trợ các định dạng: JPG, PNG, GIF, WEBP. Kích thước tối đa: 10MB
                         </div>
                         {% if form.image.errors %}
                             <div class="text-danger small">
@@ -155,9 +155,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Check file type
-            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
             if (!allowedTypes.includes(file.type)) {
-                alert('Định dạng file không được hỗ trợ! Chỉ chấp nhận JPG, PNG, GIF.');
+                alert('Định dạng file không được hỗ trợ! Chỉ chấp nhận JPG, PNG, GIF, WEBP.');
                 e.target.value = '';
                 resetPreview();
                 return;

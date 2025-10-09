@@ -294,7 +294,7 @@ const Navbar: React.FC = () => {
                               <div className="w-16 h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 3xl:w-28 3xl:h-28 4xl:w-32 4xl:h-32 mx-auto mb-3 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden group-hover:shadow-lg transition-all duration-300">
                                 {category.image ? (
                                   <img 
-                                    src={category.image.startsWith('http') ? category.image : `/media/${category.image}`}
+                                    src={apiService.getImageUrl(category.image)}
                                     alt={category.name}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                     onError={(e) => {

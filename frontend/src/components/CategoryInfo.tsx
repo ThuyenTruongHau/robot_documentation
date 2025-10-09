@@ -1,5 +1,6 @@
 import React from 'react';
 import AnimatedSection from './AnimatedSection';
+import apiService from '../services/api';
 
 interface CategoryInfoProps {
   category: {
@@ -34,7 +35,7 @@ const CategoryInfo: React.FC<CategoryInfoProps> = ({ category }) => {
             <div className="h-full bg-gray-100 flex items-center justify-center overflow-hidden">
               {category.image ? (
                 <img 
-                  src={category.image.startsWith('http') ? category.image : `/media/${category.image}`}
+                  src={apiService.getImageUrl(category.image)}
                   alt={category.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {

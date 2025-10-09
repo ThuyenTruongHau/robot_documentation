@@ -294,21 +294,8 @@ const RFIDProducts: React.FC = () => {
                             </div>
                           )}
                         </div>
-                        <div className="p-3 lg:p-4 xl:p-5 flex-1 flex flex-col">
-                          <h3 className="text-lg lg:text-xl xl:text-2xl 3xl:text-3xl font-semibold text-gray-900 mb-2 group-hover:text-[#36A9A9] transition-colors duration-300">{product.name}</h3>
-                          <p className="text-sm lg:text-base xl:text-lg 3xl:text-xl text-gray-600 mb-3 lg:mb-4 line-clamp-1">
-                            {product.description}
-                          </p>
-                          <ul className="space-y-1 flex-1">
-                            {product.features.slice(0, 0).map((feature: string, featureIndex: number) => (
-                              <li key={featureIndex} className="flex items-center text-xs lg:text-sm xl:text-base text-gray-600">
-                                <svg className="w-3 h-3 lg:w-4 lg:h-4 text-[#36A9A9] mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                                {feature}
-                              </li>
-                            ))}
-                          </ul>
+                        <div className="p-3 lg:p-4 xl:p-5 flex-1 flex flex-col justify-center">
+                          <h3 className="text-sm lg:text-base xl:text-lg 3xl:text-xl font-medium text-gray-900 text-center group-hover:text-[#36A9A9] transition-colors duration-300 line-clamp-2">{product.name}</h3>
                         </div>
                       </div>
                     </AnimatedSection>

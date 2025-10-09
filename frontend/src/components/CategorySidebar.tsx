@@ -141,7 +141,7 @@ const CategorySidebar: React.FC = () => {
               <div className="w-20 h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 3xl:w-32 3xl:h-32 mr-4 lg:mr-6 xl:mr-7 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
                 {category.image ? (
                   <img 
-                    src={category.image.startsWith('http') ? category.image : `/media/${category.image}`}
+                    src={apiService.getImageUrl(category.image)}
                     alt={category.name}
                     className="w-full h-full object-cover"
                     onError={(e) => {

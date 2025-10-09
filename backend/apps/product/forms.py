@@ -1,6 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 import json
+import os
 from .models import Product, ProductImage
 from apps.category.models import Category
 from apps.brand.models import Brand
@@ -114,10 +115,32 @@ class ProductImageForm(forms.ModelForm):
         widgets = {
             'image': forms.FileInput(attrs={
                 'class': 'form-control',
-                'accept': 'image/*'
+                'accept': 'image/jpeg,image/jpg,image/png,image/gif,image/webp'
             })
         }
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['image'].required = True
+    
+    def clean_image(self):
+        """Validate image file format"""
+        image = self.cleaned_data.get('image')
+        
+        if image:
+            # Get file extension
+            ext = os.path.splitext(image.name)[1].lower()
+            
+            # List of allowed extensions
+            allowed_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp']
+            
+            if ext not in allowed_extensions:
+                raise ValidationError(
+                    f'Định dạng file không được hỗ trợ. Chỉ chấp nhận: {", ".join(allowed_extensions)}'
+                )
+            
+            # Validate file size (max 10MB)
+            if image.size > 10 * 1024 * 1024:
+                raise ValidationError('Kích thước file không được vượt quá 10MB.')
+        
+        return image

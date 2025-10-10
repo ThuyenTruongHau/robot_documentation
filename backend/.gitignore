@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+*.manifest
+*.spec
+
+# Virtual environment
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+Lib/
+Scripts/
+
+# Django stuff:
+db.sqlite3
+*.log
+media/
+staticfiles/
+
+# VSCode & IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Migrations (optional — chỉ bỏ qua nếu bạn auto-gen lại mỗi lần)
+# Nếu bạn muốn giữ migrations thì bỏ comment dòng dưới
+#migrations/
+
+# Environment variables
+.env
+.env.*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class

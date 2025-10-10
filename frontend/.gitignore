@@ -1,0 +1,17 @@
+# Ignore everything by default
+*
+
+# But keep these files/folders:
+!.gitignore
+!build/
+!deploy_build.bat
+!package.json
+!package-lock.json
+!.env.production
+!.env
+
+# Always ignore dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

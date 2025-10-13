@@ -1,3 +1,4 @@
+#Successfully set up git
 import os
 import django
 

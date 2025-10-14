@@ -103,11 +103,13 @@ const CategorySidebar: React.FC = () => {
   }
 
   return (
-    <div className="w-80 lg:w-96 xl:w-[28rem] 3xl:w-[32rem] 4xl:w-[36rem] bg-white shadow-lg rounded-lg relative border border-gray-200">
+    <div 
+      className="w-80 lg:w-96 xl:w-[28rem] 3xl:w-[32rem] 4xl:w-[36rem] h-[calc(3*20rem+2*1rem)] lg:h-[calc(3*22rem+2*1.5rem)] xl:h-[calc(3*24rem+2*2rem)] 3xl:h-[calc(3*26rem+2*2rem)] bg-white shadow-lg rounded-lg relative border border-gray-200 flex flex-col"
+    >
       {/* Scroll Up Button */}
       <button
         onClick={scrollUp}
-        className={`absolute top-0 left-0 right-0 z-10 bg-gray-100 border-b border-gray-200 py-2 lg:py-3 xl:py-4 flex items-center justify-center hover:bg-gray-200 transition-all duration-200 ${!canScrollUp ? 'opacity-50 cursor-not-allowed' : ''}`}
+        className={`flex-shrink-0 bg-gray-100 border-b border-gray-200 py-2 lg:py-3 xl:py-4 flex items-center justify-center hover:bg-gray-200 transition-all duration-200 rounded-t-lg ${!canScrollUp ? 'opacity-50 cursor-not-allowed' : ''}`}
         disabled={!canScrollUp}
       >
         <svg className="w-3 h-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -118,13 +120,13 @@ const CategorySidebar: React.FC = () => {
       {/* Categories Container */}
       <div 
         ref={scrollContainerRef}
-        className="overflow-y-auto scrollbar-hide pt-10 lg:pt-12 xl:pt-14 pb-10 lg:pb-12 xl:pb-14 h-[700px] lg:h-[750px] xl:h-[1200px]"
+        className="flex-1 overflow-y-auto scrollbar-hide"
         style={{ 
           scrollbarWidth: 'none', 
           msOverflowStyle: 'none'
         }}
       >
-        <div className="p-3 lg:p-4 xl:p-5">
+        <div className="p-3 lg:p-4 xl:p-5 py-4 lg:py-5 xl:py-6">
           {categories.slice().reverse().map((category, index) => (
             <Link
               key={category.id}
@@ -174,7 +176,7 @@ const CategorySidebar: React.FC = () => {
       {/* Scroll Down Button */}
       <button
         onClick={scrollDown}
-        className={`absolute bottom-0 left-0 right-0 z-10 bg-gray-100 border-t border-gray-200 py-2 lg:py-3 xl:py-4 flex items-center justify-center hover:bg-gray-200 transition-all duration-200 ${!canScrollDown ? 'opacity-50 cursor-not-allowed' : ''}`}
+        className={`flex-shrink-0 bg-gray-100 border-t border-gray-200 py-2 lg:py-3 xl:py-4 flex items-center justify-center hover:bg-gray-200 transition-all duration-200 rounded-b-lg ${!canScrollDown ? 'opacity-50 cursor-not-allowed' : ''}`}
         disabled={!canScrollDown}
       >
         <svg className="w-3 h-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

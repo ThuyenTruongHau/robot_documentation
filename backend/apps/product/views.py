@@ -34,7 +34,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         if category_id:
             products = products.filter(category_id=category_id)
         
-        products = products.order_by('-created_at')[:5]  # Giới hạn 5 kết quả
+        products = products.order_by('-created_at')  # Xóa giới hạn để trả về tất cả sản phẩm
         
         serializer = self.get_serializer(products, many=True)
         return Response({

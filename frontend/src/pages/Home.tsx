@@ -368,26 +368,54 @@ const Home: React.FC = () => {
         
       {/* CTA Section */}
       <AnimatedSection animationType="fadeInUp" delay={600}>
-        <div className="py-12 lg:py-16 xl:py-20 3xl:py-24 bg-[#36A9A9]">
-          <div className="container-responsive text-center">
-            <h2 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl 4xl:text-6xl font-bold text-white mb-4 lg:mb-6 xl:mb-8">
-              Ready to explore advanced technology?
-            </h2>
-            <p className="text-white/90 text-base lg:text-lg xl:text-xl 3xl:text-2xl 4xl:text-3xl mb-6 lg:mb-8 xl:mb-10">
-              Contact us for the best advice and support
-            </p>
-            <div className="flex justify-center">
-              <div className="flex w-full max-w-sm lg:max-w-md xl:max-w-lg 3xl:max-w-xl">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="flex-1 px-3 py-2 lg:px-4 lg:py-3 xl:px-5 xl:py-4 3xl:px-6 3xl:py-5 bg-white border border-gray-300 rounded-l-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent text-sm lg:text-base xl:text-lg 3xl:text-xl"
-                />
-                <button className="bg-white hover:bg-white/90 text-[#36A9A9] px-4 py-2 lg:px-6 lg:py-3 xl:px-7 xl:py-4 3xl:px-8 3xl:py-5 rounded-r-lg transition-all duration-300 hover:scale-105 font-medium">
-                  <svg className="w-4 h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 3xl:w-7 3xl:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                  </svg>
-                </button>
+        <div className="relative min-h-[300px] lg:min-h-[400px] xl:min-h-[500px] flex items-center">
+          {/* Background Image */}
+          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+               style={{ backgroundImage: 'url(/contact.jpg)' }}>
+            <div className="absolute inset-0 bg-black/50"></div>
+          </div>
+          
+          {/* Content */}
+          <div className="relative z-10 w-full">
+            <div className="max-w-7xl mx-auto px-4 lg:px-6 xl:px-8">
+              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center">
+                {/* Content - Left Side */}
+                <div className="text-center lg:text-left">
+                  <h2 className="text-3xl lg:text-4xl xl:text-5xl 3xl:text-6xl font-bold text-white mb-4 lg:mb-6">
+                    Ready to explore advanced technology?
+                  </h2>
+                  <p className="text-white/90 text-lg lg:text-xl xl:text-2xl mb-6 lg:mb-8">
+                    Contact us for the best advice and support
+                  </p>
+                </div>
+
+                {/* Form - Right Side */}
+                <div className="p-6 lg:p-8">
+                  <form className="space-y-4">
+                    <div>
+                      <input
+                        type="email"
+                        placeholder="Your Email"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent text-gray-900 placeholder-gray-500"
+                      />
+                    </div>
+                    <div>
+                      <textarea
+                        placeholder="Your Message"
+                        rows={4}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent text-gray-900 placeholder-gray-500 resize-none"
+                      />
+                    </div>
+                    <div className="flex justify-center">
+                      <button 
+                        type="submit"
+                        className="w-1/5 bg-[#36A9A9] hover:bg-[#2d8a87] text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>

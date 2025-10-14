@@ -186,6 +186,11 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+CORS_EXPOSE_HEADERS = [
+    'content-type',
+]
+
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',

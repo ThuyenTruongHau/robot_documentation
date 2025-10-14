@@ -222,7 +222,7 @@ const Navbar: React.FC = () => {
       onMouseEnter={() => setIsNavbarHovered(true)}
       onMouseLeave={() => setIsNavbarHovered(false)}
     >
-        <div className="container-responsive">
+        <div className="w-full px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 2xl:px-10 3xl:px-12 4xl:px-16 5xl:px-20">
           <div className="flex items-center justify-between h-16 lg:h-20 xl:h-24 3xl:h-28">
           {/* Logo */}
             <div className="flex-shrink-0">

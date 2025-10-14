@@ -15,7 +15,7 @@ const RFIDProducts: React.FC = () => {
   const [categories, setCategories] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const itemsPerPage = 6;
+  const itemsPerPage = 9;
 
   // Get category from URL - memoized to avoid dependency issues
   const getCategoryFromURL = useCallback(() => {
@@ -192,7 +192,7 @@ const RFIDProducts: React.FC = () => {
       {/* Products Section */}
       <AnimatedSection animationType="fadeInUp" delay={200}>
         <div className="py-12 lg:py-16 xl:py-20 3xl:py-24">
-          <div className="container-responsive">
+          <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 3xl:px-20 4xl:px-24 5xl:px-28">
             {/* Title */}
             <div className="text-center mb-6 lg:mb-8 xl:mb-10 3xl:mb-12">
               <h2 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl 4xl:text-6xl font-light text-black mb-4">
@@ -201,7 +201,7 @@ const RFIDProducts: React.FC = () => {
             </div>
             
             {/* Main Content Layout */}
-            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 xl:gap-10 3xl:gap-12">
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 xl:gap-10 3xl:gap-12 lg:items-start">
               {/* Left Side - Category Sidebar - Hidden on mobile, shown on desktop */}
               <div className="hidden lg:block flex-shrink-0">
                 <CategorySidebar />
@@ -267,13 +267,13 @@ const RFIDProducts: React.FC = () => {
                     {currentProducts.map((product, index) => (
                     <AnimatedSection key={product.id} animationType="fadeInUp" delay={300 + index * 100}>
                       <div 
-                        className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 h-48 lg:h-56 xl:h-64 3xl:h-72 flex flex-col cursor-pointer group"
+                        className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 h-56 lg:h-64 xl:h-72 3xl:h-80 flex flex-col cursor-pointer group"
                         onClick={() => {
                           navigate(`/product/${product.id}`);
                           window.scrollTo({ top: 0, behavior: 'auto' });
                         }}
                       >
-                        <div className="h-36 lg:h-40 xl:h-44 bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                        <div className="h-40 lg:h-48 xl:h-52 bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
                           {product.image && product.image !== '/placeholder-product.jpg' ? (
                             <img 
                               src={product.image} 
@@ -363,11 +363,11 @@ const RFIDProducts: React.FC = () => {
       {/* RFID Work Section */}
       <AnimatedSection animationType="fadeInUp" delay={400}>
         <div className="py-16">
-          <div className="w-full px-4 lg:px-6 xl:px-8">
+          <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
             <div className="relative overflow-hidden">
               {/* Background Image */}
               <div 
-                className="relative h-[60vh] lg:h-[65vh] xl:h-[70vh] w-[70vw] lg:w-[75vw] xl:w-[80vw] mx-auto flex items-center justify-start overflow-hidden"
+                className="relative h-[70vh] lg:h-[75vh] xl:h-[80vh] w-full mx-auto flex items-center justify-start overflow-hidden"
                 style={{
                   backgroundImage: 'url(/products_image/RFID_work.jpg)',
                   backgroundSize: 'cover',
@@ -379,16 +379,16 @@ const RFIDProducts: React.FC = () => {
                 <div className="absolute inset-0 bg-black/30"></div>
                 
                 {/* Content */}
-                <div className="relative z-10 max-w-3xl lg:max-w-4xl xl:max-w-5xl px-6 lg:px-8 xl:px-12">
-                  <div className="bg-black/60 p-6 lg:p-8 xl:p-10 3xl:p-12">
-                    <h2 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl 4xl:text-6xl font-bold text-white mb-4 lg:mb-6 xl:mb-8">
+                <div className="relative z-10 w-full max-w-xl lg:max-w-2xl xl:max-w-3xl px-6 lg:px-10 xl:px-14">
+                  <div className="bg-black/75 p-5 lg:p-6 xl:p-7 rounded-lg">
+                    <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold text-white mb-3 lg:mb-4">
                       HOW DOES RFID WORK?
                     </h2>
                     
                     {/* Horizontal Bar */}
-                    <div className="h-1 lg:h-1.5 xl:h-2 bg-white mb-6 lg:mb-8 xl:mb-10 rounded-full"></div>
+                    <div className="h-0.5 lg:h-1 bg-white mb-4 lg:mb-5 rounded-full"></div>
                     
-                    <div className="text-sm lg:text-base xl:text-lg 3xl:text-xl text-white/90 leading-relaxed mb-6 lg:mb-8 xl:mb-10 space-y-4 lg:space-y-6">
+                    <div className="text-xs lg:text-sm xl:text-base text-white/90 leading-relaxed space-y-2 lg:space-y-3">
                       <div>
                         <span className="font-bold">Components:</span> An RFID system uses three parts: <span className="font-bold">reader</span> (sends signals), <span className="font-bold">antenna</span> (transmits waves), and <span className="font-bold">tag</span> (stores data). Passive tags rely on reader energy, while industrial antennas enable long-range tracking.
                       </div>
@@ -411,17 +411,29 @@ const RFIDProducts: React.FC = () => {
 
       {/* CTA Section */}
       <AnimatedSection animationType="fadeInUp" delay={600}>
-        <div className="py-16 bg-[#36A9A9]">
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <h2 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl 4xl:text-6xl font-bold text-white mb-4">
-              Need Custom RFID Solutions?
-            </h2>
-            <p className="text-white/90 text-base lg:text-lg xl:text-xl 3xl:text-2xl mb-6 lg:mb-8">
-              Contact us for tailored RFID products and technical support
-            </p>
-            <button className="bg-white hover:bg-white/90 text-[#36A9A9] px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 rounded-lg font-medium transition-all duration-300 hover:scale-105 shadow-lg text-sm lg:text-base xl:text-lg">
-              Contact Us
-            </button>
+        <div className="relative min-h-[280px] lg:min-h-[340px] xl:min-h-[395px] flex items-center">
+          {/* Background Image */}
+          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+               style={{ backgroundImage: 'url(/wave.jpg)' }}>
+            <div className="absolute inset-0 bg-black/50"></div>
+          </div>
+          
+          {/* Content */}
+          <div className="relative z-10 w-full">
+            <div className="max-w-4xl mx-auto px-4 lg:px-6 xl:px-8 text-center">
+              <h2 className="text-3xl lg:text-4xl xl:text-5xl 3xl:text-6xl font-bold text-white mb-4 lg:mb-6">
+                Need Custom RFID Solutions?
+              </h2>
+              <p className="text-white/90 text-lg lg:text-xl xl:text-2xl mb-6 lg:mb-8">
+                Contact us for tailored RFID products and technical support
+              </p>
+              <button 
+                onClick={() => navigate('/contact')}
+                className="bg-white hover:bg-white/90 text-gray-800 px-10 py-4 lg:px-12 lg:py-5 xl:px-16 xl:py-6 rounded-lg font-bold transition-all duration-300 hover:scale-105 shadow-lg text-lg lg:text-xl xl:text-2xl"
+              >
+                Contact Us
+              </button>
+            </div>
           </div>
         </div>
       </AnimatedSection>

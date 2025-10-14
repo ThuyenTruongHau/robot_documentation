@@ -76,7 +76,7 @@ const RFIDProducts: React.FC = () => {
 
   return (
     <div className="py-12 lg:py-16 xl:py-20 3xl:py-24 bg-gray-50">
-      <div className="max-w-full xl:max-w-[95%] 2xl:max-w-[90%] 3xl:max-w-[85%] mx-auto px-4 lg:px-6 xl:px-8">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 3xl:px-20 4xl:px-24 5xl:px-28">
                 {/* Title */}
                 <div className="text-center mb-8 lg:mb-12 xl:mb-16">
                   <h2 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl 4xl:text-6xl font-light text-black mb-4">
@@ -89,12 +89,12 @@ const RFIDProducts: React.FC = () => {
           {products.map((product, index) => (
             <div
               key={product.id}
-              className="group relative aspect-square min-h-[300px] lg:min-h-[350px] xl:min-h-[380px] 3xl:min-h-[420px]"
+              className="group relative aspect-square min-h-[320px] lg:min-h-[380px] xl:min-h-[420px] 3xl:min-h-[480px]"
               onMouseEnter={() => handleMouseEnter(product.id)}
               onMouseLeave={handleMouseLeave}
             >
               <div className={`
-                relative ${product.bgColor} p-4 lg:p-6 xl:p-7 3xl:p-8 h-full transition-all duration-200 ease-out cursor-pointer flex flex-col overflow-hidden
+                relative ${product.bgColor} p-6 lg:p-8 xl:p-10 3xl:p-12 h-full transition-all duration-200 ease-out cursor-pointer flex flex-col overflow-hidden
                 ${hoveredProduct === product.id 
                   ? 'shadow-2xl z-20' 
                   : 'shadow-lg hover:shadow-xl'

@@ -71,7 +71,7 @@ const RFIDContent: React.FC = () => {
 
   return (
     <div className="relative bg-white py-10 lg:py-12 xl:py-16 3xl:py-20">
-      <div className="container-responsive">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 3xl:px-20 4xl:px-24 5xl:px-28">
         {/* Main Title */}
         <div className="text-center mb-12 lg:mb-16 xl:mb-20 3xl:mb-24">
           <h2 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl 4xl:text-6xl font-light text-gray-900 mb-3 lg:mb-4 xl:mb-6 leading-tight">
@@ -91,7 +91,7 @@ const RFIDContent: React.FC = () => {
             >
               {/* Card với border radius khác nhau */}
               <div className={`
-                relative bg-white p-6 lg:p-8 xl:p-10 3xl:p-12 h-full transition-all duration-300 ease-out
+                relative bg-white p-8 lg:p-10 xl:p-12 3xl:p-14 h-full transition-all duration-300 ease-out
                 ${index === 0 ? 'rounded-l-2xl' : ''}
                 ${index === 1 ? '' : ''}
                 ${index === 2 ? 'rounded-r-2xl' : ''}

@@ -48,6 +48,7 @@ urlpatterns = [
     path('api/', include('apps.category.urls')),
     path('api/', include('apps.product.urls')),
     path('api/', include('apps.brand.urls')),
+    path('api/', include('apps.contact.urls')),
     
     # Django Admin - Đặt cuối để không can thiệp vào custom admin
     path('admin/', admin.site.urls),

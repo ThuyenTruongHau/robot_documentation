@@ -30,7 +30,7 @@ db.sqlite3-journal
 staticfiles/
 
 # Virtual Environment
-venv/
+robotvenv/
 env/
 ENV/
 env.bak/

@@ -211,6 +211,30 @@ class ApiService {
     return `${API_BASE_URL}${cleanPath}`;
   }
 
+  // Contact API
+  async submitContact(contactData: {
+    full_name?: string;
+    email: string;
+    company?: string;
+    phone_number: string;
+    message: string;
+  }): Promise<{ success: boolean; message: string }> {
+    try {
+      const response = await this.makeRequest<{ success: boolean; message: string }>(
+        '/api/contact/',
+        {
+          method: 'POST',
+          body: JSON.stringify(contactData),
+        },
+        1 // No retries for contact form
+      );
+      return response;
+    } catch (error) {
+      this.log('Error submitting contact form', error);
+      throw error;
+    }
+  }
+
   // Health check
   async checkHealth(): Promise<boolean> {
     try {

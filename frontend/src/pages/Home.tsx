@@ -6,11 +6,18 @@ import IndustryShowcase from '../components/IndustryShowcase';
 import AboutUs from '../components/AboutUs';
 import Partners from '../components/Partners';
 import AnimatedSection from '../components/AnimatedSection';
+import apiService from '../services/api';
 import '../styles/hideScrollbar.css';
 
 const Home: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [contactForm, setContactForm] = useState({
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const slides = [
     {
@@ -391,27 +398,68 @@ const Home: React.FC = () => {
 
                 {/* Form - Right Side */}
                 <div className="p-6 lg:p-8">
-                  <form className="space-y-4">
+                  <form className="space-y-4" onSubmit={async (e) => {
+                    e.preventDefault();
+                    setIsSubmitting(true);
+                    setSubmitMessage(null);
+
+                    try {
+                      const response = await apiService.submitContact({
+                        email: contactForm.email,
+                        phone_number: '0000000000', // Placeholder since Home form doesn't have phone field
+                        message: contactForm.message
+                      });
+
+                      if (response.success) {
+                        setSubmitMessage({ type: 'success', text: response.message });
+                        setContactForm({ email: '', message: '' });
+                      } else {
+                        setSubmitMessage({ type: 'error', text: 'Có lỗi xảy ra. Vui lòng thử lại.' });
+                      }
+                    } catch (error) {
+                      setSubmitMessage({ type: 'error', text: 'Không thể kết nối đến server. Vui lòng thử lại sau.' });
+                    } finally {
+                      setIsSubmitting(false);
+                    }
+                  }}>
                     <div>
                       <input
                         type="email"
                         placeholder="Your Email"
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent text-gray-900 placeholder-gray-500"
+                        value={contactForm.email}
+                        onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                        required
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent text-gray-900 placeholder-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
                       />
                     </div>
                     <div>
                       <textarea
                         placeholder="Your Message"
                         rows={4}
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent text-gray-900 placeholder-gray-500 resize-none"
+                        value={contactForm.message}
+                        onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                        required
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent text-gray-900 placeholder-gray-500 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                       />
                     </div>
+                    {submitMessage && (
+                      <div className={`p-3 rounded-lg text-center ${
+                        submitMessage.type === 'success' 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {submitMessage.text}
+                      </div>
+                    )}
                     <div className="flex justify-center">
                       <button 
                         type="submit"
-                        className="w-1/5 bg-[#36A9A9] hover:bg-[#2d8a87] text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
+                        disabled={isSubmitting}
+                        className="w-1/5 bg-[#36A9A9] hover:bg-[#2d8a87] text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                       >
-                        Submit
+                        {isSubmitting ? 'Sending...' : 'Submit'}
                       </button>
                     </div>
                   </form>

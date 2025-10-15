@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const IndustryShowcase: React.FC = () => {
+  const navigate = useNavigate();
   const [hoveredColumn, setHoveredColumn] = useState<number>(1); // Default to first image
   const [imagesLoaded, setImagesLoaded] = useState<boolean>(false);
 
@@ -102,6 +104,10 @@ const IndustryShowcase: React.FC = () => {
     setHoveredColumn(1); // Return to default image
   }, []);
 
+  const handleIndustryClick = useCallback(() => {
+    navigate('/rfid-solutions');
+  }, [navigate]);
+
   // Memoize background images to avoid re-renders
   const backgroundImages = useMemo(() => 
     industries.map((industry) => (
@@ -155,6 +161,7 @@ const IndustryShowcase: React.FC = () => {
                 className="relative group cursor-pointer"
                 onMouseEnter={() => handleMouseEnter(industry.id)}
                 onMouseLeave={handleMouseLeave}
+                onClick={handleIndustryClick}
               >
                 {/* Column Background - No individual background */}
                 <div className="relative h-full">
@@ -239,7 +246,10 @@ const IndustryShowcase: React.FC = () => {
 
         {/* Bottom CTA */}
         <div className="text-center mt-8 mb-8 lg:mb-12 xl:mb-16 px-4 lg:px-6 xl:px-8">
-          <button className="bg-[#36A9A9] hover:bg-[#36A9A9]/90 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 rounded-full font-medium transition-all duration-300 hover:scale-105 shadow-lg text-sm lg:text-base xl:text-lg 3xl:text-xl">
+          <button 
+            onClick={handleIndustryClick}
+            className="bg-[#36A9A9] hover:bg-[#36A9A9]/90 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 rounded-full font-medium transition-all duration-300 hover:scale-105 shadow-lg text-sm lg:text-base xl:text-lg 3xl:text-xl"
+          >
             Explore Solutions
           </button>
         </div>

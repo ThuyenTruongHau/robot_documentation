@@ -9,6 +9,7 @@ class ContactSerializer(serializers.Serializer):
     full_name = serializers.CharField(
         max_length=255,
         required=False,
+        allow_blank=True
     )
     
     email = serializers.EmailField(
@@ -27,11 +28,8 @@ class ContactSerializer(serializers.Serializer):
     
     phone_number = serializers.CharField(
         max_length=20,
-        required=True,
-        error_messages={
-            'required': 'Vui lòng nhập số điện thoại',
-            'blank': 'Số điện thoại không được để trống'
-        }
+        required=False,
+        allow_blank=True
     )
     
     message = serializers.CharField(

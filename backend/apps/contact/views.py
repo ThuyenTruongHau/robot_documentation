@@ -33,10 +33,10 @@ class ContactAPIView(APIView):
             message_body = f"""
                 Thông tin liên hệ mới từ website RFID:
 
-                Họ tên: {data['full_name']}
+                Họ tên: {data.get('full_name', 'Không có')}
                 Email: {data['email']}
                 Công ty: {data.get('company', 'Không có')}
-                Số điện thoại: {data['phone_number']}
+                Số điện thoại: {data.get('phone_number', 'Không có')}
 
                 Nội dung:
                 {data['message']}
@@ -52,10 +52,10 @@ class ContactAPIView(APIView):
                 <body>
                     <p>Cảm ơn bạn đã liên hệ với chúng tôi, đội ngũ kỹ thuật sẽ phản hồi sớm nhất.</p>
 
-                    <p><b>Họ tên:</b> {data['full_name']}<br>
+                    <p><b>Họ tên:</b> {data.get('full_name', 'Không có')}<br>
                     <b>Email:</b> {data['email']}<br>
                     <b>Công ty:</b> {data.get('company', 'Không có')}<br>
-                    <b>Số điện thoại:</b> {data['phone_number']}</p>
+                    <b>Số điện thoại:</b> {data.get('phone_number', 'Không có')}</p>
 
                     <p><b>Nội dung:</b><br>{data['message']}</p>
 

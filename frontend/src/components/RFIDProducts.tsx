@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RFIDProducts: React.FC = () => {
+  const navigate = useNavigate();
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
 
   const handleMouseEnter = useCallback((id: number) => {
@@ -10,6 +12,10 @@ const RFIDProducts: React.FC = () => {
   const handleMouseLeave = useCallback(() => {
     setHoveredProduct(null);
   }, []);
+
+  const handleProductClick = useCallback(() => {
+    navigate('/rfid-products');
+  }, [navigate]);
 
   const products = [
     {
@@ -92,6 +98,7 @@ const RFIDProducts: React.FC = () => {
               className="group relative aspect-square min-h-[320px] lg:min-h-[380px] xl:min-h-[420px] 3xl:min-h-[480px]"
               onMouseEnter={() => handleMouseEnter(product.id)}
               onMouseLeave={handleMouseLeave}
+              onClick={handleProductClick}
             >
               <div className={`
                 relative ${product.bgColor} p-6 lg:p-8 xl:p-10 3xl:p-12 h-full transition-all duration-200 ease-out cursor-pointer flex flex-col overflow-hidden

@@ -348,11 +348,11 @@ const Navbar: React.FC = () => {
                     : 'opacity-0 -translate-y-4 invisible'
                   }`}
                   style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-                    <div className="container-responsive py-6 lg:py-8 xl:py-10">
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 xl:gap-12 items-stretch">
+                    <div className="container-responsive py-2 lg:py-2.5 xl:py-3 lg:!pl-0 lg:!pr-0">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 xl:gap-20 items-stretch">
                         {/* Left Side - Image */}
-                        <div className="hidden lg:block lg:col-span-1">
-                          <div className="relative h-full overflow-hidden flex flex-col">
+                        <div className="hidden lg:block lg:col-span-1 lg:w-[110%] lg:-ml-[5%] xl:w-[115%] xl:-ml-[7.5%] 2xl:w-[120%] 2xl:-ml-[10%]">
+                          <div className="relative h-full overflow-hidden flex flex-col lg:max-h-[350px] xl:max-h-[400px] 2xl:max-h-[450px]">
                             <div className="flex-1">
                               <img 
                                 src="/solution_image/main_page.png" 
@@ -378,17 +378,17 @@ const Navbar: React.FC = () => {
 
                         {/* Right Side - Solutions Grid */}
                         <div className="text-center lg:text-left lg:col-span-1">
-                          <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold text-[#36A9A9] mb-4 lg:mb-6 border-b-2 border-[#36A9A9] pb-2 w-full">
+                          <h2 className="text-lg lg:text-xl xl:text-2xl font-bold text-[#36A9A9] mb-1.5 lg:mb-2 border-b-2 border-[#36A9A9] pb-1 w-full">
                             Thado RFID Solution
                           </h2>
-                          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-1 sm:gap-1.5 lg:gap-2 xl:gap-2.5 justify-items-stretch">
+                          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 xl:gap-14 justify-items-stretch">
                             {/* Solution 1: RFID Energy */}
                             <Link
                               to="/rfid-solutions#energy"
                               onClick={() => closeAllDropdowns()}
-                              className="group flex flex-col items-center text-center p-2 sm:p-3 lg:p-4 hover:bg-gray-50 transition-all duration-300 w-full"
+                              className="group flex flex-col items-center text-center p-1.5 sm:p-2 lg:p-2.5 hover:bg-gray-50 transition-all duration-300 w-full"
                             >
-                              <div className="w-full h-20 sm:h-22 lg:h-24 xl:h-28 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300">
+                              <div className="w-full h-16 sm:h-18 lg:h-20 xl:h-22 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300 lg:w-[140%] xl:w-[150%] 2xl:w-[160%]">
                                 <svg className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 text-[#36A9A9] mb-2 sm:mb-3" fill="currentColor" viewBox="0 0 24 24">
                                   <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm6 10h-5v6h-2v-6H6v-2h5V4h2v6h5v2z"/>
                                 </svg>
@@ -403,9 +403,9 @@ const Navbar: React.FC = () => {
                             <Link
                               to="/rfid-solutions#logistics"
                               onClick={() => closeAllDropdowns()}
-                              className="group flex flex-col items-center text-center p-2 sm:p-3 lg:p-4 hover:bg-gray-50 transition-all duration-300 w-full"
+                              className="group flex flex-col items-center text-center p-1.5 sm:p-2 lg:p-2.5 hover:bg-gray-50 transition-all duration-300 w-full"
                             >
-                              <div className="w-full h-20 sm:h-22 lg:h-24 xl:h-28 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300">
+                              <div className="w-full h-16 sm:h-18 lg:h-20 xl:h-22 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300 lg:w-[140%] xl:w-[150%] 2xl:w-[160%]">
                                 <svg className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 text-[#36A9A9] mb-2 sm:mb-3" fill="currentColor" viewBox="0 0 24 24">
                                   <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
                                 </svg>
@@ -420,9 +420,9 @@ const Navbar: React.FC = () => {
                             <Link
                               to="/rfid-solutions#warehouse"
                               onClick={() => closeAllDropdowns()}
-                              className="group flex flex-col items-center text-center p-2 sm:p-3 lg:p-4 hover:bg-gray-50 transition-all duration-300 w-full"
+                              className="group flex flex-col items-center text-center p-1.5 sm:p-2 lg:p-2.5 hover:bg-gray-50 transition-all duration-300 w-full"
                             >
-                              <div className="w-full h-20 sm:h-22 lg:h-24 xl:h-28 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300">
+                              <div className="w-full h-16 sm:h-18 lg:h-20 xl:h-22 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300 lg:w-[140%] xl:w-[150%] 2xl:w-[160%]">
                                 <svg className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 text-[#36A9A9] mb-2 sm:mb-3" fill="currentColor" viewBox="0 0 24 24">
                                   <path d="M4 6.5L12 3l8 3.5v7.9c0 4.5-3.2 7.6-8 8.6-4.8-1-8-4.1-8-8.6V6.5z"/>
                                   <path d="M8 12h8v5H8z" fill="white"/>
@@ -439,9 +439,9 @@ const Navbar: React.FC = () => {
                             <Link
                               to="/rfid-solutions#tool-tracking"
                               onClick={() => closeAllDropdowns()}
-                              className="group flex flex-col items-center text-center p-2 sm:p-3 lg:p-4 hover:bg-gray-50 transition-all duration-300 w-full"
+                              className="group flex flex-col items-center text-center p-1.5 sm:p-2 lg:p-2.5 hover:bg-gray-50 transition-all duration-300 w-full"
                             >
-                              <div className="w-full h-20 sm:h-22 lg:h-24 xl:h-28 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300">
+                              <div className="w-full h-16 sm:h-18 lg:h-20 xl:h-22 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300 lg:w-[140%] xl:w-[150%] 2xl:w-[160%]">
                                 <svg className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 text-[#36A9A9] mb-2 sm:mb-3" fill="currentColor" viewBox="0 0 24 24">
                                   <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
                                 </svg>
@@ -456,9 +456,9 @@ const Navbar: React.FC = () => {
                             <Link
                               to="/rfid-solutions#healthcare"
                               onClick={() => closeAllDropdowns()}
-                              className="group flex flex-col items-center text-center p-2 sm:p-3 lg:p-4 hover:bg-gray-50 transition-all duration-300 w-full"
+                              className="group flex flex-col items-center text-center p-1.5 sm:p-2 lg:p-2.5 hover:bg-gray-50 transition-all duration-300 w-full"
                             >
-                              <div className="w-full h-20 sm:h-22 lg:h-24 xl:h-28 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300">
+                              <div className="w-full h-16 sm:h-18 lg:h-20 xl:h-22 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300 lg:w-[140%] xl:w-[150%] 2xl:w-[160%]">
                                 <svg className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 text-[#36A9A9] mb-2 sm:mb-3" fill="currentColor" viewBox="0 0 24 24">
                                   <path d="M19 8h-2v3h-3v2h3v3h2v-3h3v-2h-3zM4 8h8v2H4zM4 13h8v2H4zM4 18h8v2H4z"/>
                                   <path d="M20 3H4C2.9 3 2 3.9 2 5v14c0 1.1.9 2 2 2h8.5c-.3-.6-.5-1.3-.5-2H4V5h16v7c.7 0 1.4.2 2 .5V5c0-1.1-.9-2-2-2z"/>
@@ -474,9 +474,9 @@ const Navbar: React.FC = () => {
                             <Link
                               to="/rfid-solutions#manufacturing"
                               onClick={() => closeAllDropdowns()}
-                              className="group flex flex-col items-center text-center p-2 sm:p-3 lg:p-4 hover:bg-gray-50 transition-all duration-300 w-full"
+                              className="group flex flex-col items-center text-center p-1.5 sm:p-2 lg:p-2.5 hover:bg-gray-50 transition-all duration-300 w-full"
                             >
-                              <div className="w-full h-20 sm:h-22 lg:h-24 xl:h-28 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300">
+                              <div className="w-full h-16 sm:h-18 lg:h-20 xl:h-22 bg-gray-100 rounded-lg flex flex-col items-center justify-center group-hover:bg-[#36A9A9]/10 transition-colors duration-300 lg:w-[140%] xl:w-[150%] 2xl:w-[160%]">
                                 <svg className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 text-[#36A9A9] mb-2 sm:mb-3" fill="currentColor" viewBox="0 0 24 24">
                                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
                                 </svg>

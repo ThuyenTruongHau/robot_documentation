@@ -4,42 +4,37 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- Homepage -->
   <url>
-    <loc>https://thadosoft.com/</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://rfid.thadorobot.com/</loc>
+    <lastmod>2025-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- RFID Products -->
   <url>
-    <loc>https://thadosoft.com/rfid-products</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://rfid.thadorobot.com/rfid-products</loc>
+    <lastmod>2025-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- RFID Solutions -->
   <url>
-    <loc>https://thadosoft.com/rfid-solutions</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://rfid.thadorobot.com/rfid-solutions</loc>
+    <lastmod>2025-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- About Us -->
   <url>
-    <loc>https://thadosoft.com/about-us</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://rfid.thadorobot.com/about-us</loc>
+    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Contact Us -->
   <url>
-    <loc>https://thadosoft.com/contact-us</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://rfid.thadorobot.com/contact-us</loc>
+    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

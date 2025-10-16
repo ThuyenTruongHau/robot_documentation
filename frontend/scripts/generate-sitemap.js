@@ -209,14 +209,27 @@ async function generateSitemap() {
   xml += `</urlset>`;
 
   // Write to file
-  const sitemapPath = path.join(__dirname, 'public', 'sitemap.xml');
-  fs.writeFileSync(sitemapPath, xml);
+  const sitemapPath = path.join(__dirname, '..', 'public', 'sitemap.xml');
   
-  console.log('Sitemap generated successfully!');
-  console.log(`Generated ${staticPages.length} static URLs`);
-  console.log(`Generated ${categories.length} category URLs`);
-  console.log(`Generated ${products.length} product URLs`);
-  console.log(`Total: ${staticPages.length + categories.length + products.length} URLs`);
+  // Ensure directory exists
+  const publicDir = path.dirname(sitemapPath);
+  if (!fs.existsSync(publicDir)) {
+    fs.mkdirSync(publicDir, { recursive: true });
+  }
+  
+  try {
+    fs.writeFileSync(sitemapPath, xml);
+    
+    console.log('Sitemap generated successfully!');
+    console.log(`Generated ${staticPages.length} static URLs`);
+    console.log(`Generated ${categories.length} category URLs`);
+    console.log(`Generated ${products.length} product URLs`);
+    console.log(`Total: ${staticPages.length + categories.length + products.length} URLs`);
+    console.log(`Sitemap saved to: ${sitemapPath}`);
+  } catch (error) {
+    console.error('Error writing sitemap file:', error.message);
+    console.log('Sitemap content generated but could not be saved to file');
+  }
 }
 
 // Run if called directly

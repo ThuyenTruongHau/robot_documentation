@@ -3,8 +3,8 @@ const path = require('path');
 const axios = require('axios');
 
 // Configuration
-const FRONTEND_DOMAIN = process.env.FRONTEND_DOMAIN || 'https://thadosoft.com';
-const BACKEND_API_URL = process.env.BACKEND_API_URL || 'https://api.thadosoft.com';
+const FRONTEND_DOMAIN = process.env.FRONTEND_DOMAIN || 'https://rfid.thadorobot.com';
+const BACKEND_API_URL = process.env.BACKEND_API_URL || 'https://api.rfid.thadorobot.com';
 
 // Function to fetch products from backend
 async function fetchProducts() {

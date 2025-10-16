@@ -37,10 +37,11 @@ Google vẫn hiển thị "Thado Robot" thay vì "Thado RFID" và không có log
 2. Nhập URL: https://rfid.thadorobot.com
 3. Click "Request Indexing"
 
-### Bước 3: Ping Google
+### Bước 3: Alternative Methods (Ping deprecated)
 ```bash
-# Ping Google về sitemap
-curl "https://www.google.com/ping?sitemap=https://rfid.thadorobot.com/sitemap.xml"
+# Method 1: Use Google Search Console API (if available)
+# Method 2: Submit individual URLs for indexing
+# Method 3: Use Google Indexing API (for high-volume sites)
 ```
 
 ### Bước 4: Test meta tags

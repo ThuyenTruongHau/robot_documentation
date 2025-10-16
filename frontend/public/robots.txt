@@ -9,7 +9,18 @@ Disallow: /admin/
 Disallow: /api/
 Disallow: /private/
 Disallow: /_next/
-Disallow: /static/
+
+# Allow all static assets for SPA
+Allow: /static/
+Allow: /*.js$
+Allow: /*.css$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.ico$
+Allow: /*.webp$
 
 # Allow important pages
 Allow: /rfid-products

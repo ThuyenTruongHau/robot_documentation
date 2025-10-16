@@ -147,10 +147,10 @@ const SearchResults: React.FC = () => {
 
             <div className="container-responsive relative z-10">
               <div className="text-center mb-8 lg:mb-12 xl:mb-16">
-                <h1 className="text-3xl lg:text-4xl xl:text-5xl 3xl:text-6xl font-bold text-white mb-4 lg:mb-6">
+                <h1 className="text-3xl lg:text-4xl xl:text-5xl 3xl:text-6xl font-bold text-red-600 mb-4 lg:mb-6">
                   Search Products
                 </h1>
-                <p className="text-base lg:text-lg xl:text-xl 3xl:text-2xl text-white/90 max-w-2xl mx-auto">
+                <p className="text-base lg:text-lg xl:text-xl 3xl:text-2xl text-red-600/90 max-w-2xl mx-auto">
                   Find the perfect RFID solution for your needs
                 </p>
               </div>

@@ -320,7 +320,7 @@ const ContactUs: React.FC = () => {
                          allowFullScreen
                          loading="lazy"
                          referrerPolicy="no-referrer-when-downgrade"
-                         className="w-full h-80 sm:h-90 lg:h-100 xl:h-[470px] 2xl:h-[570px]"
+                         className="w-full h-80 sm:h-90 lg:h-[450px] xl:h-[470px] 2xl:h-[570px]"
                          title="ThadoSoft Company Location - C25-C26, ngách 28/5 P.Dương Khuê, Mai Dịch, Cầu Giấy, Hà Nội"
                        ></iframe>
                      </div>

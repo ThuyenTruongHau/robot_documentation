@@ -346,13 +346,16 @@ const ProductDetail: React.FC = () => {
       {/* Related Products Section */}
       {product && (
         <AnimatedSection animationType="fadeInUp" delay={400}>
-          <div className="py-16 bg-white">
-            <div className="max-w-7xl mx-auto px-4">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <div className="relative py-16 lg:py-20 xl:py-24 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/contact.webp)' }}>
+            {/* Overlay for better text readability */}
+            <div className="absolute inset-0 bg-black/50"></div>
+            
+            <div className="relative z-10 max-w-7xl mx-auto px-4">
+              <div className="text-center mb-8 lg:mb-12">
+                <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-4 lg:mb-6">
                   Explore More Products
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-lg lg:text-xl text-white/90">
                   Discover other RFID solutions in the same category
                 </p>
               </div>
@@ -360,10 +363,10 @@ const ProductDetail: React.FC = () => {
               <div className="text-center">
                 <Link
                   to={`/rfid-products?category=${product.category.id}`}
-                  className="inline-flex items-center bg-[#36A9A9] hover:bg-[#2a8a8a] text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105 shadow-lg"
+                  className="inline-flex items-center bg-[#36A9A9] hover:bg-[#2a8a8a] text-white px-8 py-3 lg:px-10 lg:py-4 rounded-lg font-medium transition-all duration-300 hover:scale-105 shadow-xl text-base lg:text-lg"
                 >
                   View All {product.category.name}
-                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 lg:w-6 lg:h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </Link>

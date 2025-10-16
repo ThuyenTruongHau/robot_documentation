@@ -140,7 +140,48 @@ const RFIDProducts: React.FC = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Scroll to products section, not to top
+    const productsSection = document.querySelector('.flex-1');
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  // Generate page numbers with ellipsis for better UX
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    const maxVisiblePages = 5; // Show max 5 page numbers at a time
+
+    if (totalPages <= maxVisiblePages) {
+      // Show all pages if total is small
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Always show first page
+      pages.push(1);
+
+      if (currentPage > 3) {
+        pages.push('...');
+      }
+
+      // Show pages around current page
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
+
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+
+      if (currentPage < totalPages - 2) {
+        pages.push('...');
+      }
+
+      // Always show last page
+      pages.push(totalPages);
+    }
+
+    return pages;
   };
 
   return (
@@ -213,9 +254,9 @@ const RFIDProducts: React.FC = () => {
                   onChange={(e) => {
                     const categoryId = e.target.value;
                     if (categoryId) {
-                      window.location.href = `/rfid-products?category=${categoryId}`;
+                      navigate(`/rfid-products?category=${categoryId}`);
                     } else {
-                      window.location.href = '/rfid-products';
+                      navigate('/rfid-products');
                     }
                   }}
                   value={selectedCategory?.id || ''}
@@ -240,120 +281,135 @@ const RFIDProducts: React.FC = () => {
                 )}
                 
                 
-                {isLoading ? (
-                  <div className="flex items-center justify-center h-[672px]">
-                    <div className="text-center">
-                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#36A9A9] mx-auto mb-4"></div>
-                      <p className="text-gray-600">Loading products...</p>
+                {/* Products Container with Fixed Height */}
+                <div className="flex flex-col min-h-[800px] lg:min-h-[900px] xl:min-h-[1000px]">
+                  {isLoading ? (
+                    <div className="flex items-center justify-center flex-1">
+                      <div className="text-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#36A9A9] mx-auto mb-4"></div>
+                        <p className="text-gray-600">Loading products...</p>
+                      </div>
                     </div>
-                  </div>
-                ) : currentProducts.length === 0 ? (
-                  <div className="flex items-center justify-center h-[672px]">
-                    <div className="text-center">
-                      <svg className="w-24 h-24 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-                      </svg>
-                      <h3 className="text-xl font-medium text-gray-500 mb-2">No Products Available</h3>
-                      <p className="text-gray-400">
-                        {getCategoryFromURL() 
-                          ? 'No products found for this category. Please try another category.' 
-                          : 'Please select a category to view products.'
-                        }
-                      </p>
+                  ) : currentProducts.length === 0 ? (
+                    <div className="flex items-center justify-center flex-1">
+                      <div className="text-center">
+                        <svg className="w-24 h-24 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                        </svg>
+                        <h3 className="text-xl font-medium text-gray-500 mb-2">No Products Available</h3>
+                        <p className="text-gray-400">
+                          {getCategoryFromURL() 
+                            ? 'No products found for this category. Please try another category.' 
+                            : 'Please select a category to view products.'
+                          }
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-3 gap-4 lg:gap-6 xl:gap-8">
-                    {currentProducts.map((product, index) => (
-                    <AnimatedSection key={product.id} animationType="fadeInUp" delay={300 + index * 100}>
-                      <div 
-                        className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 h-56 lg:h-64 xl:h-72 3xl:h-80 flex flex-col cursor-pointer group"
-                        onClick={() => {
-                          navigate(`/product/${product.id}`);
-                          window.scrollTo({ top: 0, behavior: 'auto' });
-                        }}
-                      >
-                        <div className="h-40 lg:h-48 xl:h-52 bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
-                          {product.image && product.image !== '/placeholder-product.jpg' ? (
-                            <img 
-                              src={product.image} 
-                              alt={product.name}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                              onError={(e) => {
-                                // Fallback to placeholder if image fails to load
-                                const target = e.target as HTMLImageElement;
-                                target.src = '/placeholder-product.jpg';
+                  ) : (
+                    <>
+                      {/* Products Grid */}
+                      <div className="flex-grow">
+                        <div className="grid grid-cols-3 gap-4 lg:gap-6 xl:gap-8">
+                          {currentProducts.map((product, index) => (
+                          <AnimatedSection key={product.id} animationType="fadeInUp" delay={300 + index * 100}>
+                            <div 
+                              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 h-56 lg:h-64 xl:h-72 3xl:h-80 flex flex-col cursor-pointer group"
+                              onClick={() => {
+                                navigate(`/product/${product.id}`);
+                                window.scrollTo({ top: 0, behavior: 'auto' });
                               }}
-                            />
-                          ) : (
-                            <div className="text-gray-400 text-center">
-                              <svg className="w-12 h-12 lg:w-16 lg:h-16 xl:w-18 xl:h-18 3xl:w-20 3xl:h-20 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                              <p className="text-xs lg:text-sm xl:text-base">No Image</p>
+                            >
+                              <div className="h-40 lg:h-48 xl:h-52 bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                {product.image && product.image !== '/placeholder-product.jpg' ? (
+                                  <img 
+                                    src={product.image} 
+                                    alt={product.name}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    onError={(e) => {
+                                      // Fallback to placeholder if image fails to load
+                                      const target = e.target as HTMLImageElement;
+                                      target.src = '/placeholder-product.jpg';
+                                    }}
+                                  />
+                                ) : (
+                                  <div className="text-gray-400 text-center">
+                                    <svg className="w-12 h-12 lg:w-16 lg:h-16 xl:w-18 xl:h-18 3xl:w-20 3xl:h-20 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <p className="text-xs lg:text-sm xl:text-base">No Image</p>
+                                  </div>
+                                )}
+                              </div>
+                              <div className="p-3 lg:p-4 xl:p-5 flex-1 flex flex-col justify-center">
+                                <h3 className="text-sm lg:text-base xl:text-lg 3xl:text-xl font-medium text-gray-900 text-center group-hover:text-[#36A9A9] transition-colors duration-300 line-clamp-2">{product.name}</h3>
+                              </div>
                             </div>
-                          )}
-                        </div>
-                        <div className="p-3 lg:p-4 xl:p-5 flex-1 flex flex-col justify-center">
-                          <h3 className="text-sm lg:text-base xl:text-lg 3xl:text-xl font-medium text-gray-900 text-center group-hover:text-[#36A9A9] transition-colors duration-300 line-clamp-2">{product.name}</h3>
+                          </AnimatedSection>
+                          ))}
                         </div>
                       </div>
-                    </AnimatedSection>
-                    ))}
-                  </div>
-                )}
-                
-                {/* Pagination */}
-                {totalPages > 1 && (
-                  <div className="flex justify-center mt-6 lg:mt-8 xl:mt-10">
-                    <div className="flex items-center space-x-1 lg:space-x-2">
-                      {/* Previous Button */}
-                      <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                        className={`px-3 py-2 lg:px-4 lg:py-2 xl:px-5 xl:py-3 rounded-lg font-medium transition-all duration-200 text-sm lg:text-base xl:text-lg ${
-                          currentPage === 1
-                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                            : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
-                        }`}
-                      >
-                        <svg className="w-3 h-3 lg:w-4 lg:h-4 xl:w-5 xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                        </svg>
-                      </button>
+                      
+                      {/* Pagination - Fixed at bottom */}
+                      <div className="flex justify-center items-center mt-8 lg:mt-10 xl:mt-12 px-4">
+                        <div className="flex items-center gap-2 lg:gap-3 flex-wrap justify-center">
+                          {/* Previous Button */}
+                          <button
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            className={`flex items-center gap-2 px-3 py-2 lg:px-4 lg:py-3 xl:px-5 xl:py-3 rounded-lg font-medium transition-all duration-300 text-sm lg:text-base xl:text-lg shadow-sm ${
+                              currentPage === 1
+                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                : 'bg-white text-gray-700 hover:bg-[#36A9A9] hover:text-white hover:shadow-md border border-gray-200 hover:border-[#36A9A9]'
+                            }`}
+                          >
+                            <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                            <span className="hidden sm:inline">Previous</span>
+                          </button>
 
-                      {/* Page Numbers */}
-                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                        <button
-                          key={page}
-                          onClick={() => handlePageChange(page)}
-                          className={`px-3 py-2 lg:px-4 lg:py-2 xl:px-5 xl:py-3 rounded-lg font-medium transition-all duration-200 text-sm lg:text-base xl:text-lg ${
-                            currentPage === page
-                              ? 'bg-[#36A9A9] text-white'
-                              : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
-                          }`}
-                        >
-                          {page}
-                        </button>
-                      ))}
+                          {/* Page Numbers with Ellipsis */}
+                          {getPageNumbers().map((page, index) => (
+                            <React.Fragment key={index}>
+                              {page === '...' ? (
+                                <span className="px-2 lg:px-3 py-2 lg:py-3 text-gray-400 text-sm lg:text-base xl:text-lg">
+                                  ...
+                                </span>
+                              ) : (
+                                <button
+                                  onClick={() => handlePageChange(page as number)}
+                                  className={`min-w-[40px] lg:min-w-[48px] xl:min-w-[56px] px-3 py-2 lg:px-4 lg:py-3 xl:px-5 xl:py-3 rounded-lg font-semibold transition-all duration-300 text-sm lg:text-base xl:text-lg shadow-sm ${
+                                    currentPage === page
+                                      ? 'bg-[#36A9A9] text-white shadow-md transform scale-105 border-2 border-[#36A9A9]'
+                                      : 'bg-white text-gray-700 hover:bg-gray-50 hover:shadow-md border border-gray-200 hover:border-[#36A9A9]'
+                                  }`}
+                                >
+                                  {page}
+                                </button>
+                              )}
+                            </React.Fragment>
+                          ))}
 
-                      {/* Next Button */}
-                      <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                        className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                          currentPage === totalPages
-                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                            : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
-                        }`}
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                )}
+                          {/* Next Button */}
+                          <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            className={`flex items-center gap-2 px-3 py-2 lg:px-4 lg:py-3 xl:px-5 xl:py-3 rounded-lg font-medium transition-all duration-300 text-sm lg:text-base xl:text-lg shadow-sm ${
+                              currentPage === totalPages
+                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                : 'bg-white text-gray-700 hover:bg-[#36A9A9] hover:text-white hover:shadow-md border border-gray-200 hover:border-[#36A9A9]'
+                            }`}
+                          >
+                            <span className="hidden sm:inline">Next</span>
+                            <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -428,7 +484,7 @@ const RFIDProducts: React.FC = () => {
                 Contact us for tailored RFID products and technical support
               </p>
               <button 
-                onClick={() => navigate('/contact')}
+                onClick={() => navigate('/contact-us')}
                 className="bg-white hover:bg-white/90 text-gray-800 px-10 py-4 lg:px-12 lg:py-5 xl:px-16 xl:py-6 rounded-lg font-bold transition-all duration-300 hover:scale-105 shadow-lg text-lg lg:text-xl xl:text-2xl"
               >
                 Contact Us

@@ -1,6 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import apiService from '../services/api';
+
+// Counter Animation Component
+const CounterAnimation: React.FC<{ end: number; duration?: number; suffix?: string }> = ({ end, duration = 2000, suffix = '' }) => {
+  const [count, setCount] = useState(0);
+  const counterRef = useRef<HTMLSpanElement>(null);
+  const hasStarted = useRef(false);
+
+  useEffect(() => {
+    let animationFrame: number;
+    let startTime: number | null = null;
+
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing function for smooth animation
+      const easeOutQuad = (t: number) => t * (2 - t);
+      const currentCount = Math.floor(easeOutQuad(progress) * end);
+      
+      setCount(currentCount);
+      
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      } else {
+        setCount(end);
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasStarted.current) {
+            hasStarted.current = true;
+            animationFrame = requestAnimationFrame(animate);
+          }
+        });
+      },
+      { 
+        threshold: 0.1,
+        rootMargin: '50px'
+      }
+    );
+
+    const currentRef = counterRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [end, duration]);
+
+  return (
+    <span ref={counterRef}>
+      {count}{suffix}
+    </span>
+  );
+};
 
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -267,33 +332,40 @@ const ContactUs: React.FC = () => {
         </div>
       </AnimatedSection>
 
-       {/* Business Hours */}
-       <AnimatedSection animationType="fadeInUp" delay={800}>
-         <div className="relative py-16 sm:py-20 lg:py-28 xl:py-32 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/world_map.jpg)' }}>
-           {/* Overlay for better text readability */}
-           <div className="absolute inset-0 bg-black/50"></div>
-           <div className="relative max-w-none mx-auto px-6 lg:px-8 xl:px-12 2xl:px-16">
-             <div className="text-center mb-20 sm:mb-24 lg:mb-28 xl:mb-32">
-               <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 sm:mb-8">Business Hours</h2>
-               <p className="text-2xl sm:text-3xl lg:text-4xl text-white/90">We're here to help you during business hours</p>
-             </div>
-             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 xl:gap-16">
-               {[
-                 { day: "Monday - Friday", hours: "8:00 AM - 6:00 PM" },
-                 { day: "Saturday", hours: "9:00 AM - 4:00 PM" },
-                 { day: "Sunday", hours: "Closed" }
-               ].map((schedule, index) => (
-                 <AnimatedSection key={index} animationType="fadeInUp" delay={900 + index * 100}>
-                   <div className="text-center p-6 sm:p-8 lg:p-10 xl:p-12 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg max-w-sm mx-auto">
-                     <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 mb-4 sm:mb-6">{schedule.day}</h3>
-                     <p className="text-base sm:text-lg lg:text-xl text-[#36A9A9] font-medium">{schedule.hours}</p>
+       {/* What Makes Thado RFID Different */}
+       <div className="relative py-12 sm:py-16 lg:py-20 xl:py-24 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/world_map.jpg)' }}>
+         {/* Overlay for better text readability */}
+         <div className="absolute inset-0 bg-black/50"></div>
+         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+           <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+             <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6">What Makes Thado RFID Different?</h2>
+             <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl text-white/90">Our commitment to excellence and innovation</p>
+           </div>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+             {[
+               { title: "Customers", value: 110, suffix: "+", description: "Trusted Cross Regions" },
+               { title: "Years of Innovation", value: 10, suffix: "+", description: "Industry Experience" },
+               { title: "Productivity Gains", value: 70, suffix: "%", description: "Productivity Gains" }
+             ].map((stat, index) => (
+               <div key={index} className="flex items-stretch justify-center">
+                 <div className="text-center px-6 py-5 sm:px-8 sm:py-6 lg:px-10 lg:py-7 xl:px-12 xl:py-8 bg-white/90 backdrop-blur-sm rounded-lg shadow-xl w-full max-w-md min-h-[120px] sm:min-h-[140px] lg:min-h-[160px] xl:min-h-[180px] flex items-center justify-center">
+                   <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 lg:gap-6 w-full">
+                     {/* Number */}
+                     <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-[#36A9A9] flex-shrink-0">
+                       <CounterAnimation end={stat.value} duration={2000} suffix={stat.suffix} />
+                     </div>
+                     {/* Text */}
+                     <div className="text-center sm:text-left flex-1">
+                       <h3 className="text-base sm:text-lg lg:text-xl xl:text-2xl font-semibold text-gray-900 leading-tight">{stat.title}</h3>
+                       <p className="text-xs sm:text-sm lg:text-base text-gray-600 mt-1">{stat.description}</p>
+                     </div>
                    </div>
-                 </AnimatedSection>
-               ))}
-             </div>
+                 </div>
+               </div>
+             ))}
            </div>
          </div>
-       </AnimatedSection>
+       </div>
     </div>
   );
 };

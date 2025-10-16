@@ -26,8 +26,9 @@ const FloatingButtons: React.FC = () => {
       ),
       label: "Location",
       action: () => {
-        // Open location or show address
-        window.open('https://maps.google.com/search/Ho+Chi+Minh+City+Vietnam', '_blank');
+        // Open company location on Google Maps - SPTECH - THADOSOFT CORP
+        // Address: C25-C26, ngách 28/5 P.Dương Khuê, Mai Dịch, Cầu Giấy, Hà Nội
+        window.open('https://www.google.com/maps/place/SPTECH+-+THADOSOFT+CORP/@21.0351525,105.770073,17z/data=!3m1!4b1!4m6!3m5!1s0x31345537593bdc4f:0x27d693f129afce58!8m2!3d21.0351475!4d105.7726479!16s%2Fg%2F11v_48zbwh?entry=ttu&g_ep=EgoyMDI1MTAxMy4wIKXMDSoASAFQAw%3D%3D', '_blank');
       }
     },
     {

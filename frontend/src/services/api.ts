@@ -175,28 +175,40 @@ class ApiService {
     return response.results;
   }
 
-  // Search API - with category filter support
+  // Search API - with fuzzy search support
   async searchProducts(params?: {
+    q?: string;
     query?: string;
     category?: number;
+    brand?: number;
     limit?: number;
   }): Promise<Product[]> {
     try {
       const searchParams = new URLSearchParams();
       
-      if (params?.query) searchParams.set('search', params.query);
+      // Support both 'q' and 'query' parameter names
+      const searchQuery = params?.q || params?.query;
+      if (searchQuery) searchParams.set('q', searchQuery);
       if (params?.category) searchParams.set('category', params.category.toString());
-      if (params?.limit) searchParams.set('page_size', params.limit.toString());
+      if (params?.brand) searchParams.set('brand', params.brand.toString());
+      if (params?.limit) searchParams.set('limit', params.limit.toString());
       
       const query = searchParams.toString();
-      const response = await this.makeRequest<ProductListResponse>(
+      const response = await this.makeRequest<any>(
         `/api/products/search/${query ? `?${query}` : ''}`
       );
       
-      return response.results || [];
+      // Handle both response formats
+      if (response.results) {
+        return response.results;
+      } else if (Array.isArray(response)) {
+        return response;
+      }
+      
+      return [];
     } catch (error) {
       this.log('Error searching products', error);
-      throw error;
+      return []; // Return empty array instead of throwing
     }
   }
 

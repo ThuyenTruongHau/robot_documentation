@@ -10,6 +10,12 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.html [L]
 
+# Specific handling for SPA routes to ensure they work on reload
+RewriteCond %{REQUEST_URI} ^/(rfid-products|rfid-solutions|about-us|contact-us)/?$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.html [L]
+
 # Security headers
 Header always set X-Frame-Options DENY
 Header always set X-Content-Type-Options nosniff

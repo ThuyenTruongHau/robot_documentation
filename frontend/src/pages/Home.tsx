@@ -13,6 +13,7 @@ import '../styles/hideScrollbar.css';
 const Home: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const rfidContentRef = useRef<HTMLDivElement>(null);
   const [contactForm, setContactForm] = useState({
     email: '',
     message: ''
@@ -87,6 +88,24 @@ const Home: React.FC = () => {
       }
     };
   }, [startTimer]);
+
+  const scrollToContent = useCallback(() => {
+    console.log('Button clicked! Scrolling to content...');
+    if (rfidContentRef.current) {
+      const element = rfidContentRef.current;
+      const navbarHeight = 80; // Approximate navbar height
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+
+      console.log('Scrolling to position:', offsetPosition);
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    } else {
+      console.log('rfidContentRef is not available!');
+    }
+  }, []);
 
   return (
     <>
@@ -204,7 +223,10 @@ const Home: React.FC = () => {
                       ))}
                     </div>
                     
-                    <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 4xl:px-16 4xl:py-6 rounded-lg text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl font-medium transition-all duration-300 hover:scale-105 shadow-lg">
+                    <button 
+                      onClick={scrollToContent}
+                      className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 4xl:px-16 4xl:py-6 rounded-lg text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl font-medium transition-all duration-300 hover:scale-105 shadow-lg cursor-pointer relative z-10"
+                    >
                       {slide.buttonText}
                     </button>
                   </div>
@@ -234,7 +256,10 @@ const Home: React.FC = () => {
                         ))}
                       </div>
                       
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 4xl:px-16 4xl:py-6 rounded-lg text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl font-medium transition-all duration-300 hover:scale-105 shadow-lg">
+                      <button 
+                        onClick={scrollToContent}
+                        className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 4xl:px-16 4xl:py-6 rounded-lg text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl font-medium transition-all duration-300 hover:scale-105 shadow-lg cursor-pointer relative z-10"
+                      >
                         {slide.buttonText}
                       </button>
                     </div>
@@ -276,7 +301,10 @@ const Home: React.FC = () => {
                         ))}
                       </div>
                       
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 4xl:px-16 4xl:py-6 rounded-lg text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl font-medium transition-all duration-300 hover:scale-105 shadow-lg">
+                      <button 
+                        onClick={scrollToContent}
+                        className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 4xl:px-16 4xl:py-6 rounded-lg text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl font-medium transition-all duration-300 hover:scale-105 shadow-lg cursor-pointer relative z-10"
+                      >
                         {slide.buttonText}
                       </button>
                     </div>
@@ -306,7 +334,10 @@ const Home: React.FC = () => {
                         ))}
                       </div>
                       
-                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 4xl:px-16 4xl:py-6 rounded-lg text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl font-medium transition-all duration-300 hover:scale-105 shadow-lg">
+                      <button 
+                        onClick={scrollToContent}
+                        className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 lg:px-8 lg:py-3 xl:px-10 xl:py-4 3xl:px-12 3xl:py-5 4xl:px-16 4xl:py-6 rounded-lg text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl font-medium transition-all duration-300 hover:scale-105 shadow-lg cursor-pointer relative z-10"
+                      >
                         {slide.buttonText}
                       </button>
                     </div>
@@ -352,9 +383,11 @@ const Home: React.FC = () => {
       </div>
 
       {/* RFID Content Section */}
-      <AnimatedSection animationType="fadeInUp" delay={0}>
-        <RFIDContent />
-      </AnimatedSection>
+      <div ref={rfidContentRef}>
+        <AnimatedSection animationType="fadeInUp" delay={0}>
+          <RFIDContent />
+        </AnimatedSection>
+      </div>
 
       {/* RFID Products Section */}
       <AnimatedSection animationType="fadeInLeft" delay={100}>

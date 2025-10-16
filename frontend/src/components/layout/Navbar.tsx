@@ -503,6 +503,15 @@ const Navbar: React.FC = () => {
                   </div>
                 </div>
                 
+                {/* Thado News */}
+                <Link
+                  to="/thado-news"
+                  className={`${isActive('/thado-news') ? 'text-primary-600' : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
+                >
+                  Thado News
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/thado-news') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                </Link>
+                
                 {/* About Us */}
                 <Link
                   to="/about-us"
@@ -591,6 +600,13 @@ const Navbar: React.FC = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 RFID Solutions
+              </Link>
+              <Link
+                to="/thado-news"
+                className={`${isActive('/thado-news') ? 'text-primary-600 border-primary-200' : 'text-gray-800 hover:text-primary-600 border-gray-100'} block px-0 py-3 text-base font-medium border-b transition-colors duration-200`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Thado News
               </Link>
                 <Link
                 to="/about-us"

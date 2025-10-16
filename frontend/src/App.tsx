@@ -8,6 +8,8 @@ import Home from './pages/Home';
 import RFIDProducts from './pages/RFIDProducts';
 import ProductDetail from './pages/ProductDetail';
 import RFIDSolutions from './pages/RFIDSolutions';
+import ThadoNews from './pages/ThadoNews';
+import SearchResults from './pages/SearchResults';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 
@@ -16,8 +18,10 @@ const ScrollToTop: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
+    // Only scroll to top when pathname changes (page navigation)
+    // Don't scroll when only query params change (e.g., category selection)
     window.scrollTo({ top: 0, behavior: 'auto' });
-  }, [location.pathname, location.search]);
+  }, [location.pathname]);
 
   return null;
 };
@@ -35,6 +39,8 @@ function App() {
               <Route path="/rfid-products" element={<RFIDProducts />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/rfid-solutions" element={<RFIDSolutions />} />
+              <Route path="/thado-news" element={<ThadoNews />} />
+              <Route path="/search" element={<SearchResults />} />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/contact-us" element={<ContactUs />} />
             </Routes>

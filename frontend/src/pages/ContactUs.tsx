@@ -110,17 +110,17 @@ const ContactUs: React.FC = () => {
 
       {/* Contact Form & Info */}
       <AnimatedSection animationType="fadeInUp" delay={200}>
-        <div className="py-8 sm:py-12 lg:py-16">
-          <div className="max-w-7xl mx-auto px-4 lg:px-6 xl:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+        <div className="py-12 sm:py-16 lg:py-20 xl:py-24">
+          <div className="max-w-none mx-auto px-6 lg:px-8 xl:px-12 2xl:px-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20">
               {/* Contact Form */}
               <div className="lg:order-1">
-                <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 lg:p-10">
-                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 sm:mb-8 text-center">Send us a Message</h2>
-                  <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <div className="bg-white rounded-xl shadow-lg p-8 sm:p-10 lg:p-12 xl:p-14">
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-8 sm:mb-10 lg:mb-12 text-center">Send us a Message</h2>
+                  <form onSubmit={handleSubmit} className="space-y-8 sm:space-y-10 lg:space-y-12">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="name" className="block text-base sm:text-lg font-medium text-gray-700 mb-3 sm:mb-4">
                         Full Name *
                       </label>
                       <input
@@ -131,12 +131,12 @@ const ContactUs: React.FC = () => {
                         onChange={handleInputChange}
                         required
                         disabled={isSubmitting}
-                        className="w-full px-4 py-3 sm:py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent transition-colors duration-200 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full px-5 py-4 sm:py-5 lg:py-6 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent transition-colors duration-200 text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         placeholder="Your full name"
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="email" className="block text-base sm:text-lg font-medium text-gray-700 mb-3 sm:mb-4">
                         Email Address *
                       </label>
                       <input
@@ -147,14 +147,14 @@ const ContactUs: React.FC = () => {
                         onChange={handleInputChange}
                         required
                         disabled={isSubmitting}
-                        className="w-full px-4 py-3 sm:py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent transition-colors duration-200 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full px-5 py-4 sm:py-5 lg:py-6 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent transition-colors duration-200 text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         placeholder="your.email@example.com"
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
                     <div>
-                      <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="company" className="block text-base sm:text-lg font-medium text-gray-700 mb-3 sm:mb-4">
                         Company
                       </label>
                       <input
@@ -164,12 +164,12 @@ const ContactUs: React.FC = () => {
                         value={formData.company}
                         onChange={handleInputChange}
                         disabled={isSubmitting}
-                        className="w-full px-4 py-3 sm:py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent transition-colors duration-200 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full px-5 py-4 sm:py-5 lg:py-6 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent transition-colors duration-200 text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         placeholder="Your company name"
                       />
                     </div>
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                      <label htmlFor="phone" className="block text-base sm:text-lg font-medium text-gray-700 mb-3 sm:mb-4">
                         Phone Number *
                       </label>
                       <input
@@ -180,13 +180,13 @@ const ContactUs: React.FC = () => {
                         onChange={handleInputChange}
                         required
                         disabled={isSubmitting}
-                        className="w-full px-4 py-3 sm:py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent transition-colors duration-200 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full px-5 py-4 sm:py-5 lg:py-6 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent transition-colors duration-200 text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         placeholder="+84 123 456 789"
                       />
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="message" className="block text-base sm:text-lg font-medium text-gray-700 mb-3 sm:mb-4">
                       Message *
                     </label>
                     <textarea
@@ -195,9 +195,9 @@ const ContactUs: React.FC = () => {
                       value={formData.message}
                       onChange={handleInputChange}
                       required
-                      rows={6}
+                      rows={8}
                       disabled={isSubmitting}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full px-5 py-4 sm:py-5 lg:py-6 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#36A9A9] focus:border-transparent transition-colors duration-200 text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="Tell us about your project or requirements..."
                     />
                   </div>
@@ -213,7 +213,7 @@ const ContactUs: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-[#36A9A9] hover:bg-[#2a8a8a] text-white px-8 py-3 sm:py-4 rounded-lg font-medium transition-all duration-300 hover:scale-105 shadow-lg text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    className="w-full bg-[#36A9A9] hover:bg-[#2a8a8a] text-white px-10 py-5 sm:py-6 lg:py-7 rounded-lg font-medium transition-all duration-300 hover:scale-105 shadow-lg text-lg sm:text-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
                     {isSubmitting ? 'Sending...' : 'Send Message'}
                   </button>
@@ -223,18 +223,18 @@ const ContactUs: React.FC = () => {
 
               {/* Contact Information */}
               <div className="lg:order-2">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 sm:mb-8 text-center">Get in Touch</h2>
-                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-8 sm:mb-10 lg:mb-12 text-center">Get in Touch</h2>
+                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-10 xl:gap-12">
                    {contactInfo.map((info, index) => (
                      <AnimatedSection key={index} animationType="fadeInUp" delay={300 + index * 100}>
-                       <div className="flex items-start space-x-4">
-                         <div className="flex-shrink-0 w-12 h-12 bg-[#36A9A9] rounded-lg flex items-center justify-center text-white">
+                       <div className="flex items-start space-x-6">
+                         <div className="flex-shrink-0 w-16 h-16 lg:w-18 lg:h-18 bg-[#36A9A9] rounded-lg flex items-center justify-center text-white">
                            {info.icon}
                          </div>
                          <div>
-                           <h3 className="text-lg font-semibold text-gray-900 mb-2">{info.title}</h3>
+                           <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">{info.title}</h3>
                            {info.details.map((detail, detailIndex) => (
-                             <p key={detailIndex} className="text-gray-600">{detail}</p>
+                             <p key={detailIndex} className="text-base sm:text-lg text-gray-600">{detail}</p>
                            ))}
                          </div>
                        </div>
@@ -244,18 +244,18 @@ const ContactUs: React.FC = () => {
 
                  {/* Google Map */}
                  <AnimatedSection animationType="fadeInUp" delay={600}>
-                   <div className="mt-8">
-                     <h3 className="text-lg font-semibold text-gray-900 mb-4">Our Location</h3>
+                   <div className="mt-10 lg:mt-12">
+                     <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-6 sm:mb-8">Our Location</h3>
                      <div className="rounded-lg overflow-hidden shadow-lg">
                        <iframe
                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.9383536499295!2d105.77007297430636!3d21.035152487560847!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31345537593bdc4f%3A0x27d693f129afce58!2sSPTECH%20-%20THADOSOFT%20CORP!5e0!3m2!1svi!2s!4v1760541710967!5m2!1svi!2s"
                          width="100%"
-                         height="300"
+                         height="400"
                          style={{ border: 0 }}
                          allowFullScreen
                          loading="lazy"
                          referrerPolicy="no-referrer-when-downgrade"
-                         className="w-full h-60 sm:h-70 lg:h-80"
+                         className="w-full h-80 sm:h-90 lg:h-100 xl:h-[470px] 2xl:h-[570px]"
                          title="ThadoSoft Company Location - C25-C26, ngách 28/5 P.Dương Khuê, Mai Dịch, Cầu Giấy, Hà Nội"
                        ></iframe>
                      </div>
@@ -269,24 +269,24 @@ const ContactUs: React.FC = () => {
 
        {/* Business Hours */}
        <AnimatedSection animationType="fadeInUp" delay={800}>
-         <div className="relative py-12 sm:py-16 lg:py-24 xl:py-32 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/world_map.jpg)' }}>
+         <div className="relative py-16 sm:py-20 lg:py-28 xl:py-32 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/world_map.jpg)' }}>
            {/* Overlay for better text readability */}
            <div className="absolute inset-0 bg-black/50"></div>
-           <div className="relative max-w-7xl mx-auto px-4">
-             <div className="text-center mb-16 sm:mb-20 lg:mb-24">
-               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">Business Hours</h2>
-               <p className="text-xl sm:text-2xl text-white/90">We're here to help you during business hours</p>
+           <div className="relative max-w-none mx-auto px-6 lg:px-8 xl:px-12 2xl:px-16">
+             <div className="text-center mb-20 sm:mb-24 lg:mb-28 xl:mb-32">
+               <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 sm:mb-8">Business Hours</h2>
+               <p className="text-2xl sm:text-3xl lg:text-4xl text-white/90">We're here to help you during business hours</p>
              </div>
-             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 xl:gap-16">
                {[
                  { day: "Monday - Friday", hours: "8:00 AM - 6:00 PM" },
                  { day: "Saturday", hours: "9:00 AM - 4:00 PM" },
                  { day: "Sunday", hours: "Closed" }
                ].map((schedule, index) => (
                  <AnimatedSection key={index} animationType="fadeInUp" delay={900 + index * 100}>
-                   <div className="text-center p-4 sm:p-5 lg:p-6 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg max-w-xs mx-auto">
-                     <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">{schedule.day}</h3>
-                     <p className="text-sm sm:text-base text-[#36A9A9] font-medium">{schedule.hours}</p>
+                   <div className="text-center p-6 sm:p-8 lg:p-10 xl:p-12 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg max-w-sm mx-auto">
+                     <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 mb-4 sm:mb-6">{schedule.day}</h3>
+                     <p className="text-base sm:text-lg lg:text-xl text-[#36A9A9] font-medium">{schedule.hours}</p>
                    </div>
                  </AnimatedSection>
                ))}

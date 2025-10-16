@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://thadosoft.com/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /_next/
+Disallow: /static/
+
+# Allow important pages
+Allow: /rfid-products
+Allow: /rfid-solutions
+Allow: /about-us
+Allow: /contact-us
+
+# Crawl delay (optional)
+Crawl-delay: 1

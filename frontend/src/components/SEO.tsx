@@ -30,16 +30,16 @@ interface SEOProps {
 }
 
 const SEO: React.FC<SEOProps> = ({
-  title = "ThadoSoft - RFID Solutions & Products",
+  title = "Thado RFID - RFID Solutions & Products",
   description = "Leading provider of RFID technology solutions, products, and services in Vietnam",
   keywords = "RFID, RFID products, RFID solutions, RFID tags, RFID readers, RFID antennas, Vietnam RFID, Thado RFID",
-  image = "https://rfid.thadorobot.com/logo_noback.png",
+  image = "https://rfid.thadorobot.com/logo_noback2.png",
   url,
   type = "website",
   product,
   category
 }) => {
-  const fullTitle = title.includes("ThadoSoft") ? title : `${title} | ThadoSoft`;
+  const fullTitle = title.includes("Thado RFID") ? title : `${title} | Thado RFID`;
   const fullUrl = url ? `https://rfid.thadorobot.com${url}` : "https://rfid.thadorobot.com";
 
   // Generate structured data
@@ -47,9 +47,9 @@ const SEO: React.FC<SEOProps> = ({
     const baseData = {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "ThadoSoft",
+      "name": "Thado RFID",
       "url": "https://rfid.thadorobot.com",
-      "logo": "https://rfid.thadorobot.com/logo_noback.png",
+      "logo": "https://rfid.thadorobot.com/logo_noback2.png",
       "description": "Leading provider of RFID technology solutions, products, and services in Vietnam",
       "address": {
         "@type": "PostalAddress",
@@ -75,7 +75,7 @@ const SEO: React.FC<SEOProps> = ({
         "image": product.image || image,
         "brand": {
           "@type": "Brand",
-          "name": product.brand || "ThadoSoft"
+          "name": product.brand || "Thado RFID"
         },
         "category": product.category,
         "sku": product.sku,
@@ -87,7 +87,7 @@ const SEO: React.FC<SEOProps> = ({
           "condition": product.condition || "https://schema.org/NewCondition",
           "seller": {
             "@type": "Organization",
-            "name": "ThadoSoft"
+            "name": "Thado RFID"
           }
         }
       };
@@ -124,7 +124,7 @@ const SEO: React.FC<SEOProps> = ({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
       <meta property="og:url" content={fullUrl} />
-      <meta property="og:site_name" content="ThadoSoft" />
+      <meta property="og:site_name" content="Thado RFID" />
 
       {/* Twitter Card Tags */}
       <meta name="twitter:card" content="summary_large_image" />

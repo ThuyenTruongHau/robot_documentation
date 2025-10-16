@@ -1,0 +1,27 @@
+{
+  "short_name": "Thado RFID",
+  "name": "Thado RFID - RFID Solutions & Products",
+  "description": "Leading provider of RFID technology solutions, products, and services in Vietnam",
+  "icons": [
+    {
+      "src": "logo_noback2.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo_noback2.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#36A9A9",
+  "background_color": "#ffffff",
+  "categories": ["business", "productivity", "technology"],
+  "lang": "en",
+  "scope": "/",
+  "orientation": "portrait-primary"
+}

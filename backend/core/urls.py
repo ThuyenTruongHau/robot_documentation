@@ -50,6 +50,9 @@ urlpatterns = [
     path('api/', include('apps.brand.urls')),
     path('api/', include('apps.contact.urls')),
     
+    # Health Check endpoints (no authentication required)
+    path('api/', include('apps.core.health_urls')),
+    
     # Django Admin - Đặt cuối để không can thiệp vào custom admin
     path('admin/', admin.site.urls),
     

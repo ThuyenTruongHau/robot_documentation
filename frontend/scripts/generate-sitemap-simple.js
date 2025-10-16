@@ -4,6 +4,7 @@ const path = require('path');
 
 // Configuration
 const FRONTEND_DOMAIN = process.env.FRONTEND_DOMAIN || 'https://rfid.thadorobot.com';
+const SITE_NAME = 'Thado RFID';
 
 // Function to generate simple sitemap
 function generateSimpleSitemap() {

@@ -1,0 +1,14 @@
+name: Keep Render Warm
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"  # Mỗi 5 phút
+  workflow_dispatch:        # Cho phép chạy tay khi cần
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render app
+        run: |
+          curl -s https://robot-documentation-2003.onrender.com/auth/login > /dev/null || true

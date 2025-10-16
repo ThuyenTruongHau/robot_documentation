@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import FloatingButtons from './components/FloatingButtons';
@@ -23,24 +24,26 @@ const ScrollToTop: React.FC = () => {
 
 function App() {
   return (
-    <Router>
-      <ScrollToTop />
-      <div className="min-h-screen bg-gray-50 flex flex-col">
-        <Navbar />
-        <main className="flex-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/rfid-products" element={<RFIDProducts />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/rfid-solutions" element={<RFIDSolutions />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/contact-us" element={<ContactUs />} />
-          </Routes>
-        </main>
-        <Footer />
-        <FloatingButtons />
-      </div>
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <ScrollToTop />
+        <div className="min-h-screen bg-gray-50 flex flex-col">
+          <Navbar />
+          <main className="flex-1">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/rfid-products" element={<RFIDProducts />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/rfid-solutions" element={<RFIDSolutions />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/contact-us" element={<ContactUs />} />
+            </Routes>
+          </main>
+          <Footer />
+          <FloatingButtons />
+        </div>
+      </Router>
+    </HelmetProvider>
   );
 }
 

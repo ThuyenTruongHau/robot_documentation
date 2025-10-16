@@ -6,6 +6,7 @@ import IndustryShowcase from '../components/IndustryShowcase';
 import AboutUs from '../components/AboutUs';
 import Partners from '../components/Partners';
 import AnimatedSection from '../components/AnimatedSection';
+import SEO from '../components/SEO';
 import apiService from '../services/api';
 import '../styles/hideScrollbar.css';
 
@@ -88,7 +89,15 @@ const Home: React.FC = () => {
   }, [startTimer]);
 
   return (
-    <div className="overflow-hidden hide-scrollbar">
+    <>
+      <SEO 
+        title="Thado RFID - Leading RFID Solutions Provider in Vietnam"
+        description="Leading provider of RFID technology solutions, products, and services in Vietnam. Comprehensive RFID products, automation technology, and professional support."
+        keywords="RFID, RFID solutions, RFID products, RFID tags, RFID readers, RFID antennas, Vietnam RFID, Thado RFID, automation technology"
+        image="https://rfid.thadorobot.com/logo_noback2.png"
+        url="/"
+      />
+      <div className="overflow-hidden hide-scrollbar">
       {/* Hero Slider Section */}
       <div className="relative full-vh overflow-hidden w-screen -ml-[calc(50vw-50%)]">
         {slides.map((slide, index) => (
@@ -469,7 +478,8 @@ const Home: React.FC = () => {
           </div>
         </div>
       </AnimatedSection>
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -506,16 +506,16 @@ const Navbar: React.FC = () => {
                 {/* Thado News */}
                 <Link
                   to="/thado-news"
-                  className={`${isActive('/thado-news') ? 'text-primary-600' : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
+                  className={`${isActive('/thado-news') ? ((isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
                 >
-                  Thado News
+                  RFID News
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/thado-news') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                 </Link>
                 
                 {/* About Us */}
                 <Link
                   to="/about-us"
-                  className={`${isActive('/about-us') ? 'text-primary-600' : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
+                  className={`${isActive('/about-us') ? ((isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
                 >
                   About Us
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/about-us') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
@@ -524,7 +524,7 @@ const Navbar: React.FC = () => {
                 {/* Contact Us */}
                           <Link
                   to="/contact-us"
-                  className={`${isActive('/contact-us') ? 'text-primary-600' : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
+                  className={`${isActive('/contact-us') ? ((isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
                 >
                   Contact Us
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/contact-us') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>

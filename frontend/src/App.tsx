@@ -9,6 +9,7 @@ import RFIDProducts from './pages/RFIDProducts';
 import ProductDetail from './pages/ProductDetail';
 import RFIDSolutions from './pages/RFIDSolutions';
 import ThadoNews from './pages/ThadoNews';
+import NewsDetail from './pages/NewsDetail';
 import SearchResults from './pages/SearchResults';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
@@ -40,6 +41,7 @@ function App() {
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/rfid-solutions" element={<RFIDSolutions />} />
               <Route path="/thado-news" element={<ThadoNews />} />
+              <Route path="/thado-news/:id" element={<NewsDetail />} />
               <Route path="/search" element={<SearchResults />} />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/contact-us" element={<ContactUs />} />

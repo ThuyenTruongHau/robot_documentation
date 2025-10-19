@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
 import SEO from '../components/SEO';
 
@@ -7,51 +8,51 @@ const ThadoNews: React.FC = () => {
   const newsItems = [
     {
       id: 1,
-      title: "Latest RFID Technology Trends in 2025",
-      excerpt: "Discover the newest innovations in RFID technology and how they're transforming industries worldwide.",
-      image: "/contact.webp",
-      date: "January 15, 2025",
-      category: "Technology"
+      title: "Data Center RFID Global Strategic Business Report 2025-2030",
+      excerpt: "Competitive Analysis of Alien Technology, Avery Dennison, GAO, HP, IBM, Impinj, Invengo, Omni-ID, RF COde, Zebra Technologies.",
+      image: "products_image/news11.webp",
+      date: "October 16, 2025",
+      category: "Market"
     },
     {
       id: 2,
-      title: "Thado RFID Solutions for Smart Manufacturing",
-      excerpt: "Learn how our RFID solutions are revolutionizing manufacturing processes and improving efficiency.",
-      image: "/warehousing.png",
-      date: "January 10, 2025",
-      category: "Solutions"
+      title: "Simplify access control with RXQR RFID and QR scanners",
+      excerpt: "Innovative Integration of RFID and QR Technology, collaborating with A&E Technology to provide a comprehensive solution for access control.",
+      image: "products_image/news1.webp",
+      date: "October 17, 2025",
+      category: "Innovation"
     },
     {
       id: 3,
-      title: "Success Story: RFID Implementation in Logistics",
-      excerpt: "Read about how our client achieved 70% improvement in inventory tracking with our RFID system.",
-      image: "/logistic.png",
-      date: "January 5, 2025",
-      category: "Case Study"
+      title: "Toll collection RFID system",
+      excerpt: "Benefits of RFID technology in non-stop toll collection. Making fee collection automatically.",
+      image: "products_image/news2.webp",
+      date: "August 3, 2025",
+      category: "Traffic Infrastructure"
     },
     {
       id: 4,
-      title: "RFID Security: Best Practices for 2025",
-      excerpt: "Essential security considerations when implementing RFID systems in your business.",
-      image: "/security.webp",
+      title: "Leading AI Powered Anti-Counterfeit Software",
+      excerpt: "Take back your revenue and soar above your competitors. RFID Anti-Counterfeiting Solutions: How to Secure Your RFID Tags",
+      image: "/products_image/news3.webp",
       date: "December 28, 2024",
       category: "Security"
     },
     {
       id: 5,
-      title: "IoT and RFID: The Perfect Combination",
-      excerpt: "Explore how RFID technology integrates with IoT to create smart, connected systems.",
-      image: "/manufacturing.jpg",
-      date: "December 20, 2024",
+      title: "RFID in Healthcare: Enhancing Security and Privacy in Healthcare Systems",
+      excerpt: "Enhancing Security and Privacy in Healthcare Systems Using a Lightweight RFID Protocol.",
+      image: "/products_image/news4.jpg",
+      date: "December 20, 2025",
       category: "Technology"
     },
     {
       id: 6,
-      title: "Thado Expands RFID Product Line",
-      excerpt: "We're excited to announce new additions to our comprehensive RFID product portfolio.",
-      image: "/tool_tracking.jpg",
-      date: "December 15, 2024",
-      category: "Company News"
+      title: "RFID closes the gap between retail, logistics",
+      excerpt: "Investment feasibility and optimization strategies of RFID technology in logistics field.",
+      image: "/products_image/news5.jpg",
+      date: "December 15, 2025",
+      category: "Logistics"
     }
   ];
 
@@ -68,7 +69,7 @@ const ThadoNews: React.FC = () => {
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
         <AnimatedSection animationType="fadeInUp" delay={0}>
-          <div className="relative h-[60vh] lg:h-[70vh] flex items-center justify-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/contact.webp)' }}>
+          <div className="relative h-[60vh] lg:h-[70vh] flex items-center justify-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/products_image/news.webp)' }}>
             {/* Overlay */}
             <div className="absolute inset-0 bg-black/60"></div>
             
@@ -100,7 +101,8 @@ const ThadoNews: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
                 {newsItems.map((news, index) => (
                   <AnimatedSection key={news.id} animationType="fadeInUp" delay={300 + index * 100}>
-                    <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group cursor-pointer">
+                    <Link to={`/thado-news/${news.id}`} className="block">
+                      <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group cursor-pointer">
                       {/* Image */}
                       <div className="relative h-48 lg:h-56 xl:h-64 overflow-hidden">
                         <img 
@@ -141,24 +143,10 @@ const ThadoNews: React.FC = () => {
                           </svg>
                         </div>
                       </div>
-                    </div>
+                      </div>
+                    </Link>
                   </AnimatedSection>
                 ))}
-              </div>
-
-              {/* Pagination Placeholder */}
-              <div className="flex justify-center items-center mt-12 lg:mt-16 xl:mt-20">
-                <div className="flex items-center gap-2">
-                  <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-[#36A9A9] hover:text-white hover:border-[#36A9A9] transition-all duration-300">
-                    Previous
-                  </button>
-                  <button className="px-4 py-2 bg-[#36A9A9] text-white rounded-lg">1</button>
-                  <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-[#36A9A9] hover:text-white hover:border-[#36A9A9] transition-all duration-300">2</button>
-                  <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-[#36A9A9] hover:text-white hover:border-[#36A9A9] transition-all duration-300">3</button>
-                  <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-[#36A9A9] hover:text-white hover:border-[#36A9A9] transition-all duration-300">
-                    Next
-                  </button>
-                </div>
               </div>
             </div>
           </div>
@@ -166,19 +154,16 @@ const ThadoNews: React.FC = () => {
 
         {/* Newsletter Section */}
         <AnimatedSection animationType="fadeInUp" delay={400}>
-          <div className="relative py-16 lg:py-20 xl:py-24 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/wave.jpg)' }}>
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-[#36A9A9]/90"></div>
+          <div className="relative py-16 lg:py-20 xl:py-24 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/news_image/footer_background.webp)' }}>
             
             {/* Content */}
             <div className="relative z-10 container-responsive">
               <div className="max-w-3xl mx-auto text-center">
-                <h2 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl font-bold text-white mb-4 lg:mb-6">
-                  Subscribe to Our Newsletter
+                <h2 className="text-2xl lg:text-3xl xl:text-4xl 3xl:text-5xl font-bold mb-4 lg:mb-6">
+                  <span className="bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
+                    Subscribe to Our Newsletter
+                  </span>
                 </h2>
-                <p className="text-base lg:text-lg xl:text-xl text-white/90 mb-6 lg:mb-8">
-                  Get the latest RFID news, technology updates, and exclusive insights delivered to your inbox
-                </p>
 
                 {/* Newsletter Form */}
                 <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 max-w-xl mx-auto">

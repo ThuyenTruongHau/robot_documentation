@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from .models import Solution, SolutionImage
 from .serializers import (
     SolutionSerializer,
@@ -45,10 +46,10 @@ class SolutionViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data)
 
 
-class SolutionImageViewSet(viewsets.ReadOnlyModelViewSet):
+class SolutionImageViewSet(viewsets.ModelViewSet):
     """
     ViewSet cho SolutionImage
-    Chỉ cho phép đọc dữ liệu (GET requests)
+    Cho phép đọc và xóa dữ liệu (GET, DELETE requests)
     """
     queryset = SolutionImage.objects.all().order_by('uploaded_at')
     serializer_class = SolutionImageSerializer
@@ -62,4 +63,22 @@ class SolutionImageViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = queryset.filter(solution_id=solution_id)
         
         return queryset
+    
+    def destroy(self, request, pk=None):
+        """Xóa một SolutionImage"""
+        try:
+            image = get_object_or_404(SolutionImage, pk=pk)
+            solution_id = image.solution.id
+            image.delete()
+            
+            return Response({
+                'success': True,
+                'message': 'Hình ảnh đã được xóa thành công!',
+                'solution_id': solution_id
+            }, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({
+                'success': False,
+                'message': f'Lỗi khi xóa hình ảnh: {str(e)}'
+            }, status=status.HTTP_400_BAD_REQUEST)
 

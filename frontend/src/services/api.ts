@@ -1,4 +1,4 @@
-import { Product, Category, ProductListResponse, CategoryListResponse } from '../types/product';
+import { Product, Category, ProductListResponse, CategoryListResponse, Solution, SolutionListResponse } from '../types/product';
 
 // API Configuration
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:9000';
@@ -254,6 +254,56 @@ class ApiService {
       return true;
     } catch {
       return false;
+    }
+  }
+
+  // Solutions API
+  async getSolutions(params?: {
+    page?: number;
+    search?: string;
+    limit?: number;
+  }): Promise<SolutionListResponse> {
+    const searchParams = new URLSearchParams();
+    
+    if (params?.page) searchParams.set('page', params.page.toString());
+    if (params?.search) searchParams.set('search', params.search);
+    if (params?.limit) searchParams.set('page_size', params.limit.toString());
+    
+    const query = searchParams.toString();
+    return this.makeRequest<SolutionListResponse>(`/api/solutions/${query ? `?${query}` : ''}`);
+  }
+
+  async getSolution(id: number): Promise<Solution> {
+    return this.makeRequest<Solution>(`/api/solutions/${id}/`);
+  }
+
+  async getAllSolutions(): Promise<Solution[]> {
+    const cacheKey = 'all-solutions';
+    const cached = this.getCachedData<Solution[]>(cacheKey);
+    if (cached) return cached;
+
+    const response = await this.getSolutions({ limit: 100 });
+    this.setCachedData(cacheKey, response.results);
+    return response.results;
+  }
+
+  async deleteSolutionImage(imageId: number): Promise<{ success: boolean; message: string; solution_id?: number }> {
+    try {
+      const response = await this.makeRequest<{ success: boolean; message: string; solution_id?: number }>(
+        `/api/images/${imageId}/`,
+        {
+          method: 'DELETE',
+        },
+        1 // No retries for delete
+      );
+      
+      // Clear cache after successful deletion
+      this.cache.delete('all-solutions');
+      
+      return response;
+    } catch (error) {
+      this.log('Error deleting solution image', error);
+      throw error;
     }
   }
 }

@@ -104,8 +104,8 @@
                                                                                    value="{{ param_name }}" placeholder="Tên thông số">
                                                                         </div>
                                                                         <div class="col-5">
-                                                                            <input type="text" class="form-control form-control-sm param-value" 
-                                                                                   value="{{ param_value }}" placeholder="Giá trị">
+                                                                            <textarea class="form-control form-control-sm param-value" 
+                                                                                      rows="2" placeholder="Giá trị">{{ param_value }}</textarea>
                                                                         </div>
                                                                         <div class="col-2">
                                                                             <button type="button" class="btn btn-sm btn-outline-danger w-100 remove-param-btn">
@@ -309,8 +309,8 @@ document.addEventListener('DOMContentLoaded', function() {
                            placeholder="Tên thông số">
                 </div>
                 <div class="col-5">
-                    <input type="text" class="form-control form-control-sm param-value" 
-                           placeholder="Giá trị">
+                    <textarea class="form-control form-control-sm param-value" 
+                              rows="2" placeholder="Giá trị"></textarea>
                 </div>
                 <div class="col-2">
                     <button type="button" class="btn btn-sm btn-outline-danger w-100 remove-param-btn">

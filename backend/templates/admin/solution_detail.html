@@ -265,7 +265,7 @@ document.querySelectorAll('.image-delete-btn').forEach(button => {
     button.addEventListener('click', function() {
         const imageId = this.dataset.imageId;
         
-        document.getElementById('deleteImageForm').action = "{% url 'manage_solution:solution_list' %}".replace('/solutions/', '/images/' + imageId + '/delete/');
+        document.getElementById('deleteImageForm').action = "{% url 'manage_solution:solution_image_delete' pk=0 %}".replace('0', imageId);
         
         const modal = new bootstrap.Modal(document.getElementById('deleteImageModal'));
         modal.show();

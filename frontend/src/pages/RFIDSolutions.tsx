@@ -76,12 +76,12 @@ const RFIDSolutions: React.FC = () => {
                       <div className="flex flex-col lg:flex-row h-[450px] lg:h-[500px]">
                         {/* Left Content */}
                         <div className="flex-1 lg:w-1/2 lg:max-w-[50%] p-6 lg:p-8 flex flex-col">
-                          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 line-clamp-2">
+                          <h2 className="text-2xl lg:text-2xl xl:text-3xl font-bold text-gray-900 mb-4 line-clamp-2">
                             {solution.solution_name}
                           </h2>
                           
                           {solution.description && (
-                            <div className="text-sm lg:text-base text-gray-600 leading-relaxed flex-1 whitespace-pre-wrap overflow-hidden">
+                            <div className="text-sm lg:text-sm xl:text-base text-gray-600 leading-relaxed flex-1 whitespace-pre-wrap overflow-hidden">
                               {solution.description}
                             </div>
                           )}
@@ -90,7 +90,7 @@ const RFIDSolutions: React.FC = () => {
                           <div className="mt-4 lg:mt-6 flex-shrink-0">
                             <button 
                               onClick={() => navigate(`/solution/${solution.id}`)}
-                              className="text-[#36A9A9] hover:text-[#2d8a8a] font-medium text-sm lg:text-base transition-colors duration-300 flex items-center"
+                              className="text-[#36A9A9] hover:text-[#2d8a8a] font-medium text-sm lg:text-sm xl:text-base transition-colors duration-300 flex items-center"
                             >
                               Learn More
                               <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,49 +131,27 @@ const RFIDSolutions: React.FC = () => {
         </div>
       </AnimatedSection>
 
-      {/* Benefits Section */}
-      <AnimatedSection animationType="fadeInUp" delay={600}>
-        <div className="py-8 sm:py-12 lg:py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="text-center mb-8 sm:mb-12">
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Why Choose Our RFID Solutions?</h2>
-              <p className="text-lg sm:text-xl text-gray-600">Advanced technology with proven results</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[
-                { title: "High Accuracy", description: "99.9% reading accuracy" },
-                { title: "Long Range", description: "Up to 15 meters reading distance" },
-                { title: "Fast Processing", description: "Real-time data processing" },
-                { title: "Easy Integration", description: "Seamless system integration" }
-              ].map((benefit, index) => (
-                <AnimatedSection key={index} animationType="fadeInUp" delay={700 + index * 100}>
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-[#36A9A9] rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">{benefit.title}</h3>
-                    <p className="text-gray-600">{benefit.description}</p>
-                  </div>
-                </AnimatedSection>
-              ))}
-            </div>
-          </div>
-        </div>
-      </AnimatedSection>
-
       {/* CTA Section */}
       <AnimatedSection animationType="fadeInUp" delay={1000}>
-        <div className="py-16 bg-[#36A9A9]">
-          <div className="max-w-4xl mx-auto px-4 text-center">
+        <div 
+          className="relative py-16 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(/solution_banner.png)' }}
+        >
+          {/* Overlay for better text readability */}
+          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+          
+          {/* Content */}
+          <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold text-white mb-4">
               Ready to Implement RFID Solutions?
             </h2>
             <p className="text-white/90 text-lg mb-8">
               Get expert consultation and customized RFID solutions for your business
             </p>
-            <button className="bg-white hover:bg-white/90 text-[#36A9A9] px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105 shadow-lg">
+            <button 
+              onClick={() => navigate('/contact-us')}
+              className="bg-white hover:bg-white/90 text-[#36A9A9] px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105 shadow-lg"
+            >
               Get Consultation
             </button>
           </div>

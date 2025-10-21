@@ -1,10 +1,29 @@
 /// <reference path="../model-viewer.d.ts" />
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
+import mediaPreloader from '../services/mediaPreloader';
 
 const AboutUs: React.FC = () => {
   const [activeTab, setActiveTab] = useState('company-profile');
   const [activeSection, setActiveSection] = useState('our-story');
+
+  // Get cached URLs from preloaded models
+  const getCachedUrl = useMemo(() => {
+    return (url: string) => {
+      const cached = mediaPreloader.getCachedUrl(url);
+      if (cached) {
+        console.log('[AboutUs] Using cached URL for:', url);
+      } else {
+        console.warn('[AboutUs] Cache miss for:', url, '- using original URL');
+      }
+      return cached || url;
+    };
+  }, []);
+
+  // Log cache status on mount
+  useEffect(() => {
+    console.log('[AboutUs] Component mounted. Cache stats:', mediaPreloader.getCacheStats());
+  }, []);
 
   // Smooth scroll function
   const scrollToSection = (sectionId: string) => {
@@ -374,7 +393,7 @@ const AboutUs: React.FC = () => {
                       <div className="order-2 lg:order-1">
                         <div className="bg-gradient-to-br from-gray-50 to-white rounded-lg shadow-lg overflow-hidden h-64 sm:h-80 lg:h-96">
                           <model-viewer
-                            src="/products_image/simulation_laser_cutting_robot_systems.glb"
+                            src={getCachedUrl('/products_image/simulation_laser_cutting_robot_systems.glb')}
                             alt="Laser Cutting Robot System"
                             auto-rotate
                             camera-controls
@@ -411,7 +430,7 @@ const AboutUs: React.FC = () => {
                       <div className="order-2">
                         <div className="bg-gradient-to-br from-gray-50 to-white rounded-lg shadow-lg overflow-hidden h-64 sm:h-80 lg:h-96">
                           <model-viewer
-                            src="/products_image/pcb_led_machine_part_1.glb"
+                            src={getCachedUrl('/products_image/pcb_led_machine_part_1.glb')}
                             alt="PCB LED Assembly Machine"
                             auto-rotate
                             camera-controls
@@ -428,7 +447,7 @@ const AboutUs: React.FC = () => {
                       <div className="order-2 lg:order-1">
                         <div className="bg-gradient-to-br from-gray-50 to-white rounded-lg shadow-lg overflow-hidden h-64 sm:h-80 lg:h-96">
                           <model-viewer
-                            src="/products_image/logistic_robot_test__2.glb"
+                            src={getCachedUrl('/products_image/logistic_robot_test__2.glb')}
                             alt="Autonomous Logistic Robot"
                             auto-rotate
                             camera-controls
@@ -465,7 +484,7 @@ const AboutUs: React.FC = () => {
                       <div className="order-2">
                         <div className="bg-gradient-to-br from-gray-50 to-white rounded-lg shadow-lg overflow-hidden h-64 sm:h-80 lg:h-96">
                           <model-viewer
-                            src="/products_image/industrial_-_3d_agv__trolley_-_omrom.glb"
+                            src={getCachedUrl('/products_image/industrial_-_3d_agv__trolley_-_omrom.glb')}
                             alt="Industrial AGV Trolley"
                             auto-rotate
                             camera-controls
@@ -482,7 +501,7 @@ const AboutUs: React.FC = () => {
                       <div className="order-2 lg:order-1">
                         <div className="bg-gradient-to-br from-gray-50 to-white rounded-lg shadow-lg overflow-hidden h-64 sm:h-80 lg:h-96">
                           <model-viewer
-                            src="/products_image/assembly_solar.glb"
+                            src={getCachedUrl('/products_image/assembly_solar.glb')}
                             alt="Solar Panel Assembly System"
                             auto-rotate
                             camera-controls

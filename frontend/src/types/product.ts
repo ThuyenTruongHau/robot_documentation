@@ -54,3 +54,29 @@ export interface CategoryListResponse {
   previous?: string;
   results: Category[];
 }
+
+// Solution types
+export interface SolutionImage {
+  id: number;
+  image: string;
+  uploaded_at: string;
+}
+
+export interface Solution {
+  id: number;
+  solution_name: string;
+  description?: string;
+  detail?: Record<string, any>;
+  first_image?: SolutionImage;
+  images?: SolutionImage[];
+  images_count?: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SolutionListResponse {
+  count: number;
+  next?: string;
+  previous?: string;
+  results: Solution[];
+}

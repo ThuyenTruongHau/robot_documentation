@@ -1,47 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
+import apiService from '../services/api';
+import { Solution } from '../types/product';
 
 const RFIDSolutions: React.FC = () => {
-  const solutions = [
-    {
-      title: "Smart Warehouse Management",
-      description: "Complete RFID-based warehouse automation system for inventory tracking and management",
-      features: ["Real-time Inventory Tracking", "Automated Stock Counting", "Asset Management", "Integration with ERP Systems"],
-      icon: (
-        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-        </svg>
-      )
-    },
-    {
-      title: "Manufacturing Automation",
-      description: "RFID solutions for production line automation and quality control",
-      features: ["Production Line Tracking", "Quality Control", "Work-in-Progress Monitoring", "Traceability"],
-      icon: (
-        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      )
-    },
-    {
-      title: "Asset Tracking System",
-      description: "Comprehensive RFID-based asset tracking and management solution",
-      features: ["Asset Location Tracking", "Maintenance Scheduling", "Asset History", "Mobile Access"],
-      icon: (
-        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-        </svg>
-      )
+  const navigate = useNavigate();
+  const [solutions, setSolutions] = useState<Solution[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchSolutions();
+  }, []);
+
+  const fetchSolutions = async () => {
+    try {
+      setLoading(true);
+      const data = await apiService.getAllSolutions();
+      setSolutions(data);
+      setError(null);
+    } catch (err) {
+      console.error('Error fetching solutions:', err);
+      setError('Không thể tải dữ liệu solutions. Vui lòng thử lại sau.');
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  const getDefaultIcon = () => (
+    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+    </svg>
+  );
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
+      {/* Hero Section with Banner */}
       <AnimatedSection animationType="fadeInUp" delay={0}>
-        <div className="bg-gradient-to-br from-[#36A9A9] to-[#2a8a8a] py-12 sm:py-16 lg:py-20">
-          <div className="max-w-7xl mx-auto px-4 text-center">
+        <div className="relative h-[60vh] lg:h-[70vh] flex items-center justify-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/solution_image/banner.jpg)' }}>
+          
+          {/* Content */}
+          <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-white mb-4">
               RFID Solutions
             </h1>
@@ -55,30 +55,78 @@ const RFIDSolutions: React.FC = () => {
       {/* Solutions Section */}
       <AnimatedSection animationType="fadeInUp" delay={200}>
         <div className="py-8 sm:py-12 lg:py-16">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {solutions.map((solution, index) => (
-                <AnimatedSection key={index} animationType="fadeInUp" delay={300 + index * 100}>
-                  <div className="bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
-                    <div className="text-[#36A9A9] mb-6">
-                      {solution.icon}
+          <div className="max-w-full lg:max-w-[95%] xl:max-w-[90%] 3xl:max-w-[85%] mx-auto px-4">
+            {loading ? (
+              <div className="flex justify-center items-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#36A9A9]"></div>
+              </div>
+            ) : error ? (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-center">
+                {error}
+              </div>
+            ) : solutions.length === 0 ? (
+              <div className="text-center py-12 text-gray-500">
+                Chưa có solutions nào được thêm vào hệ thống.
+              </div>
+            ) : (
+              <div className="space-y-8 lg:space-y-10">
+                {solutions.map((solution, index) => (
+                  <AnimatedSection key={solution.id} animationType="fadeInUp" delay={300 + index * 100}>
+                    <div className="bg-white shadow-lg overflow-hidden">
+                      <div className="flex flex-col lg:flex-row h-[450px] lg:h-[500px]">
+                        {/* Left Content */}
+                        <div className="flex-1 lg:w-1/2 lg:max-w-[50%] p-6 lg:p-8 flex flex-col">
+                          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 line-clamp-2">
+                            {solution.solution_name}
+                          </h2>
+                          
+                          {solution.description && (
+                            <div className="text-sm lg:text-base text-gray-600 leading-relaxed flex-1 whitespace-pre-wrap overflow-hidden">
+                              {solution.description}
+                            </div>
+                          )}
+
+                          {/* Learn More Button */}
+                          <div className="mt-4 lg:mt-6 flex-shrink-0">
+                            <button 
+                              onClick={() => navigate(`/solution/${solution.id}`)}
+                              className="text-[#36A9A9] hover:text-[#2d8a8a] font-medium text-sm lg:text-base transition-colors duration-300 flex items-center"
+                            >
+                              Learn More
+                              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Right Image */}
+                        <div className="flex-1 lg:w-1/2 lg:max-w-[50%]">
+                          {solution.first_image?.image ? (
+                            <div className="h-[300px] sm:h-[350px] lg:h-full">
+                              <img
+                                src={apiService.getImageUrl(solution.first_image.image)}
+                                alt={solution.solution_name}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                          ) : (
+                            <div className="h-[300px] sm:h-[350px] lg:h-full bg-gradient-to-br from-[#36A9A9] to-[#2d8a8a] flex items-center justify-center">
+                              <div className="text-white opacity-50 text-center">
+                                <div className="mb-2">
+                                  {getDefaultIcon()}
+                                </div>
+                                <p className="text-sm">No Image Available</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-4">{solution.title}</h3>
-                    <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">{solution.description}</p>
-                    <ul className="space-y-2 sm:space-y-3">
-                      {solution.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center text-xs sm:text-sm text-gray-600">
-                          <svg className="w-4 h-4 text-[#36A9A9] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </AnimatedSection>
-              ))}
-            </div>
+                  </AnimatedSection>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </AnimatedSection>

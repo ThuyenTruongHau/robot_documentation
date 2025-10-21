@@ -130,8 +130,8 @@ STATICFILES_FINDERS = [
 ]
 
 # Use StaticFilesStorage for development, CompressedManifestStaticFilesStorage for production
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # Production only
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'  # Development
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # Production only
+# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'  # Development
 
 # CORS settings - Cấu hình cho phép frontend truy cập
 CORS_ALLOWED_ORIGINS = config(

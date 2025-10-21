@@ -131,6 +131,12 @@
                                 <i class="fas fa-box"></i> Products
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if 'solution' in request.resolver_match.url_name %}active{% endif %}" 
+                               href="{% url 'manage_solution:solution_list' %}">
+                                <i class="fas fa-cogs"></i> Solutions
+                            </a>
+                        </li>
                         {% load permissions %}
                         {% if request.user|has_permission:'can_manage_users' %}
                         <li class="nav-item">

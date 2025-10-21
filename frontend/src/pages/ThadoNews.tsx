@@ -100,9 +100,9 @@ const ThadoNews: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
                 {newsItems.map((news, index) => (
                   <AnimatedSection key={news.id} animationType="fadeInUp" delay={300 + index * 100}>
-                    <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group cursor-pointer">
+                    <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group cursor-pointer h-full flex flex-col">
                       {/* Image */}
-                      <div className="relative h-48 lg:h-56 xl:h-64 overflow-hidden">
+                      <div className="relative h-48 lg:h-56 xl:h-64 overflow-hidden flex-shrink-0">
                         <img 
                           src={news.image} 
                           alt={news.title}
@@ -117,7 +117,7 @@ const ThadoNews: React.FC = () => {
                       </div>
 
                       {/* Content */}
-                      <div className="p-4 lg:p-6 xl:p-8">
+                      <div className="p-4 lg:p-6 xl:p-8 flex flex-col flex-grow">
                         {/* Date */}
                         <p className="text-xs lg:text-sm text-gray-500 mb-2 lg:mb-3">
                           {news.date}
@@ -129,12 +129,12 @@ const ThadoNews: React.FC = () => {
                         </h3>
 
                         {/* Excerpt */}
-                        <p className="text-sm lg:text-base text-gray-600 mb-4 lg:mb-6 line-clamp-3">
+                        <p className="text-sm lg:text-base text-gray-600 mb-4 lg:mb-6 line-clamp-3 flex-grow">
                           {news.excerpt}
                         </p>
 
                         {/* Read More Link */}
-                        <div className="flex items-center text-[#36A9A9] font-medium text-sm lg:text-base group-hover:gap-2 transition-all duration-300">
+                        <div className="flex items-center text-[#36A9A9] font-medium text-sm lg:text-base group-hover:gap-2 transition-all duration-300 mt-auto">
                           <span>Read More</span>
                           <svg className="w-4 h-4 lg:w-5 lg:h-5 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

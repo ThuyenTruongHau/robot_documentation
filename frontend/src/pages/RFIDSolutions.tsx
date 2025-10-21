@@ -38,10 +38,12 @@ const RFIDSolutions: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
+      {/* Hero Section with Banner */}
       <AnimatedSection animationType="fadeInUp" delay={0}>
-        <div className="bg-gradient-to-br from-[#36A9A9] to-[#2a8a8a] py-12 sm:py-16 lg:py-20">
-          <div className="max-w-7xl mx-auto px-4 text-center">
+        <div className="relative h-[60vh] lg:h-[70vh] flex items-center justify-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/solution_image/banner.jpg)' }}>
+          
+          {/* Content */}
+          <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-white mb-4">
               RFID Solutions
             </h1>

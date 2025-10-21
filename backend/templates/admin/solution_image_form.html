@@ -1,0 +1,371 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}{{ title }} - Thado Robot Admin{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block page_actions %}
+<div class="btn-group" role="group">
+    <a href="{% url 'manage_solution:solution_detail' solution.pk %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Quay lại
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-images"></i> {{ title }} cho {{ solution.solution_name }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" id="imageUploadForm">
+                    {% csrf_token %}
+                    
+                    <!-- Upload Zone -->
+                    <div class="upload-zone" id="uploadZone">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt fa-4x text-primary mb-3"></i>
+                        </div>
+                        <h5 class="mb-2">Kéo thả ảnh vào đây hoặc click để chọn</h5>
+                        <p class="text-muted mb-3">Hỗ trợ: JPG, PNG, GIF, WEBP (Tối đa 10MB/file)</p>
+                        <input type="file" name="images" id="imageInput" class="d-none" 
+                               accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" multiple>
+                        <button type="button" class="btn btn-primary" onclick="document.getElementById('imageInput').click()">
+                            <i class="fas fa-folder-open"></i> Chọn ảnh
+                        </button>
+                    </div>
+
+                    <!-- Error Messages -->
+                    {% if form.images.errors %}
+                        <div class="alert alert-danger mt-3">
+                            {% for error in form.images.errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger mt-3">
+                            {% for error in form.non_field_errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <!-- Preview Zone -->
+                    <div id="previewZone" class="preview-zone mt-4" style="display: none;">
+                        <h6 class="mb-3">
+                            <i class="fas fa-eye"></i> Xem trước (<span id="imageCount">0</span> ảnh)
+                        </h6>
+                        <div id="previewContainer" class="row g-3">
+                            <!-- Preview images will be added here -->
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'manage_solution:solution_detail' solution.pk %}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Hủy
+                        </a>
+                        <button type="submit" class="btn btn-success" id="uploadButton" disabled>
+                            <i class="fas fa-upload"></i> Tải lên (<span id="uploadCount">0</span>)
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Guidelines -->
+        <div class="card shadow mt-4">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="fas fa-info-circle"></i> Hướng dẫn</h6>
+            </div>
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li>Bạn có thể chọn nhiều ảnh cùng lúc bằng cách giữ Ctrl (Windows) hoặc Cmd (Mac)</li>
+                    <li>Hoặc kéo thả nhiều file ảnh vào khu vực upload</li>
+                    <li>Kích thước tối đa mỗi file: 10MB</li>
+                    <li>Định dạng được hỗ trợ: JPG, JPEG, PNG, GIF, WEBP</li>
+                    <li>Bạn có thể xóa ảnh khỏi danh sách trước khi upload bằng cách click vào nút X</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadZone = document.getElementById('uploadZone');
+    const imageInput = document.getElementById('imageInput');
+    const previewZone = document.getElementById('previewZone');
+    const previewContainer = document.getElementById('previewContainer');
+    const uploadButton = document.getElementById('uploadButton');
+    const imageCount = document.getElementById('imageCount');
+    const uploadCount = document.getElementById('uploadCount');
+    
+    let selectedFiles = [];
+
+    // Click to select files
+    uploadZone.addEventListener('click', function(e) {
+        if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
+            imageInput.click();
+        }
+    });
+
+    // Handle file input change
+    imageInput.addEventListener('change', function(e) {
+        handleFiles(Array.from(e.target.files));
+    });
+
+    // Drag and drop handlers
+    uploadZone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadZone.classList.add('drag-over');
+    });
+
+    uploadZone.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        uploadZone.classList.remove('drag-over');
+    });
+
+    uploadZone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadZone.classList.remove('drag-over');
+        
+        const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+        handleFiles(files);
+    });
+
+    function handleFiles(files) {
+        // Add new files to selectedFiles
+        files.forEach(file => {
+            // Check if file already exists
+            const exists = selectedFiles.some(f => f.name === file.name && f.size === file.size);
+            if (!exists) {
+                selectedFiles.push(file);
+            }
+        });
+
+        updatePreview();
+        updateUploadButton();
+    }
+
+    function updatePreview() {
+        previewContainer.innerHTML = '';
+        
+        if (selectedFiles.length === 0) {
+            previewZone.style.display = 'none';
+            return;
+        }
+
+        previewZone.style.display = 'block';
+        imageCount.textContent = selectedFiles.length;
+
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const col = document.createElement('div');
+                col.className = 'col-md-4 col-sm-6';
+                
+                col.innerHTML = `
+                    <div class="preview-card">
+                        <img src="${e.target.result}" alt="Preview" class="img-fluid rounded">
+                        <div class="preview-overlay">
+                            <button type="button" class="btn btn-sm btn-danger remove-btn" data-index="${index}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="preview-info">
+                            <small class="text-truncate d-block">${file.name}</small>
+                            <small class="text-muted">${formatFileSize(file.size)}</small>
+                        </div>
+                    </div>
+                `;
+                
+                previewContainer.appendChild(col);
+                
+                // Add remove button listener
+                col.querySelector('.remove-btn').addEventListener('click', function() {
+                    removeFile(index);
+                });
+            };
+            
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function removeFile(index) {
+        selectedFiles.splice(index, 1);
+        updatePreview();
+        updateUploadButton();
+    }
+
+    function updateUploadButton() {
+        if (selectedFiles.length > 0) {
+            uploadButton.disabled = false;
+            uploadCount.textContent = selectedFiles.length;
+        } else {
+            uploadButton.disabled = true;
+            uploadCount.textContent = 0;
+        }
+    }
+
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    }
+
+    // Handle form submission
+    document.getElementById('imageUploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (selectedFiles.length === 0) {
+            alert('Vui lòng chọn ít nhất một hình ảnh!');
+            return;
+        }
+
+        // Create FormData and append files
+        const formData = new FormData(this);
+        
+        // Remove existing images field and add selected files
+        formData.delete('images');
+        selectedFiles.forEach(file => {
+            formData.append('images', file);
+        });
+
+        // Show loading state
+        uploadButton.disabled = true;
+        uploadButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải lên...';
+
+        // Submit form
+        fetch(this.action || window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = "{% url 'manage_solution:solution_detail' solution.pk %}";
+            } else {
+                return response.text().then(text => {
+                    throw new Error('Upload failed: ' + text);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi tải lên! Vui lòng thử lại.');
+            uploadButton.disabled = false;
+            uploadButton.innerHTML = '<i class="fas fa-upload"></i> Tải lên (<span id="uploadCount">' + selectedFiles.length + '</span>)';
+        });
+    });
+});
+</script>
+
+<style>
+.upload-zone {
+    border: 3px dashed #dee2e6;
+    border-radius: 12px;
+    padding: 60px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+}
+
+.upload-zone:hover {
+    border-color: #36A9A9;
+    background: linear-gradient(135deg, #e3f2f2, #f8f9fa);
+    box-shadow: 0 4px 20px rgba(54, 169, 169, 0.1);
+}
+
+.upload-zone.drag-over {
+    border-color: #36A9A9;
+    background: linear-gradient(135deg, #d4f1f1, #e3f2f2);
+    box-shadow: 0 4px 20px rgba(54, 169, 169, 0.2);
+}
+
+.upload-icon i {
+    transition: all 0.3s ease;
+}
+
+.upload-zone:hover .upload-icon i {
+    transform: translateY(-5px);
+    color: #36A9A9 !important;
+}
+
+.preview-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.preview-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+}
+
+.preview-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.preview-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.preview-card:hover .preview-overlay {
+    opacity: 1;
+}
+
+.preview-info {
+    padding: 10px;
+    background: white;
+    border-top: 1px solid #e9ecef;
+}
+
+.preview-info small {
+    display: block;
+    line-height: 1.4;
+}
+
+.remove-btn {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+#uploadButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-bottom: 1px solid #dee2e6;
+}
+</style>
+{% endblock %}
+

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'apps.core',
     'apps.brand',
     'apps.contact',
+    'apps.solution',
 
     'cloudinary_storage',
     'cloudinary',
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Phải đứng ngay sau SecurityMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,7 +60,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "core.middlewares.RequestLoggingMiddleware",
     "core.middlewares.CustomLoginRedirectMiddleware",  # Middleware chuyển hướng đến trang đăng nhập tùy chỉnh
-    "whitenoise.middleware.WhiteNoiseMiddleware"
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -128,7 +129,9 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Use StaticFilesStorage for development, CompressedManifestStaticFilesStorage for production
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # Production only
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'  # Development
 
 # CORS settings - Cấu hình cho phép frontend truy cập
 CORS_ALLOWED_ORIGINS = config(

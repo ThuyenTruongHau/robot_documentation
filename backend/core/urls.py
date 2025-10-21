@@ -39,6 +39,7 @@ urlpatterns = [
     path('manage/', include('apps.category.admin_urls')),
     path('manage/', include('apps.brand.admin_urls')),
     path('manage/', include('apps.product.admin_urls')),
+    path('manage/', include('apps.solution.admin_urls')),
     path('manage/', include('apps.core.admin_urls')),
     
     # API endpoints
@@ -49,6 +50,7 @@ urlpatterns = [
     path('api/', include('apps.product.urls')),
     path('api/', include('apps.brand.urls')),
     path('api/', include('apps.contact.urls')),
+    path('api/', include('apps.solution.urls')),
     
     # Health Check endpoints (no authentication required)
     path('api/', include('apps.core.health_urls')),

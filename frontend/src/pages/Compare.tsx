@@ -311,7 +311,7 @@ const Compare: React.FC = () => {
                           </h3>
                         </div>
                         {isLoadingAI && (
-                          <span className="text-xs sm:text-sm text-gray-500 italic">Đang phân tích với AI...</span>
+                          <span className="text-xs sm:text-sm text-gray-500 italic">AI Analyzing...</span>
                         )}
                       </div>
                       

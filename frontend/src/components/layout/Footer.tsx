@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
             <div className="flex items-center space-x-2 lg:space-x-3">
               <img
                 src="/logo_noback.png"
-                alt="Thado Robot"
+                alt="Thado RFID"
                 className="h-8 lg:h-10 xl:h-12 3xl:h-14 w-auto"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;

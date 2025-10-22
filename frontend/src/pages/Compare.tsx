@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCompare } from '../contexts/CompareContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import AnimatedSection from '../components/AnimatedSection';
 import apiService from '../services/api';
 
@@ -14,6 +15,7 @@ interface AIComparison {
 
 const Compare: React.FC = () => {
   const { compareProducts, removeFromCompare, clearCompare } = useCompare();
+  const { language, t } = useLanguage();
   const navigate = useNavigate();
   const [aiComparison, setAiComparison] = useState<AIComparison | null>(null);
   const [isLoadingAI, setIsLoadingAI] = useState(false);
@@ -37,7 +39,7 @@ const Compare: React.FC = () => {
     setIsLoadingAI(true);
     
     try {
-      const response = await apiService.compareProductsWithAI(productIds, 'vi');
+      const response = await apiService.compareProductsWithAI(productIds, language);
       
       if (response.success && response.comparison) {
         setAiComparison(response.comparison);
@@ -45,19 +47,19 @@ const Compare: React.FC = () => {
       }
     } catch (error) {
       console.error('Error fetching AI comparison:', error);
-      // Set fallback comparison nếu có lỗi
+      // Set fallback comparison based on current language
       setAiComparison({
-        overall: "Đang so sánh các sản phẩm RFID chất lượng cao cho doanh nghiệp.",
-        quality: "Các sản phẩm đều đạt tiêu chuẩn chất lượng cao, phù hợp cho doanh nghiệp",
-        performance: "Hiệu suất ổn định, độ bền cao, hoạt động liên tục lâu dài",
-        integration: "Dễ dàng tích hợp với hệ thống hiện có, hỗ trợ đa nền tảng",
-        recommendation: "Phù hợp cho nhiều ngành nghề từ logistics, manufacturing đến healthcare"
+        overall: t('compare.fallback.overall'),
+        quality: t('compare.fallback.quality'),
+        performance: t('compare.fallback.performance'),
+        integration: t('compare.fallback.integration'),
+        recommendation: t('compare.fallback.recommendation')
       });
       setAiPowered(false);
     } finally {
       setIsLoadingAI(false);
     }
-  }, [compareProducts]);
+  }, [compareProducts, language, t]);
 
   // Gọi API Gemini khi có sản phẩm để so sánh
   useEffect(() => {
@@ -135,7 +137,15 @@ const Compare: React.FC = () => {
                   Clear All
                 </button>
                 <button
-                  onClick={() => navigate('/rfid-products')}
+                  onClick={() => {
+                    // Navigate to products page with the same category filter
+                    const categoryId = compareProducts[0]?.category?.id;
+                    if (categoryId) {
+                      navigate(`/rfid-products?category=${categoryId}`);
+                    } else {
+                      navigate('/rfid-products');
+                    }
+                  }}
                   className="px-3 py-2 sm:px-4 sm:py-2 lg:px-5 lg:py-2.5 text-sm sm:text-base bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-all duration-300 hover:scale-105"
                 >
                   Add More

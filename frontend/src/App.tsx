@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { LanguageProvider } from './contexts/LanguageContext';
 import { CompareProvider } from './contexts/CompareContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -36,32 +37,34 @@ function App() {
   return (
     <HelmetProvider>
       <Router>
-        <CompareProvider>
-          <AppPreloader showProgress={false}>
-            <ScrollToTop />
-            <div className="min-h-screen bg-gray-50 flex flex-col">
-              <Navbar />
-              <main className="flex-1">
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/rfid-products" element={<RFIDProducts />} />
-                  <Route path="/product/:id" element={<ProductDetail />} />
-                  <Route path="/compare" element={<Compare />} />
-                  <Route path="/rfid-solutions" element={<RFIDSolutions />} />
-                  <Route path="/solution/:id" element={<SolutionDetail />} />
-                  <Route path="/thado-news" element={<ThadoNews />} />
-                  <Route path="/thado-news/:id" element={<NewsDetail />} />
-                  <Route path="/search" element={<SearchResults />} />
-                  <Route path="/about-us" element={<AboutUs />} />
-                  <Route path="/contact-us" element={<ContactUs />} />
-                </Routes>
-              </main>
-              <Footer />
-              <FloatingButtons />
-              <CompareFloatingButton />
-            </div>
-          </AppPreloader>
-        </CompareProvider>
+        <LanguageProvider>
+          <CompareProvider>
+            <AppPreloader showProgress={false}>
+              <ScrollToTop />
+              <div className="min-h-screen bg-gray-50 flex flex-col">
+                <Navbar />
+                <main className="flex-1">
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/rfid-products" element={<RFIDProducts />} />
+                    <Route path="/product/:id" element={<ProductDetail />} />
+                    <Route path="/compare" element={<Compare />} />
+                    <Route path="/rfid-solutions" element={<RFIDSolutions />} />
+                    <Route path="/solution/:id" element={<SolutionDetail />} />
+                    <Route path="/thado-news" element={<ThadoNews />} />
+                    <Route path="/thado-news/:id" element={<NewsDetail />} />
+                    <Route path="/search" element={<SearchResults />} />
+                    <Route path="/about-us" element={<AboutUs />} />
+                    <Route path="/contact-us" element={<ContactUs />} />
+                  </Routes>
+                </main>
+                <Footer />
+                <FloatingButtons />
+                <CompareFloatingButton />
+              </div>
+            </AppPreloader>
+          </CompareProvider>
+        </LanguageProvider>
       </Router>
     </HelmetProvider>
   );

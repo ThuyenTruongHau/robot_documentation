@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product } from '../types/product';
+import { useLanguage } from './LanguageContext';
 
 interface CompareContextType {
   compareProducts: Product[];
@@ -20,6 +21,7 @@ export const useCompare = () => {
 };
 
 export const CompareProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { t } = useLanguage();
   const [compareProducts, setCompareProducts] = useState<Product[]>(() => {
     // Load from localStorage on init
     const saved = localStorage.getItem('compareProducts');
@@ -42,14 +44,14 @@ export const CompareProvider: React.FC<{ children: React.ReactNode }> = ({ child
       if (prev.length > 0) {
         const firstProductCategory = prev[0].category.id;
         if (product.category.id !== firstProductCategory) {
-          showNotification(`Chỉ có thể so sánh các sản phẩm cùng loại "${prev[0].category.name}". Vui lòng xóa danh sách hiện tại để so sánh sản phẩm loại khác.`);
+          showNotification(`${t('compare.sameCategoryOnly')} "${prev[0].category.name}". ${t('compare.clearToCompareOther')}`);
           return prev;
         }
       }
       
       // Limit to 3 products max
       if (prev.length >= 3) {
-        showNotification('Bạn chỉ có thể so sánh tối đa 3 sản phẩm cùng lúc. Vui lòng xóa bớt để thêm sản phẩm khác.');
+        showNotification(t('compare.maxProducts'));
         return prev;
       }
       

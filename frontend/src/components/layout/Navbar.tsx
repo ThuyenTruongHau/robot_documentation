@@ -3,8 +3,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import apiService from '../../services/api';
 import { categoryCache } from '../../utils/categoryCache';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const Navbar: React.FC = () => {
+  const { language, setLanguage } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
@@ -551,24 +553,38 @@ const Navbar: React.FC = () => {
               </svg>
             </button>
 
-              {/* Language Selector */}
-              <div className="flex items-center space-x-1 text-sm">
-                <button className={`px-2 py-1 rounded transition-colors duration-200 ${
-                  (isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) 
-                    ? 'bg-gray-100 text-gray-800 hover:bg-gray-200' 
-                    : 'bg-white/10 text-white hover:bg-white/20'
-                }`}>
-                  VI
-                </button>
-                <span className={`${(isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-400' : 'text-white/60'}`}>/</span>
-                <button className={`px-2 py-1 rounded transition-colors duration-200 ${
-                  (isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) 
-                    ? 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' 
-                    : 'text-white/60 hover:text-white hover:bg-white/10'
-                }`}>
-                  EN
-                </button>
-              </div>
+            {/* Language Selector */}
+            <div className="flex items-center space-x-1 text-sm">
+              <button 
+                onClick={() => setLanguage('vi')}
+                className={`px-2 py-1 rounded transition-colors duration-200 ${
+                  language === 'vi'
+                    ? (isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground())
+                      ? 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                      : 'bg-white/10 text-white hover:bg-white/20'
+                    : (isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground())
+                      ? 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
+                      : 'text-white/60 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                VI
+              </button>
+              <span className={`${(isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-400' : 'text-white/60'}`}>/</span>
+              <button 
+                onClick={() => setLanguage('en')}
+                className={`px-2 py-1 rounded transition-colors duration-200 ${
+                  language === 'en'
+                    ? (isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground())
+                      ? 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                      : 'bg-white/10 text-white hover:bg-white/20'
+                    : (isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground())
+                      ? 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
+                      : 'text-white/60 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                EN
+              </button>
+            </div>
           </div>
 
           {/* Mobile menu button */}
@@ -639,10 +655,24 @@ const Navbar: React.FC = () => {
                   <span className="font-medium">Language</span>
                 </div>
                 <div className="flex items-center space-x-1">
-                  <button className="px-3 py-1 bg-[#36A9A9] text-white rounded-md text-sm font-medium">
+                  <button 
+                    onClick={() => setLanguage('vi')}
+                    className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                      language === 'vi'
+                        ? 'bg-[#36A9A9] text-white'
+                        : 'text-gray-600 hover:text-[#36A9A9]'
+                    }`}
+                  >
                     VI
                   </button>
-                  <button className="px-3 py-1 text-gray-600 hover:text-[#36A9A9] rounded-md text-sm font-medium transition-colors">
+                  <button 
+                    onClick={() => setLanguage('en')}
+                    className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                      language === 'en'
+                        ? 'bg-[#36A9A9] text-white'
+                        : 'text-gray-600 hover:text-[#36A9A9]'
+                    }`}
+                  >
                     EN
                   </button>
                 </div>

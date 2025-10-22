@@ -140,7 +140,7 @@ const ContactUs: React.FC = () => {
         </svg>
       ),
       title: "Phone",
-      details: ["+84 28 1234 5678"]
+      details: ["+84 986 249 212"]
     },
     {
       icon: (
@@ -149,7 +149,7 @@ const ContactUs: React.FC = () => {
         </svg>
       ),
       title: "Email",
-      details: ["info@thadosoft.com"]
+      details: ["info@thadosoft.vn"]
     }
   ];
 

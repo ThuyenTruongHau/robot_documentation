@@ -306,6 +306,50 @@ class ApiService {
       throw error;
     }
   }
+
+  // Compare Products with AI
+  async compareProductsWithAI(productIds: number[], language: string = 'vi'): Promise<{
+    success: boolean;
+    comparison?: {
+      overall: string;
+      quality: string;
+      performance: string;
+      integration: string;
+      recommendation: string;
+    };
+    ai_powered?: boolean;
+    warning?: string;
+    error?: string;
+  }> {
+    try {
+      // Use longer timeout for AI API (60 seconds)
+      const response = await this.fetchWithTimeout(
+        `${API_BASE_URL}/api/compare-ai/`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            product_ids: productIds,
+            language: language,
+          }),
+        },
+        60000 // 60 second timeout for Gemini API
+      );
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      this.log('Compare API response', data);
+      return data;
+    } catch (error) {
+      this.log('Error comparing products with AI', error);
+      throw error;
+    }
+  }
 }
 
 export const apiService = new ApiService();

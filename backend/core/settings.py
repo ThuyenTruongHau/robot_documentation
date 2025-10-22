@@ -130,8 +130,8 @@ STATICFILES_FINDERS = [
 ]
 
 # Use StaticFilesStorage for development, CompressedManifestStaticFilesStorage for production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # Production only
-# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'  # Development
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # Production only
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'  # Development
 
 # CORS settings - Cấu hình cho phép frontend truy cập
 CORS_ALLOWED_ORIGINS = config(
@@ -231,3 +231,6 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@thadorobot.com')
 CONTACT_EMAIL = config('CONTACT_EMAIL', default='hau23062003@gmail.com')  # Email nhận liên hệ
+
+# Gemini AI Configuration
+GEMINI_API_KEY = config('GEMINI_API_KEY', default='')

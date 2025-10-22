@@ -14,3 +14,4 @@ whitenoise==6.7.0
 psutil==5.9.8
 django-cloudinary-storage==0.3.0
 setuptools==70.0.0
+google-generativeai==0.8.3

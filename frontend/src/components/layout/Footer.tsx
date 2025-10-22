@@ -58,8 +58,8 @@ const Footer: React.FC = () => {
                 GET IN TOUCH
               </h4>
               <div className="space-y-2 text-sm lg:text-base xl:text-lg 3xl:text-xl text-gray-300">
-                <p>📧 info@thadosoft.com</p>
-                <p>📞 +84 28 1234 5678</p>
+                <p>📧 info@thadosoft.vn</p>
+                <p>📞 +84 986 249 212</p>
                 <p>📍 C25-C26, ngách 28/5 P.Dương Khuê, Mai Dịch, Cầu Giấy, Hà Nội</p>
               </div>
             </div>

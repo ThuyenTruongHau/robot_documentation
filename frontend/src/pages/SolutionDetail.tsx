@@ -15,6 +15,8 @@ const SolutionDetail: React.FC = () => {
   const [categories, setCategories] = useState<any[]>([]);
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
   const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
   
   // Get cached video URL from preloaded media
   const cachedVideoUrl = useMemo(() => {
@@ -80,20 +82,60 @@ const SolutionDetail: React.FC = () => {
   };
 
   const nextCategories = () => {
-    setCurrentCategoryIndex(prev => 
-      prev + 1 >= categories.length ? 0 : prev + 1
-    );
+    setSlideDirection('right');
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentCategoryIndex(prev => 
+        prev + 1 >= categories.length ? 0 : prev + 1
+      );
+      setTimeout(() => setIsTransitioning(false), 50);
+    }, 300);
   };
 
   const prevCategories = () => {
-    setCurrentCategoryIndex(prev => 
-      prev - 1 < 0 ? categories.length - 1 : prev - 1
-    );
+    setSlideDirection('left');
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentCategoryIndex(prev => 
+        prev - 1 < 0 ? categories.length - 1 : prev - 1
+      );
+      setTimeout(() => setIsTransitioning(false), 50);
+    }, 300);
   };
+
+  // Get number of visible categories based on screen size
+  const [visibleCount, setVisibleCount] = useState(() => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth >= 1024) return 3; // lg and above
+      if (window.innerWidth >= 640) return 2; // sm and above
+      return 1; // mobile
+    }
+    return 3; // default for SSR
+  });
+
+  // Update visible count on resize
+  useEffect(() => {
+    const handleResize = () => {
+      const newCount = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1;
+      if (newCount !== visibleCount) {
+        setVisibleCount(newCount);
+        // Reset to first index when screen size changes to avoid out of bounds
+        if (currentCategoryIndex > categories.length - newCount) {
+          setCurrentCategoryIndex(0);
+        }
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    // Call once on mount to ensure correct initial state
+    handleResize();
+    
+    return () => window.removeEventListener('resize', handleResize);
+  }, [visibleCount, currentCategoryIndex, categories.length]);
 
   const getVisibleCategories = () => {
     const visible = [];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < visibleCount; i++) {
       const index = (currentCategoryIndex + i) % categories.length;
       visible.push(categories[index]);
     }
@@ -329,23 +371,27 @@ const SolutionDetail: React.FC = () => {
                 </div>
                 
                 {/* Navigation and Categories */}
-                <div className="relative">
+                <div className="relative overflow-visible">
                   {/* Navigation Arrows */}
-                  {categories.length > 3 && (
+                  {categories.length > visibleCount && (
                     <>
                       <button
                         onClick={prevCategories}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-gray-50 text-gray-600 hover:text-[#36A9A9] w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
+                        disabled={isTransitioning}
+                        className="absolute -left-2 sm:left-0 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-gray-50 text-gray-600 hover:text-[#36A9A9] w-9 h-9 sm:w-10 sm:h-10 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+                        aria-label="Previous category"
                       >
-                        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
                       </button>
                       <button
                         onClick={nextCategories}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-gray-50 text-gray-600 hover:text-[#36A9A9] w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
+                        disabled={isTransitioning}
+                        className="absolute -right-2 sm:right-0 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-gray-50 text-gray-600 hover:text-[#36A9A9] w-9 h-9 sm:w-10 sm:h-10 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+                        aria-label="Next category"
                       >
-                        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </button>
@@ -353,34 +399,77 @@ const SolutionDetail: React.FC = () => {
                   )}
                   
                   {/* Categories Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-8 sm:px-12">
+                  <div 
+                    className="grid gap-4 sm:gap-6 px-10 sm:px-12 md:px-14"
+                    style={{
+                      gridTemplateColumns: `repeat(${visibleCount}, minmax(0, 1fr))`,
+                      opacity: isTransitioning ? 0 : 1,
+                      transform: isTransitioning 
+                        ? `translateX(${slideDirection === 'right' ? '20px' : '-20px'}) scale(0.98)` 
+                        : 'translateX(0) scale(1)',
+                      transition: 'opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+                      filter: isTransitioning ? 'blur(4px)' : 'blur(0px)'
+                    }}
+                  >
                     {isLoadingCategories ? (
                       // Loading skeleton
-                      Array.from({ length: 3 }).map((_, index) => (
+                      Array.from({ length: visibleCount }).map((_, index) => (
                         <div key={index} className="bg-white rounded-lg shadow-md p-4 animate-pulse">
-                          <div className="h-24 sm:h-28 bg-gray-200 rounded-lg mb-3"></div>
+                          <div className="h-52 sm:h-56 md:h-60 lg:h-56 xl:h-64 2xl:h-72 bg-gray-200 rounded-lg mb-3"></div>
                           <div className="h-4 bg-gray-200 rounded mb-2"></div>
                           <div className="h-3 bg-gray-200 rounded w-2/3"></div>
                         </div>
                       ))
                     ) : (
-                      getVisibleCategories().map((category, index) => (
-                        <AnimatedSection key={category.id} animationType="fadeInUp" delay={500 + index * 100}>
+                       getVisibleCategories().map((category, index) => (
+                        <AnimatedSection key={`${category.id}-${currentCategoryIndex}`} animationType="fadeInUp" delay={!isTransitioning ? (500 + index * 100) : (index * 80)}>
                           <div 
-                            className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer group"
+                            className="bg-white rounded-lg shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer group relative overflow-hidden"
+                            style={{
+                              transform: 'perspective(1000px) rotateX(0deg)',
+                              transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.transform = 'perspective(1000px) translateY(-12px) rotateX(2deg) scale(1.03)';
+                              e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(54, 169, 169, 0.4), 0 0 30px rgba(54, 169, 169, 0.2)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) scale(1)';
+                              e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+                            }}
                             onClick={() => navigate(`/rfid-products?category=${category.id}`)}
                           >
+                            {/* Shimmer Effect Overlay */}
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-10">
+                              <div 
+                                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                                style={{
+                                  animation: 'shimmer 2s infinite',
+                                  transform: 'translateX(-100%)'
+                                }}
+                              />
+                            </div>
+                            
                             {/* Image */}
-                            <div className="relative h-32 sm:h-36 md:h-40 lg:h-36 xl:h-40 2xl:h-44 overflow-hidden rounded-t-lg">
+                            <div className="relative h-52 sm:h-56 md:h-60 lg:h-56 xl:h-64 2xl:h-72 overflow-hidden rounded-t-lg">
                               <img
                                 src={category.image ? apiService.getImageUrl(category.image) : '/rfid-readers.webp'}
                                 alt={category.name}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                className="w-full h-full object-cover group-hover:scale-115 transition-all duration-700 ease-out group-hover:brightness-110"
+                                style={{ 
+                                  filter: 'contrast(1.05)',
+                                  transition: 'transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), filter 0.5s ease'
+                                }}
                                 onError={(e) => {
                                   e.currentTarget.src = '/rfid-readers.webp';
                                 }}
                               />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/5 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
+                              
+                              {/* Glowing Border Effect */}
+                              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <div className="absolute inset-0 border-2 border-[#36A9A9]/50 rounded-t-lg" style={{ boxShadow: '0 0 20px rgba(54, 169, 169, 0.3)' }}></div>
+                              </div>
                             </div>
                             
                             {/* Content */}
@@ -406,6 +495,38 @@ const SolutionDetail: React.FC = () => {
                     )}
                   </div>
                 </div>
+                
+                {/* Pagination Dots - Optional indicator */}
+                {categories.length > visibleCount && (
+                  <div className="flex justify-center items-center gap-2 mt-6">
+                    {categories.map((_, idx) => {
+                      const isActive = currentCategoryIndex === idx;
+                      const isVisible = idx >= currentCategoryIndex && idx < currentCategoryIndex + visibleCount;
+                      return (
+                        <button
+                          key={idx}
+                          onClick={() => {
+                            setSlideDirection(idx > currentCategoryIndex ? 'right' : 'left');
+                            setIsTransitioning(true);
+                            setTimeout(() => {
+                              setCurrentCategoryIndex(idx);
+                              setTimeout(() => setIsTransitioning(false), 50);
+                            }, 300);
+                          }}
+                          disabled={isTransitioning}
+                          className={`h-2 rounded-full transition-all duration-300 ${
+                            isActive 
+                              ? 'w-8 bg-[#36A9A9]' 
+                              : isVisible
+                              ? 'w-3 bg-[#36A9A9]/60'
+                              : 'w-2 bg-gray-300 hover:bg-gray-400'
+                          }`}
+                          aria-label={`Go to category ${idx + 1}`}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
                 
               </div>
             </div>

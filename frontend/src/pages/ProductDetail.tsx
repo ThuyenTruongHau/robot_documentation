@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useCompare } from '../contexts/CompareContext';
 import AnimatedSection from '../components/AnimatedSection';
 import apiService from '../services/api';
 import { Product } from '../types/product';
@@ -7,6 +8,7 @@ import { Product } from '../types/product';
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { addToCompare, isInCompare, compareProducts } = useCompare();
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,8 +43,14 @@ const ProductDetail: React.FC = () => {
   }, [id]);
 
   const handleContactUs = () => {
-    // Navigate to contact page or open contact modal
-    navigate('/contact');
+    // Navigate to contact-us page
+    navigate('/contact-us');
+  };
+
+  const handleAddToCompare = () => {
+    if (product && !isInCompare(product.id)) {
+      addToCompare(product);
+    }
   };
 
   if (isLoading) {
@@ -147,11 +155,19 @@ const ProductDetail: React.FC = () => {
 
                   {/* Action Buttons */}
                   <div className="flex flex-col sm:flex-row gap-2 lg:gap-3 xl:gap-4 pt-3 lg:pt-4">
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 lg:px-6 lg:py-3 xl:px-8 xl:py-4 rounded-lg text-sm lg:text-base xl:text-lg font-medium transition-all duration-300 flex items-center justify-center gap-2">
+                    <button 
+                      onClick={handleAddToCompare}
+                      disabled={product && isInCompare(product.id)}
+                      className={`px-4 py-2 lg:px-6 lg:py-3 xl:px-8 xl:py-4 rounded-lg text-sm lg:text-base xl:text-lg font-medium transition-all duration-300 flex items-center justify-center gap-2 ${
+                        product && isInCompare(product.id)
+                          ? 'bg-gray-400 text-white cursor-not-allowed'
+                          : 'bg-blue-600 hover:bg-blue-700 text-white'
+                      }`}
+                    >
                       <svg className="w-4 h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
-                      Add to Compare
+                      {product && isInCompare(product.id) ? 'Added to Compare' : 'Add to Compare'}
                     </button>
                     <button
                       onClick={handleContactUs}
@@ -160,6 +176,21 @@ const ProductDetail: React.FC = () => {
                       Get a quote
                     </button>
                   </div>
+
+                  {/* Compare Badge */}
+                  {compareProducts.length > 0 && (
+                    <div className="mt-4">
+                      <Link
+                        to="/compare"
+                        className="inline-flex items-center gap-2 bg-[#36A9A9] hover:bg-[#2d8a8a] text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        View Compare ({compareProducts.length})
+                      </Link>
+                    </div>
+                  )}
 
                   {/* Thumbnail Images */}
                   {product.images && product.images.length > 1 && (

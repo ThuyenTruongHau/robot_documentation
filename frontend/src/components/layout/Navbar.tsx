@@ -31,6 +31,13 @@ const Navbar: React.FC = () => {
            location.pathname.includes('/detail/');
   };
 
+  // Check if current page needs solid background (compare, about, contact, etc.)
+  const needsSolidBackground = () => {
+    return location.pathname === '/compare' ||
+           location.pathname === '/about-us' ||
+           location.pathname === '/contact-us';
+  };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -215,7 +222,7 @@ const Navbar: React.FC = () => {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isNavbarVisible ? 'translate-y-0' : '-translate-y-full'
       } ${
-          isScrolled || isNavbarHovered || isDetailPage()
+          isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()
             ? 'bg-white/95 backdrop-blur-md shadow-lg' 
           : 'bg-transparent'
       }`}
@@ -250,7 +257,7 @@ const Navbar: React.FC = () => {
                 >
                 <Link
                     to="/rfid-products"
-                    className={`${isActive('/rfid-products') ? ((isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative flex items-center`}
+                    className={`${isActive('/rfid-products') ? ((isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative flex items-center`}
                 >
                     RFID Products
                     <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/rfid-products') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
@@ -335,7 +342,7 @@ const Navbar: React.FC = () => {
                 >
                   <Link
                     to="/rfid-solutions"
-                    className={`${isActive('/rfid-solutions') ? ((isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative flex items-center`}
+                    className={`${isActive('/rfid-solutions') ? ((isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative flex items-center`}
                   >
                     RFID Solutions
                     <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/rfid-solutions') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
@@ -506,7 +513,7 @@ const Navbar: React.FC = () => {
                 {/* Thado News */}
                 <Link
                   to="/thado-news"
-                  className={`${isActive('/thado-news') ? ((isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
+                  className={`${isActive('/thado-news') ? ((isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
                 >
                   RFID News
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/thado-news') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
@@ -515,7 +522,7 @@ const Navbar: React.FC = () => {
                 {/* About Us */}
                 <Link
                   to="/about-us"
-                  className={`${isActive('/about-us') ? ((isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
+                  className={`${isActive('/about-us') ? ((isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
                 >
                   About Us
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/about-us') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
@@ -524,7 +531,7 @@ const Navbar: React.FC = () => {
                 {/* Contact Us */}
                           <Link
                   to="/contact-us"
-                  className={`${isActive('/contact-us') ? ((isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
+                  className={`${isActive('/contact-us') ? ((isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-800' : 'text-white') : (isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-800 hover:text-primary-600' : 'text-white hover:text-primary-300'} font-light text-sm lg:text-base xl:text-lg 3xl:text-xl 4xl:text-2xl tracking-wide transition-colors duration-300 relative group`}
                 >
                   Contact Us
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-300 ${isActive('/contact-us') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
@@ -537,7 +544,7 @@ const Navbar: React.FC = () => {
               {/* Search Button */}
             <button
               onClick={() => setIsSearchOpen(true)}
-                className={`${(isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-600 hover:text-primary-600' : 'text-white hover:text-primary-300'} transition-colors duration-300`}
+                className={`${(isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-600 hover:text-primary-600' : 'text-white hover:text-primary-300'} transition-colors duration-300`}
             >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -547,15 +554,15 @@ const Navbar: React.FC = () => {
               {/* Language Selector */}
               <div className="flex items-center space-x-1 text-sm">
                 <button className={`px-2 py-1 rounded transition-colors duration-200 ${
-                  (isScrolled || isNavbarHovered || isDetailPage()) 
+                  (isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) 
                     ? 'bg-gray-100 text-gray-800 hover:bg-gray-200' 
                     : 'bg-white/10 text-white hover:bg-white/20'
                 }`}>
                   VI
                 </button>
-                <span className={`${(isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-400' : 'text-white/60'}`}>/</span>
+                <span className={`${(isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-400' : 'text-white/60'}`}>/</span>
                 <button className={`px-2 py-1 rounded transition-colors duration-200 ${
-                  (isScrolled || isNavbarHovered || isDetailPage()) 
+                  (isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) 
                     ? 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' 
                     : 'text-white/60 hover:text-white hover:bg-white/10'
                 }`}>
@@ -568,7 +575,7 @@ const Navbar: React.FC = () => {
             <div className="lg:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`${(isScrolled || isNavbarHovered || isDetailPage()) ? 'text-gray-600' : 'text-white'} transition-colors duration-300`}
+                className={`${(isScrolled || isNavbarHovered || isDetailPage() || needsSolidBackground()) ? 'text-gray-600' : 'text-white'} transition-colors duration-300`}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   {isMenuOpen ? (

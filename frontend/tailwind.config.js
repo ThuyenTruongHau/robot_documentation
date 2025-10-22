@@ -106,6 +106,10 @@ module.exports = {
         '500': '500px',
         '600': '600px',
         '700': '700px',
+      },
+      // Custom scale values for smooth transitions
+      scale: {
+        '115': '1.15',
       }
     },
   },

@@ -79,3 +79,29 @@ class ProductSerializer(serializers.ModelSerializer):
             "updated_at",
         ]
 
+
+class ProductCompareSerializer(serializers.Serializer):
+    """
+    Serializer để validate input cho API so sánh sản phẩm với Gemini.
+    """
+    product_ids = serializers.ListField(
+        child=serializers.IntegerField(min_value=1),
+        min_length=2,
+        max_length=3,
+        help_text="Mảng chứa 2-3 product IDs để so sánh"
+    )
+    
+    language = serializers.ChoiceField(
+        choices=['vi', 'en'],
+        default='vi',
+        help_text="Ngôn ngữ trả về: 'vi' (Tiếng Việt) hoặc 'en' (English)"
+    )
+    
+    def validate_product_ids(self, value):
+        """
+        Validate product_ids để đảm bảo không có duplicate.
+        """
+        if len(value) != len(set(value)):
+            raise serializers.ValidationError("Product IDs không được trùng lặp")
+        return value
+

@@ -140,6 +140,13 @@ CORS_ALLOWED_ORIGINS = config(
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 
+# CSRF Trusted Origins - BẮT BUỘC cho HTTPS
+CSRF_TRUSTED_ORIGINS = config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='https://rfid.thadorobot.com,https://www.rfid.thadorobot.com,https://robot-documentation-2003.onrender.com',
+    cast=lambda v: [s.strip() for s in v.split(',')]
+)
+
 # Cloudinary settings
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
@@ -203,6 +210,28 @@ CORS_ALLOW_METHODS = [
     'POST',
     'PUT',
 ]
+
+# Security settings for production
+# Cookie settings cho session và CSRF
+if not DEBUG:
+    # Chỉ bật secure cookies khi deploy production (HTTPS)
+    SESSION_COOKIE_SECURE = True  # Chỉ gửi cookie qua HTTPS
+    CSRF_COOKIE_SECURE = True     # Chỉ gửi CSRF cookie qua HTTPS
+    SECURE_SSL_REDIRECT = False   # Không tự động redirect HTTP -> HTTPS (reverse proxy đã xử lý)
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # Tin tưởng reverse proxy headers
+else:
+    # Development settings
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+
+# Cookie settings chung cho cả dev và production
+SESSION_COOKIE_HTTPONLY = True  # Ngăn JavaScript truy cập session cookie
+CSRF_COOKIE_HTTPONLY = False    # Cho phép JavaScript đọc CSRF token nếu cần
+SESSION_COOKIE_SAMESITE = 'Lax' # Bảo vệ chống CSRF
+CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_NAME = 'thado_sessionid'  # Tên cookie tùy chỉnh
+CSRF_COOKIE_NAME = 'thado_csrftoken'
+
 # JWT settings
 from datetime import timedelta
 SIMPLE_JWT = {
